@@ -25,4 +25,14 @@ async function getPublicUrl(userId, projectId, stage, imageName) {
   return url.replace(internal, process.env.FRONTEND_URL + "/s3");
 }
 
-module.exports = { getInternalUrl, getPublicUrl };
+async function getPublicObjectUrl(userId, key) {
+  const url = await s3.getSignedUrlPromise("getObject", {
+    Bucket: `user-${userId}`,
+    Key: key,
+    Expires: 60 * 60,
+  });
+  const internal = `http://${process.env.S3_ENDPOINT || "seaweedfs:9000"}`;
+  return url.replace(internal, process.env.FRONTEND_URL + "/s3");
+}
+
+module.exports = { getInternalUrl, getPublicUrl, getPublicObjectUrl };

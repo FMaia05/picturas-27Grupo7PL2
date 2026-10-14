@@ -2,12 +2,17 @@
 
 import AppDropzone from "@/components/app-dropzone";
 import NewProjectDialog from "@/components/dashboard-sidebar/new-project-dialog";
+import { Button } from "@/components/ui/button";
 import { extractZipImages } from "@/lib/utils";
-import { ImagePlus } from "lucide-react";
+import { Film, ImagePlus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+import VideoLibrary from "@/components/video-library";
+import { useSession } from "@/providers/session-provider";
 
 export default function Dashboard() {
   const [files, setFiles] = useState<File[]>([]);
+  const session = useSession();
 
   const handleDrop = async (acceptedFiles: File[]) => {
     const compatibleFileTypes = [
@@ -48,18 +53,44 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8 h-full">
-      <NewProjectDialog files={files} setFiles={setFiles}>
-        <AppDropzone onDrop={handleDrop}>
-          <div className="flex flex-col gap-4 items-center justify-center max-w-[20rem]">
-            <ImagePlus size={100} />
-            <p className="text-2xl font-medium">
-              Pick a project or drag and drop some images or a .zip to create a
-              new one
-            </p>
+    <div className="h-full space-y-6 overflow-y-auto p-8">
+      {session.user.type !== "anonymous" ? (
+        <VideoLibrary />
+      ) : (
+        <section className="flex flex-col gap-4 rounded-xl border p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <Film className="mt-1 size-6 shrink-0 text-primary" />
+            <div>
+              <h2 className="text-xl font-semibold">Upload videos</h2>
+              <p className="text-sm text-muted-foreground">
+                Sign in or create an account to upload MP4, MOV, and WebM files
+                to your video library.
+              </p>
+            </div>
           </div>
-        </AppDropzone>
-      </NewProjectDialog>
+          <div className="flex gap-2">
+            <Button asChild variant="outline">
+              <Link href="/login">Sign in</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/register">Create account</Link>
+            </Button>
+          </div>
+        </section>
+      )}
+      <div className="min-h-[22rem]">
+        <NewProjectDialog files={files} setFiles={setFiles}>
+          <AppDropzone onDrop={handleDrop}>
+            <div className="flex flex-col gap-4 items-center justify-center max-w-[20rem]">
+              <ImagePlus size={100} />
+              <p className="text-2xl font-medium">
+                Pick a project or drag and drop some images or a .zip to create
+                a new one
+              </p>
+            </div>
+          </AppDropzone>
+        </NewProjectDialog>
+      </div>
     </div>
   );
 }

@@ -1,16 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { SessionData } from "../session";
-import { useRegister } from "../mutations/session";
+import { register, SessionData } from "../session";
 
 export const useGetSession = () => {
-  const register = useRegister();
   return useQuery({
     queryKey: ["session"],
-    queryFn: () => {
+    queryFn: async () => {
       const session = localStorage.getItem("session");
       if (!session) {
-        register.mutate({ type: "anonymous" });
-        return null;
+        const anonymousSession = await register({ type: "anonymous" });
+        localStorage.setItem("session", JSON.stringify(anonymousSession));
+        return anonymousSession;
       }
       return JSON.parse(session) as SessionData;
     },

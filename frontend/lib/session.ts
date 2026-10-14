@@ -35,7 +35,7 @@ export const login = async ({
   password: string;
 }): Promise<SessionData> => {
   const response = await api.post<LoginRegisterResponse>(
-    `/users/${email}/login`,
+    `/users/${encodeURIComponent(email)}/login`,
     {
       password,
     },

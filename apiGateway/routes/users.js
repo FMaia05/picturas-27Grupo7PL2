@@ -68,18 +68,12 @@ router.post("/", function (req, res, next) {
     .post(usersURL, req.body, { httpsAgent })
     .then((resp) => res.status(201).jsonp(resp.data))
     .catch((err) => {
-      console.error("GATEWAY REGISTER ERROR FULL OBJECT:");
-      console.error(err);                // <-- log total
-      console.error("GATEWAY REGISTER ERROR RESPONSE:");
-      console.error(err.response?.data); // <-- resposta do users-ms
-      console.error("GATEWAY REGISTER ERROR STATUS:");
-      console.error(err.response?.status);
-
       if (err.response) {
         // devolve o status e body reais do microserviço de users
         return res.status(err.response.status).jsonp(err.response.data);
       }
 
+      console.error("Gateway registration error:", err.message);
       return res.status(500).jsonp("Error registering new user");
     });
 });
@@ -95,7 +89,14 @@ router.post("/:email/login", function (req, res, next) {
       httpsAgent: httpsAgent,
     })
     .then((resp) => res.status(201).jsonp(resp.data))
-    .catch((err) => res.status(500).jsonp("Error logging in"));
+    .catch((err) => {
+      if (err.response) {
+        return res.status(err.response.status).jsonp(err.response.data);
+      }
+
+      console.error("Gateway login error:", err.message);
+      return res.status(500).jsonp("Error logging in");
+    });
 });
 
 /**

@@ -190,11 +190,6 @@ router.post("/", function (req, res, next) {
     user.password = req.body.password;
   }
 
-  console.log("---- USERS-MS: REGISTER REQUEST ----");
-  console.log("BODY:", req.body);
-  console.log("USER OBJECT BEFORE SAVE:", user);
-  console.log("User object to persist:", user);
-
   User.create(user)
     .then((createdUser) => {
       const userResponse = removeSensitiveInfo(createdUser);
@@ -206,13 +201,12 @@ router.post("/", function (req, res, next) {
       });
     })
     .catch((err) => {
-      console.error("USERS-MS ERROR CREATING USER:");
-      console.error(err);              // stack completo
-      console.error(err.message);
-      console.error(err?.errors);      // mongoose validation errors
-      console.error(err?.response?.data);
+      if (err.message === "The given email is already in use.") {
+        return res.status(409).jsonp(err.message);
+      }
 
-      res.status(702).jsonp("Error creating a new user.");
+      console.error("USERS-MS ERROR CREATING USER:", err);
+      res.status(500).jsonp("Error creating a new user.");
     });
 });
 
@@ -220,6 +214,10 @@ router.post("/", function (req, res, next) {
 router.post("/:email/login", function (req, res, next) {
   User.getOneEmail(req.params.email)
     .then(async (user) => {
+      if (!user) {
+        return res.status(401).jsonp("The provided credentials are incorrect");
+      }
+
       const correct_pass = await auth.authenticate(req.body.password, user);
       if (correct_pass) {
         const userResponse = removeSensitiveInfo(user);
@@ -231,7 +229,10 @@ router.post("/:email/login", function (req, res, next) {
         });
       } else res.status(401).jsonp("The provided credentials are incorrect");
     })
-    .catch((_) => res.status(701).jsonp(`Error acquiring user's information.`));
+    .catch((err) => {
+      console.error("USERS-MS ERROR LOGGING IN:", err);
+      res.status(500).jsonp("Error logging in.");
+    });
 });
 
 // Update user info

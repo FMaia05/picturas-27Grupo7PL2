@@ -3,6 +3,7 @@
 import DashboardSidebar from "@/components/dashboard-sidebar/dashboard-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import { VideoUploadProvider } from "@/providers/video-upload-provider";
 
 export default function RootLayout({
   children,
@@ -21,7 +22,7 @@ export default function RootLayout({
               className="h-9 w-10 absolute top-4 left-4 lg:hidden"
             />
           )}
-          {children}
+          <VideoUploadProvider>{children}</VideoUploadProvider>
         </main>
       </div>
     </SidebarProvider>

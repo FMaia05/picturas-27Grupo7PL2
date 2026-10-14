@@ -71,6 +71,12 @@ services:
       WEED_S3_SSE_KEK_PASSPHRASE: ${S3_KEK_PASSPHRASE:-picturas-kek-passphrase-change-me}
     volumes:
       - seaweedfs_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8888/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
     networks:
       - elk
 
@@ -78,7 +84,10 @@ services:
     build: ./imageStorageService
     restart: on-failure
     depends_on:
-      - seaweedfs
+      seaweedfs:
+        condition: service_healthy
+      projects_mongoDB:
+        condition: service_started
     ports:
       - "11000:11000"
     environment:
@@ -86,6 +95,9 @@ services:
       S3_ACCESS_KEY: ${S3_ACCESS_KEY:-admin}
       S3_SECRET_KEY: ${S3_SECRET_KEY:-admin123}
       FRONTEND_URL: "https://localhost:8080"
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:-picturas-internal-video-token}
+      FREE_VIDEO_QUOTA_BYTES: ${FREE_VIDEO_QUOTA_BYTES:-1073741824}
+      PREMIUM_VIDEO_QUOTA_BYTES: ${PREMIUM_VIDEO_QUOTA_BYTES:-21474836480}
     networks:
       - elk
 
@@ -212,9 +224,11 @@ services:
     depends_on:
       - projects
       - users
+      - img_storage
     restart: on-failure
     environment:
       - JWT_SECRET_KEY=lisan_al_gaib
+      - INTERNAL_SERVICE_TOKEN=${INTERNAL_SERVICE_TOKEN:-picturas-internal-video-token}
     networks:
       - elk
     volumes:
