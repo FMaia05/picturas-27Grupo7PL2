@@ -7,8 +7,11 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "../ui/sidebar";
-import { Plus, Sparkles } from "lucide-react";
+import { LayoutDashboard, Plus, Sparkles } from "lucide-react";
 import NavUser from "./nav-user-sidebar";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
@@ -57,6 +60,18 @@ export default function DashboardSidebar() {
                 {isFreePlan ? "Upgrade to Premium" : "Unlock Features"}
               </Button>
             )}
+          </SidebarGroup>
+          <SidebarGroup className="py-0">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={path === "/dashboard"}>
+                  <Link href="/dashboard">
+                    <LayoutDashboard />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroup>
           <ProjectList />
         </SidebarContent>

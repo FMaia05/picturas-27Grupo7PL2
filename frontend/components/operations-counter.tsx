@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "@/providers/session-provider";
+import { Badge } from "@/components/ui/badge";
 
 export default function OperationsCounter() {
   const session = useSession();
@@ -11,16 +12,14 @@ export default function OperationsCounter() {
 
   const remaining = user.remaining_operations;
 
-  console.log("SESSION USER:", user);
-  console.log("remaining:", remaining);
   // Se ainda não tivermos o valor (primeiros ms), não mostra nada
   if (remaining === undefined || remaining === null) return null;
   return (
-    <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+    <div className="flex items-center gap-2 text-xs text-muted-foreground">
       <span>Operações diárias restantes</span>
-      <span className="text-sm font-semibold text-foreground">
+      <Badge className="rounded-full border-blue-500/30 bg-blue-500/15 px-2 text-blue-600 shadow-none hover:bg-blue-500/15 dark:text-blue-400">
         {remaining}
-      </span>
+      </Badge>
     </div>
   );
 }
