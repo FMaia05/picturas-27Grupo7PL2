@@ -123,4 +123,88 @@ router.delete("/:user/:videoId", auth.checkToken, async (req, res) => {
   }
 });
 
+// Trim endpoints (UC-VID-004)
+router.post("/:user/:videoId/trim", auth.checkToken, async (req, res) => {
+  let charged = false;
+  try {
+    const user = await loadUser(req);
+    if (user.type === "anonymous") {
+      return res.status(403).json({ error: "Sign in with a registered account to edit videos." });
+    }
+
+    // Debita provisoriamente 1 operação para utilizadores Registados (free)
+    if (user.type !== "premium") {
+      try {
+        await axios.get(`${usersURL}${req.params.user}/process/1`, {
+          httpsAgent,
+          headers: { Authorization: req.headers.authorization },
+        });
+        charged = true;
+      } catch (quotaError) {
+        return res.status(403).json({
+          error: "A sua quota diária (5/5) foi atingida. Tente amanhã ou atualize para Premium.",
+        });
+      }
+    }
+
+    try {
+      const response = await axios.post(
+        `${storageURL}${req.params.user}/${req.params.videoId}/trim`,
+        { ...req.body, userType: user.type },
+        { headers: storageHeaders(req) },
+      );
+      return res.status(response.status).json(response.data);
+    } catch (storageError) {
+      if (charged) {
+        await axios
+          .post(
+            `${usersURL}${req.params.user}/process/refund/1`,
+            {},
+            { httpsAgent, headers: { Authorization: req.headers.authorization } },
+          )
+          .catch(() => {});
+      }
+      return forwardError(res, storageError);
+    }
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
+router.get("/:user/tasks", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.get(`${storageURL}${req.params.user}/tasks`, {
+      headers: storageHeaders(req),
+    });
+    return res.json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
+router.get("/:user/tasks/:taskId", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${storageURL}${req.params.user}/tasks/${req.params.taskId}`,
+      { headers: storageHeaders(req) },
+    );
+    return res.json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
+router.post("/:user/tasks/:taskId/cancel", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.post(
+      `${storageURL}${req.params.user}/tasks/${req.params.taskId}/cancel`,
+      {},
+      { headers: storageHeaders(req) },
+    );
+    return res.status(response.status).json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
 module.exports = router;

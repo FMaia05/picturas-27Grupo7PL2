@@ -35,6 +35,17 @@ Supported combinations are MP4 or MOV with H.264 and optional AAC audio, and Web
 
 Keep multipart parts at least 5 MiB except the final part. Cancellation must abort the S3 multipart upload. Metadata failure must delete the completed object and must not make it visible in the library. Video uploads never call the daily image-operation quota endpoints.
 
+## Video trim design (UC-VID-004)
+
+The video trim use case is implemented across these layers:
+
+1. `frontend/components/trim-video-dialog.tsx` provides video preview, start/end sliders with dynamic duration calculation, plan duration limit validation (300s free / 3600s premium), remaining daily operations counter, target name and "Replace original" option (FA2).
+2. `frontend/providers/video-task-provider.tsx` monitors active trim tasks asynchronously without blocking the UI, shows progress and allows cancellation.
+3. `apiGateway/routes/videos.js` checks authentication, blocks anonymous users, provisionally charges 1 daily operation on `users:10001` for registered users, proxies to `imageStorageService`, and refunds the operation if job creation fails.
+4. `imageStorageService/route/videos.js` validates source format (MP4/MOV with H.264), origin size limits (200MB free / 2GB premium), timestamps (`0 <= start < end <= duration`), segment duration, concurrent active task limits (1 free / 3 premium), and creates a `VideoTask`.
+5. `imageStorageService/services/videoTrimWorker.js` executes lossless stream copy (`ffmpeg -ss ... -to ... -c copy -avoid_negative_ts make_zero`), enforces 10-minute timeout, implements 1 automatic internal retry on failure, performs cleanup on fail/cancel, validates storage quota, updates or creates library video, and refunds the operation in `users:10001` on cancellation or failure.
+6. `imageStorageService/models/videoTask.js` persists task status (`queued`, `processing`, `completed`, `failed`, `cancelled`), progress, retries and result video ID.
+
 ## Development and validation
 
 Run the smallest relevant checks first:

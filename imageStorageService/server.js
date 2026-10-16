@@ -6,7 +6,9 @@ const copyRoutes = require("./route/copy");
 const videoRoutes = require("./route/videos");
 const mongoose = require("mongoose");
 const Video = require("./models/video");
+const VideoTask = require("./models/videoTask");
 const enqueueVideo = require("./services/videoWorker");
+const { enqueueTrimTask } = require("./services/videoTrimWorker");
 const s3 = require("./services/s3Client");
 
 const app = express();
@@ -25,6 +27,9 @@ mongoose
     console.log("Video library database connected");
     const interrupted = await Video.find({ status: "processing" }).select("_id");
     interrupted.forEach((video) => enqueueVideo(video._id));
+
+    const interruptedTasks = await VideoTask.find({ status: { $in: ["queued", "processing"] } }).select("_id");
+    interruptedTasks.forEach((task) => enqueueTrimTask(task._id));
 
     const staleBefore = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const stale = await Video.find({ status: "uploading", updatedAt: { $lt: staleBefore } });

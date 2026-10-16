@@ -18,25 +18,30 @@ function rotationOf(stream) {
   return Number(sideData?.rotation ?? stream.tags?.rotate ?? 0);
 }
 
-async function inspectVideo(bucket, key, extension) {
-  const temporaryPath = path.join(
-    os.tmpdir(),
-    `picturas-video-${process.pid}-${Date.now()}${extension}`,
-  );
+async function inspectVideo(bucket, key, extension, localFilePath = null) {
+  const isLocal = Boolean(localFilePath);
+  const targetPath = isLocal
+    ? localFilePath
+    : path.join(
+        os.tmpdir(),
+        `picturas-video-${process.pid}-${Date.now()}${extension}`,
+      );
 
   try {
-    await new Promise((resolve, reject) => {
-      const input = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
-      const output = fs.createWriteStream(temporaryPath);
-      input.on("error", reject);
-      output.on("error", reject);
-      output.on("finish", resolve);
-      input.pipe(output);
-    });
+    if (!isLocal) {
+      await new Promise((resolve, reject) => {
+        const input = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
+        const output = fs.createWriteStream(targetPath);
+        input.on("error", reject);
+        output.on("error", reject);
+        output.on("finish", resolve);
+        input.pipe(output);
+      });
+    }
 
     const { stdout } = await execFileAsync(
       "ffprobe",
-      ["-v", "error", "-show_format", "-show_streams", "-of", "json", temporaryPath],
+      ["-v", "error", "-show_format", "-show_streams", "-of", "json", targetPath],
       { maxBuffer: 10 * 1024 * 1024 },
     );
     const probe = JSON.parse(stdout);
@@ -59,7 +64,9 @@ async function inspectVideo(bucket, key, extension) {
       rotation: rotationOf(video),
     };
   } finally {
-    await fs.promises.rm(temporaryPath, { force: true });
+    if (!isLocal) {
+      await fs.promises.rm(targetPath, { force: true }).catch(() => {});
+    }
   }
 }
 

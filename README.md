@@ -54,8 +54,7 @@ PictuRAS is a web-based image editing platform that combines traditional image p
 - **Subscription Plans**: free and premium tiers with different daily usage limits
 - **Project Management**: organise images and editing pipelines into projects
 - **Real-time Processing**: WebSocket-based progress updates while tools run
-- **Encrypted object storage**: SeaweedFS S3 with encryption at rest
-- **Video library**: multipart MP4/MOV/WebM upload with progress, cancellation, quotas and ffprobe metadata validation
+- **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback
 - **Automated backups**: periodic `mongodump` of all three databases
 
 ---

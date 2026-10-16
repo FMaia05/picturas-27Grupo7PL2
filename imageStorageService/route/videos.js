@@ -2,11 +2,13 @@ const crypto = require("crypto");
 const express = require("express");
 const path = require("path");
 const Video = require("../models/video");
+const VideoTask = require("../models/videoTask");
 const internalAuth = require("../middleware/internalAuth");
 const createBucket = require("../services/createBucket");
 const { getPublicObjectUrl } = require("../services/getPresignedUrl");
 const s3 = require("../services/s3Client");
 const enqueueVideo = require("../services/videoWorker");
+const { enqueueTrimTask, cancelTrimTask } = require("../services/videoTrimWorker");
 
 const router = express.Router();
 const PART_SIZE = 8 * 1024 * 1024;
@@ -175,6 +177,129 @@ router.delete("/:userId/:videoId", async (req, res) => {
   await s3.deleteObject({ Bucket: `user-${video.userId}`, Key: video.objectKey }).promise().catch(() => {});
   await video.deleteOne();
   return res.sendStatus(204);
+});
+
+// Trim endpoints (UC-VID-004)
+router.post("/:userId/:videoId/trim", async (req, res) => {
+  try {
+    const { start, end, targetName, replaceOriginal, userType } = req.body;
+    const video = await Video.findOne(ownerFilter(req));
+    if (!video || video.status !== "ready") {
+      return res.status(404).json({ error: "Video not found." });
+    }
+
+    // RN2: Formatos de vídeo suportados: MP4 (H.264) e MOV
+    const ext = path.extname(video.originalName || "").toLowerCase();
+    const supportedExts = [".mp4", ".mov"];
+    if (!supportedExts.includes(ext) || video.metadata?.videoCodec !== "h264") {
+      return res.status(400).json({
+        error: "Não é possível editar este ficheiro. Certifique-se que é um formato de vídeo válido (MP4 ou MOV).",
+      });
+    }
+
+    // RN2, REQ-VID-TRIM-NF04: Tamanho máximo do ficheiro de origem suportado
+    const maxOriginSize = userType === "premium" ? 2000 * 1024 * 1024 : 200 * 1024 * 1024;
+    if (video.size > maxOriginSize) {
+      return res.status(400).json({ error: "O tamanho do vídeo original excede o limite do plano." });
+    }
+
+    // RN4, REQ-VID-TRIM-NF02: Timestamps flutuantes, start < end, end <= duration
+    const numStart = Number(start);
+    const numEnd = Number(end);
+    const totalDuration = video.metadata?.duration || 0;
+    if (
+      !Number.isFinite(numStart) ||
+      !Number.isFinite(numEnd) ||
+      numStart < 0 ||
+      numStart >= numEnd ||
+      (totalDuration > 0 && numEnd > totalDuration + 0.05)
+    ) {
+      return res.status(400).json({ error: "Inconsistência nos timestamps de recorte." });
+    }
+
+    // RN3, REQ-VID-TRIM-NF03: Duração do fragmento a recortar
+    const trimDuration = numEnd - numStart;
+    const maxTrimDuration = userType === "premium" ? 3600 : 300;
+    if (trimDuration > maxTrimDuration) {
+      return res.status(400).json({ error: "Duração do vídeo recortado excede limites do perfil." });
+    }
+
+    // RN8, REQ-VID-TRIM-NF05: Limite de tarefas de vídeo concorrentes ativas
+    const activeTasks = await VideoTask.countDocuments({
+      userId: req.params.userId,
+      status: { $in: ["queued", "processing"] },
+    });
+    const maxConcurrent = userType === "premium" ? 3 : 1;
+    if (activeTasks >= maxConcurrent) {
+      return res.status(429).json({ error: "Limite de tarefas de vídeo concorrentes ativas atingido." });
+    }
+
+    const defaultName = `${path.basename(video.originalName, ext)}-trim${ext}`;
+    const finalTargetName = (targetName || defaultName).trim();
+
+    const task = await VideoTask.create({
+      userId: req.params.userId,
+      type: "trim",
+      sourceVideoId: video._id,
+      targetName: finalTargetName,
+      replaceOriginal: Boolean(replaceOriginal),
+      start: numStart,
+      end: numEnd,
+      duration: trimDuration,
+      status: "queued",
+      chargedOperation: userType !== "premium",
+    });
+
+    enqueueTrimTask(task.id);
+    return res.status(201).json({ taskId: task.id, status: "queued" });
+  } catch (error) {
+    console.error("Unable to create trim task", error);
+    return res.status(500).json({ error: "Unable to create trim task." });
+  }
+});
+
+router.get("/:userId/tasks", async (req, res) => {
+  try {
+    const tasks = await VideoTask.find({
+      userId: req.params.userId,
+      status: { $in: ["queued", "processing"] },
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return res.json(tasks);
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to list video tasks." });
+  }
+});
+
+router.get("/:userId/tasks/:taskId", async (req, res) => {
+  try {
+    const task = await VideoTask.findOne({
+      _id: req.params.taskId,
+      userId: req.params.userId,
+    }).lean();
+    if (!task) return res.status(404).json({ error: "Task not found." });
+    return res.json(task);
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to retrieve video task." });
+  }
+});
+
+router.post("/:userId/tasks/:taskId/cancel", async (req, res) => {
+  try {
+    const task = await VideoTask.findOne({
+      _id: req.params.taskId,
+      userId: req.params.userId,
+    });
+    if (!task) return res.status(404).json({ error: "Task not found." });
+    if (task.status !== "queued" && task.status !== "processing") {
+      return res.status(400).json({ error: "A tarefa já não pode ser cancelada." });
+    }
+    await cancelTrimTask(task.id);
+    return res.json({ message: "Recorte cancelado. Nenhuma operação foi contabilizada." });
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to cancel video task." });
+  }
 });
 
 module.exports = router;

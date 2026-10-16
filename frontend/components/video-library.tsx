@@ -6,8 +6,9 @@ import { toast } from "@/hooks/use-toast";
 import { deleteVideo, getVideos, LibraryVideo } from "@/lib/videos";
 import { useSession } from "@/providers/session-provider";
 import { useVideoUploads } from "@/providers/video-upload-provider";
-import { Film, Trash2, Upload } from "lucide-react";
+import { Film, Scissors, Trash2, Upload } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import TrimVideoDialog from "@/components/trim-video-dialog";
 
 function formatDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -22,6 +23,7 @@ export default function VideoLibrary() {
   const input = useRef<HTMLInputElement>(null);
   const [videos, setVideos] = useState<LibraryVideo[]>([]);
   const [dragging, setDragging] = useState(false);
+  const [selectedVideoForTrim, setSelectedVideoForTrim] = useState<LibraryVideo | null>(null);
 
   const refresh = useCallback(() => {
     getVideos(session.user._id, session.token)
@@ -46,7 +48,7 @@ export default function VideoLibrary() {
   }
 
   return (
-    <section className="space-y-4">
+    <section id="video-library-section" className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Video library</h2>
@@ -114,6 +116,15 @@ export default function VideoLibrary() {
                   <Button
                     size="icon"
                     variant="ghost"
+                    onClick={() => setSelectedVideoForTrim(video)}
+                    aria-label={`Recortar ${video.originalName}`}
+                    title="Recortar vídeo"
+                  >
+                    <Scissors className="size-4 text-primary" />
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
                     onClick={() => remove(video)}
                     aria-label={`Delete ${video.originalName}`}
                   >
@@ -125,6 +136,12 @@ export default function VideoLibrary() {
           </div>
         )}
       </div>
+
+      <TrimVideoDialog
+        video={selectedVideoForTrim}
+        isOpen={Boolean(selectedVideoForTrim)}
+        onClose={() => setSelectedVideoForTrim(null)}
+      />
     </section>
   );
 }

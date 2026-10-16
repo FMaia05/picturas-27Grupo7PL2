@@ -23,6 +23,29 @@ export interface LibraryVideo {
   createdAt: string;
 }
 
+export interface TrimVideoPayload {
+  start: number;
+  end: number;
+  targetName?: string;
+  replaceOriginal?: boolean;
+}
+
+export interface VideoTask {
+  _id: string;
+  type: "trim";
+  sourceVideoId: string;
+  targetName: string;
+  replaceOriginal: boolean;
+  start: number;
+  end: number;
+  duration: number;
+  status: "queued" | "processing" | "completed" | "failed" | "cancelled";
+  progress: number;
+  resultVideoId?: string;
+  error?: string;
+  createdAt: string;
+}
+
 const auth = (token: string) => ({ Authorization: `Bearer ${token}` });
 
 export async function startVideoUpload(
@@ -107,6 +130,52 @@ export async function deleteVideo(
   videoId: string,
 ) {
   await api.delete(`/videos/${userId}/${videoId}`, { headers: auth(token) });
+}
+
+export async function requestVideoTrim(
+  userId: string,
+  token: string,
+  videoId: string,
+  payload: TrimVideoPayload,
+) {
+  const response = await api.post<{ taskId: string; status: string }>(
+    `/videos/${userId}/${videoId}/trim`,
+    payload,
+    { headers: auth(token) },
+  );
+  return response.data;
+}
+
+export async function getVideoTask(
+  userId: string,
+  token: string,
+  taskId: string,
+) {
+  const response = await api.get<VideoTask>(
+    `/videos/${userId}/tasks/${taskId}`,
+    { headers: auth(token) },
+  );
+  return response.data;
+}
+
+export async function getVideoTasks(userId: string, token: string) {
+  const response = await api.get<VideoTask[]>(`/videos/${userId}/tasks`, {
+    headers: auth(token),
+  });
+  return response.data;
+}
+
+export async function cancelVideoTask(
+  userId: string,
+  token: string,
+  taskId: string,
+) {
+  const response = await api.post<{ message: string }>(
+    `/videos/${userId}/tasks/${taskId}/cancel`,
+    {},
+    { headers: auth(token) },
+  );
+  return response.data;
 }
 
 export function videoErrorMessage(error: unknown) {
