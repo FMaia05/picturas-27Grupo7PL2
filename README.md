@@ -54,7 +54,7 @@ PictuRAS is a web-based image editing platform that combines traditional image p
 - **Subscription Plans**: free and premium tiers with different daily usage limits
 - **Project Management**: organise images and editing pipelines into projects
 - **Real-time Processing**: WebSocket-based progress updates while tools run
-- **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback
+- **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback; full-video conversion to MP4/H.264/AAC or WebM/VP9/Opus with resolution options, persistent tasks and quota reservations ([design](AGENTS.md#video-conversion-design-uc-vid-002), [usage and validation](AGENTS.md#video-conversion-validation))
 - **Automated backups**: periodic `mongodump` of all three databases
 
 ---
@@ -325,7 +325,7 @@ All configuration currently lives as `environment:` entries in `docker-compose.y
 | `S3_ENDPOINT`                                 | `seaweedfs:9000`              | img_storage            | Object storage endpoint                      |
 | `S3_ACCESS_KEY` / `S3_SECRET_KEY`             | `admin` / `admin123`          | seaweedfs, img_storage | Object storage credentials                   |
 | `S3_KEK_PASSPHRASE`                           | `picturas-kek-...`            | seaweedfs              | Protects the key used for encryption at rest |
-| `INTERNAL_SERVICE_TOKEN`                       | local development token       | gateway, img_storage   | Authenticates internal video API calls       |
+| `INTERNAL_SERVICE_TOKEN`                       | local development token       | gateway, img_storage, users | Authenticates internal video and conversion quota API calls       |
 | `FREE_VIDEO_QUOTA_BYTES`                       | `1073741824` (1 GiB)          | img_storage            | Total video storage for free accounts        |
 | `PREMIUM_VIDEO_QUOTA_BYTES`                    | `21474836480` (20 GiB)        | img_storage            | Total video storage for Premium accounts     |
 | `RABBITMQ_DEFAULT_USER` / `_PASS`             | `user` / `password`           | rabbitmq               | Broker credentials                           |

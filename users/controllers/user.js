@@ -46,11 +46,14 @@ module.exports.create = async (user) => {
 module.exports.updatePassword = async (user_id, user) => {
   const encrypt_user = await encrypt_password(user);
 
-  return User.updateOne({ _id: user_id }, encrypt_user);
+  const { operations, conversionReservations, ...profile } = encrypt_user;
+  return User.updateOne({ _id: user_id }, profile);
 };
 
 module.exports.update = async (user_id, user) => {
-  return User.updateOne({ _id: user_id }, user);
+  // Quota writes use atomic operations in operationQuota; profile edits must not overwrite them.
+  const { operations, conversionReservations, ...profile } = user;
+  return User.updateOne({ _id: user_id }, profile);
 };
 
 module.exports.delete = (user_id) => {

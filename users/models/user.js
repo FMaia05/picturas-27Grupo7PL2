@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     default: "free",
     required: true,
   },
+  conversionReservations: { type: [new mongoose.Schema({
+    id: String, day: Date, state: { type: String, enum: ['reserved', 'confirmed', 'released'] },
+    charged: Boolean, userType: String,
+  }, { _id: false })], default: [] },
   operations: { type: [daySchema], required: true, default: [] },
 });
 
@@ -62,6 +66,7 @@ userSchema.set("toJSON", {
     delete ret.email_encrypted;
     delete ret.email_hash;
     delete ret.password_hash;
+    delete ret.conversionReservations;
     return ret;
   },
 });

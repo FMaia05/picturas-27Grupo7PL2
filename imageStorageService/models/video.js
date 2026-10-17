@@ -21,6 +21,8 @@ const videoSchema = new mongoose.Schema(
     size: { type: Number, required: true },
     objectKey: { type: String, required: true },
     uploadId: String,
+    sourceVideoId: { type: mongoose.Schema.Types.ObjectId, ref: "video" },
+    conversionTaskId: { type: mongoose.Schema.Types.ObjectId, index: true, unique: true, sparse: true },
     status: {
       type: String,
       enum: ["uploading", "processing", "ready", "failed"],

@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { VideoUploadProvider } from "@/providers/video-upload-provider";
 import { VideoTaskProvider } from "@/providers/video-task-provider";
 
+import { VideoConversionProvider } from "@/providers/video-conversion-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +26,7 @@ export default function RootLayout({
             />
           )}
           <VideoUploadProvider>
-            <VideoTaskProvider>{children}</VideoTaskProvider>
+            <VideoTaskProvider><VideoConversionProvider>{children}</VideoConversionProvider></VideoTaskProvider>
           </VideoUploadProvider>
         </main>
       </div>

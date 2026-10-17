@@ -27,6 +27,7 @@ app.use("/projects", projectsRouter);
 app.use("/users", usersRouter);
 app.use("/subscriptions", subscriptionsRouter);
 app.use("/videos", videosRouter);
+app.use("/video-conversions", require("./routes/videoConversions"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
