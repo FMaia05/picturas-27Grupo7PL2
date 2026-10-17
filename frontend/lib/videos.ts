@@ -30,15 +30,32 @@ export interface TrimVideoPayload {
   replaceOriginal?: boolean;
 }
 
+export interface ExtractFramesPayload {
+  start: number;
+  end: number;
+  step: number;
+  format: "png" | "jpeg";
+  destinationType: "new" | "existing";
+  targetName?: string;
+  destinationProjectId?: string;
+}
+
 export interface VideoTask {
   _id: string;
-  type: "trim";
+  type: "trim" | "extract_frames";
   sourceVideoId: string;
   targetName: string;
-  replaceOriginal: boolean;
+  replaceOriginal?: boolean;
   start: number;
   end: number;
   duration: number;
+  step?: number;
+  format?: "png" | "jpeg";
+  destinationType?: "new" | "existing";
+  destinationProjectId?: string;
+  totalFramesCount?: number;
+  extractedFramesCount?: number;
+  resultProjectId?: string;
   status: "queued" | "processing" | "completed" | "failed" | "cancelled";
   progress: number;
   resultVideoId?: string;
@@ -140,6 +157,20 @@ export async function requestVideoTrim(
 ) {
   const response = await api.post<{ taskId: string; status: string }>(
     `/videos/${userId}/${videoId}/trim`,
+    payload,
+    { headers: auth(token) },
+  );
+  return response.data;
+}
+
+export async function requestFrameExtraction(
+  userId: string,
+  token: string,
+  videoId: string,
+  payload: ExtractFramesPayload,
+) {
+  const response = await api.post<{ taskId: string; status: string }>(
+    `/videos/${userId}/${videoId}/extract-frames`,
     payload,
     { headers: auth(token) },
   );

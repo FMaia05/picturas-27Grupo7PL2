@@ -99,6 +99,7 @@ services:
       FREE_VIDEO_QUOTA_BYTES: ${FREE_VIDEO_QUOTA_BYTES:-1073741824}
       PREMIUM_VIDEO_QUOTA_BYTES: ${PREMIUM_VIDEO_QUOTA_BYTES:-21474836480}
       USERS_URL: "https://users:10001/"
+      PROJECTS_URL: "https://projects:9001/"
     networks:
       - elk
 
@@ -153,6 +154,7 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: user
       RABBITMQ_PASS: password
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:-picturas-internal-video-token}
     networks:
       - elk
     volumes:

@@ -183,6 +183,8 @@ export const fetchProjects = async (uid: string, token: string) => {
   })) as Project[];
 };
 
+export const getProjects = fetchProjects;
+
 export const fetchProject = async (
   uid: string,
   pid: string,

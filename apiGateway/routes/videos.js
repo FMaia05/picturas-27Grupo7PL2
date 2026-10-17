@@ -101,6 +101,43 @@ router.get("/:user", auth.checkToken, async (req, res) => {
   }
 });
 
+// Task endpoints MUST be declared before /:user/:videoId to avoid route conflicts
+router.get("/:user/tasks", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.get(`${storageURL}${req.params.user}/tasks`, {
+      headers: storageHeaders(req),
+    });
+    return res.json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
+router.get("/:user/tasks/:taskId", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${storageURL}${req.params.user}/tasks/${req.params.taskId}`,
+      { headers: storageHeaders(req) },
+    );
+    return res.json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
+router.post("/:user/tasks/:taskId/cancel", auth.checkToken, async (req, res) => {
+  try {
+    const response = await axios.post(
+      `${storageURL}${req.params.user}/tasks/${req.params.taskId}/cancel`,
+      {},
+      { headers: storageHeaders(req) },
+    );
+    return res.status(response.status).json(response.data);
+  } catch (error) {
+    return forwardError(res, error);
+  }
+});
+
 router.get("/:user/:videoId", auth.checkToken, async (req, res) => {
   try {
     const response = await axios.get(`${storageURL}${req.params.user}/${req.params.videoId}`, {
@@ -171,37 +208,49 @@ router.post("/:user/:videoId/trim", auth.checkToken, async (req, res) => {
   }
 });
 
-router.get("/:user/tasks", auth.checkToken, async (req, res) => {
+// Extract frames endpoints (UC-VID-003)
+router.post("/:user/:videoId/extract-frames", auth.checkToken, async (req, res) => {
+  let charged = false;
   try {
-    const response = await axios.get(`${storageURL}${req.params.user}/tasks`, {
-      headers: storageHeaders(req),
-    });
-    return res.json(response.data);
-  } catch (error) {
-    return forwardError(res, error);
-  }
-});
+    const user = await loadUser(req);
+    if (user.type === "anonymous") {
+      return res.status(403).json({ error: "Inicie sessão com uma conta registada para extrair fotogramas." });
+    }
 
-router.get("/:user/tasks/:taskId", auth.checkToken, async (req, res) => {
-  try {
-    const response = await axios.get(
-      `${storageURL}${req.params.user}/tasks/${req.params.taskId}`,
-      { headers: storageHeaders(req) },
-    );
-    return res.json(response.data);
-  } catch (error) {
-    return forwardError(res, error);
-  }
-});
+    // RN6, REQ-VID-FRAME-024: Debita provisoriamente 1 operação para utilizadores Registados (free)
+    if (user.type !== "premium") {
+      try {
+        await axios.get(`${usersURL}${req.params.user}/process/1`, {
+          httpsAgent,
+          headers: { Authorization: req.headers.authorization },
+        });
+        charged = true;
+      } catch (quotaError) {
+        return res.status(403).json({
+          error: "Quota diária de operações atingida. Atualize para o plano Premium ou tente novamente amanhã.",
+        });
+      }
+    }
 
-router.post("/:user/tasks/:taskId/cancel", auth.checkToken, async (req, res) => {
-  try {
-    const response = await axios.post(
-      `${storageURL}${req.params.user}/tasks/${req.params.taskId}/cancel`,
-      {},
-      { headers: storageHeaders(req) },
-    );
-    return res.status(response.status).json(response.data);
+    try {
+      const response = await axios.post(
+        `${storageURL}${req.params.user}/${req.params.videoId}/extract-frames`,
+        { ...req.body, userType: user.type },
+        { headers: storageHeaders(req) },
+      );
+      return res.status(response.status).json(response.data);
+    } catch (storageError) {
+      if (charged) {
+        await axios
+          .post(
+            `${usersURL}${req.params.user}/process/refund/1`,
+            {},
+            { httpsAgent, headers: { Authorization: req.headers.authorization } },
+          )
+          .catch(() => {});
+      }
+      return forwardError(res, storageError);
+    }
   } catch (error) {
     return forwardError(res, error);
   }

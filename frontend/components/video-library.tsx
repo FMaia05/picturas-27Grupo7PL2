@@ -6,9 +6,10 @@ import { toast } from "@/hooks/use-toast";
 import { deleteVideo, getVideos, LibraryVideo } from "@/lib/videos";
 import { useSession } from "@/providers/session-provider";
 import { useVideoUploads } from "@/providers/video-upload-provider";
-import { Film, Scissors, Trash2, Upload } from "lucide-react";
+import { Film, Scissors, Trash2, Upload, Camera } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import TrimVideoDialog from "@/components/trim-video-dialog";
+import ExtractFramesDialog from "@/components/extract-frames-dialog";
 
 function formatDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -24,6 +25,7 @@ export default function VideoLibrary() {
   const [videos, setVideos] = useState<LibraryVideo[]>([]);
   const [dragging, setDragging] = useState(false);
   const [selectedVideoForTrim, setSelectedVideoForTrim] = useState<LibraryVideo | null>(null);
+  const [selectedVideoForExtract, setSelectedVideoForExtract] = useState<LibraryVideo | null>(null);
 
   const refresh = useCallback(() => {
     getVideos(session.user._id, session.token)
@@ -45,6 +47,25 @@ export default function VideoLibrary() {
   async function remove(video: LibraryVideo) {
     await deleteVideo(session.user._id, session.token, video._id);
     refresh();
+  }
+
+  function handleExtractClick(video: LibraryVideo) {
+    // REQ-VID-FRAME-015 / Exceção 1: Formatos aceites MP4 (H.264) e MOV
+    const ext = "." + (video.originalName.split(".").pop() || "").toLowerCase();
+    const isSupportedExt = ext === ".mp4" || ext === ".mov";
+    const codec = video.metadata?.videoCodec?.toLowerCase();
+    const isSupportedCodec = !codec || codec === "h264" || codec === "avc1";
+
+    if (!isSupportedExt || !isSupportedCodec) {
+      toast({
+        title: "Formato de vídeo não suportado",
+        description: "Formato de vídeo não suportado. Formatos aceites: MP4 (H.264) e MOV.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSelectedVideoForExtract(video);
   }
 
   return (
@@ -113,6 +134,17 @@ export default function VideoLibrary() {
                       </p>
                     )}
                   </div>
+                  {session.user.type !== "anonymous" && (
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => handleExtractClick(video)}
+                      aria-label={`Extrair fotogramas de ${video.originalName}`}
+                      title="Extrair fotogramas"
+                    >
+                      <Camera className="size-4 text-primary" />
+                    </Button>
+                  )}
                   <Button
                     size="icon"
                     variant="ghost"
@@ -141,6 +173,12 @@ export default function VideoLibrary() {
         video={selectedVideoForTrim}
         isOpen={Boolean(selectedVideoForTrim)}
         onClose={() => setSelectedVideoForTrim(null)}
+      />
+
+      <ExtractFramesDialog
+        video={selectedVideoForExtract}
+        isOpen={Boolean(selectedVideoForExtract)}
+        onClose={() => setSelectedVideoForExtract(null)}
       />
     </section>
   );

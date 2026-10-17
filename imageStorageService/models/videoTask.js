@@ -14,6 +14,13 @@ const videoTaskSchema = new mongoose.Schema(
     start: { type: Number, required: true },
     end: { type: Number, required: true },
     duration: { type: Number, required: true },
+    step: { type: Number },
+    format: { type: String, enum: ["png", "jpeg"], default: "png" },
+    destinationType: { type: String, enum: ["new", "existing"], default: "new" },
+    destinationProjectId: { type: String },
+    totalFramesCount: { type: Number, default: 0 },
+    extractedFramesCount: { type: Number, default: 0 },
+    resultProjectId: { type: String },
     status: {
       type: String,
       enum: ["queued", "processing", "completed", "failed", "cancelled"],

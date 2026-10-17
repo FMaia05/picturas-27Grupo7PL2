@@ -9,6 +9,7 @@ const { getPublicObjectUrl } = require("../services/getPresignedUrl");
 const s3 = require("../services/s3Client");
 const enqueueVideo = require("../services/videoWorker");
 const { enqueueTrimTask, cancelTrimTask } = require("../services/videoTrimWorker");
+const { enqueueExtractFramesTask, cancelExtractFramesTask } = require("../services/videoFrameExtractionWorker");
 
 const router = express.Router();
 const PART_SIZE = 8 * 1024 * 1024;
@@ -156,6 +157,53 @@ router.delete("/:userId/uploads/:videoId", async (req, res) => {
   }
 });
 
+// Task endpoints MUST be declared before /:userId/:videoId to avoid route conflicts
+router.get("/:userId/tasks", async (req, res) => {
+  try {
+    const tasks = await VideoTask.find({
+      userId: req.params.userId,
+      status: { $in: ["queued", "processing"] },
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return res.json(tasks);
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to list video tasks." });
+  }
+});
+
+router.get("/:userId/tasks/:taskId", async (req, res) => {
+  try {
+    const task = await VideoTask.findOne({
+      _id: req.params.taskId,
+      userId: req.params.userId,
+    }).lean();
+    if (!task) return res.status(404).json({ error: "Task not found." });
+    return res.json(task);
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to retrieve video task." });
+  }
+});
+
+router.post("/:userId/tasks/:taskId/cancel", async (req, res) => {
+  try {
+    const task = await VideoTask.findOne({
+      _id: req.params.taskId,
+      userId: req.params.userId,
+    });
+    if (!task) return res.status(404).json({ error: "Task not found." });
+    if (task.type === "extract_frames") {
+      await cancelExtractFramesTask(task.id);
+      return res.json({ message: "Extração cancelada. Nenhuma operação foi contabilizada." });
+    } else {
+      await cancelTrimTask(task.id);
+      return res.json({ message: "Recorte cancelado. Nenhuma operação foi contabilizada." });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: "Unable to cancel video task." });
+  }
+});
+
 router.get("/:userId", async (req, res) => {
   const videos = await Video.find({ userId: req.params.userId, status: "ready" }).sort({ createdAt: -1 }).lean();
   const result = await Promise.all(videos.map(async (video) => ({
@@ -258,47 +306,148 @@ router.post("/:userId/:videoId/trim", async (req, res) => {
   }
 });
 
-router.get("/:userId/tasks", async (req, res) => {
+// Frame extraction endpoints (UC-VID-003)
+router.post("/:userId/:videoId/extract-frames", async (req, res) => {
   try {
-    const tasks = await VideoTask.find({
-      userId: req.params.userId,
-      status: { $in: ["queued", "processing"] },
-    })
-      .sort({ createdAt: -1 })
-      .lean();
-    return res.json(tasks);
-  } catch (error) {
-    return res.status(500).json({ error: "Unable to list video tasks." });
-  }
-});
+    const {
+      start,
+      end,
+      step,
+      format,
+      destinationType,
+      targetName,
+      destinationProjectId,
+      userType,
+    } = req.body;
 
-router.get("/:userId/tasks/:taskId", async (req, res) => {
-  try {
-    const task = await VideoTask.findOne({
-      _id: req.params.taskId,
-      userId: req.params.userId,
-    }).lean();
-    if (!task) return res.status(404).json({ error: "Task not found." });
-    return res.json(task);
-  } catch (error) {
-    return res.status(500).json({ error: "Unable to retrieve video task." });
-  }
-});
-
-router.post("/:userId/tasks/:taskId/cancel", async (req, res) => {
-  try {
-    const task = await VideoTask.findOne({
-      _id: req.params.taskId,
-      userId: req.params.userId,
-    });
-    if (!task) return res.status(404).json({ error: "Task not found." });
-    if (task.status !== "queued" && task.status !== "processing") {
-      return res.status(400).json({ error: "A tarefa já não pode ser cancelada." });
+    const video = await Video.findOne(ownerFilter(req));
+    if (!video || video.status !== "ready") {
+      return res.status(404).json({ error: "Video not found." });
     }
-    await cancelTrimTask(task.id);
-    return res.json({ message: "Recorte cancelado. Nenhuma operação foi contabilizada." });
+
+    // RN2, REQ-VID-FRAME-015: Formatos aceites: MP4 (H.264) e MOV
+    const ext = path.extname(video.originalName || "").toLowerCase();
+    const supportedExts = [".mp4", ".mov"];
+    if (!supportedExts.includes(ext) || video.metadata?.videoCodec !== "h264") {
+      return res.status(400).json({
+        error: "Formato de vídeo não suportado. Formatos aceites: MP4 (H.264) e MOV.",
+      });
+    }
+
+    // RN2, REQ-VID-FRAME-016: Tamanho máximo do ficheiro de origem
+    const maxOriginSize = userType === "premium" ? 2000 * 1024 * 1024 : 200 * 1024 * 1024;
+    if (video.size > maxOriginSize) {
+      return res.status(400).json({
+        error: `O tamanho do vídeo original excede o limite do plano (${userType === "premium" ? "2 GB" : "200 MB"}).`,
+      });
+    }
+
+    // RN2, REQ-VID-FRAME-016: Resolução máxima do vídeo (1080p Registado / 4K Premium)
+    const maxPixels = userType === "premium" ? 3840 * 2160 : 1920 * 1080;
+    const vidPixels = (video.metadata?.width || 0) * (video.metadata?.height || 0);
+    if (vidPixels > maxPixels) {
+      return res.status(400).json({
+        error: `A resolução do vídeo (${video.metadata?.width}x${video.metadata?.height}) excede o limite do perfil (${userType === "premium" ? "3840x2160" : "1920x1080"}).`,
+      });
+    }
+
+    // RN3, REQ-VID-FRAME-005, 016: Intervalo válido e duração
+    const numStart = Number(start);
+    const numEnd = Number(end);
+    const totalDuration = video.metadata?.duration || 0;
+    if (
+      !Number.isFinite(numStart) ||
+      !Number.isFinite(numEnd) ||
+      numStart < 0 ||
+      numStart >= numEnd ||
+      (totalDuration > 0 && numEnd > totalDuration + 0.05)
+    ) {
+      return res.status(400).json({
+        error: "Intervalo inválido: o instante de início tem de ser anterior ao de fim e o de fim não pode exceder a duração do vídeo.",
+      });
+    }
+
+    const intervalDuration = numEnd - numStart;
+    const maxIntervalDuration = userType === "premium" ? 1800 : 120;
+    if (intervalDuration > maxIntervalDuration) {
+      return res.status(400).json({
+        error: `A duração do intervalo selecionado (${intervalDuration.toFixed(1)} s) não pode exceder ${maxIntervalDuration} s.`,
+      });
+    }
+
+    // RN4, REQ-VID-FRAME-005: Passo de amostragem inteiro entre 1 e 60 s
+    const numStep = Number(step);
+    if (!Number.isInteger(numStep) || numStep < 1 || numStep > 60) {
+      return res.status(400).json({
+        error: "O passo de amostragem tem de ser um número inteiro de segundos entre 1 e 60.",
+      });
+    }
+
+    // RN5, REQ-VID-FRAME-016: Número máximo de fotogramas por extração (30 Registado, 200 Premium)
+    const totalFrames = Math.floor(intervalDuration / numStep) + 1;
+    const maxFrames = userType === "premium" ? 200 : 30;
+    if (totalFrames > maxFrames) {
+      const minStep = Math.ceil(intervalDuration / (maxFrames - 1));
+      return res.status(400).json({
+        error: `O número estimado de fotogramas (${totalFrames}) excede o limite do seu perfil (${maxFrames}). Sugestão: utilize um passo de pelo menos ${minStep} s.`,
+      });
+    }
+
+    // RN7, REQ-VID-FRAME-035: Formato de saída (PNG ou JPEG)
+    const outputFormat = (format || "png").toLowerCase();
+    if (!["png", "jpeg"].includes(outputFormat)) {
+      return res.status(400).json({
+        error: "Formato de saída não suportado. Formatos aceites: PNG e JPEG.",
+      });
+    }
+
+    // RN9, REQ-VID-FRAME-021: Limite de tarefas de extração ativas por utilizador (1 Registado, 3 Premium)
+    const activeTasks = await VideoTask.countDocuments({
+      userId: req.params.userId,
+      type: "extract_frames",
+      status: { $in: ["queued", "processing"] },
+    });
+    const maxConcurrent = userType === "premium" ? 3 : 1;
+    if (activeTasks >= maxConcurrent) {
+      return res.status(429).json({
+        error: "Já existe uma tarefa de extração em curso no limite do seu perfil.",
+      });
+    }
+
+    // FA2, REQ-VID-FRAME-005: Destino
+    const destType = destinationType === "existing" ? "existing" : "new";
+    if (destType === "existing" && !destinationProjectId) {
+      return res.status(400).json({
+        error: "Identificador do projeto existente de destino não fornecido.",
+      });
+    }
+
+    const defaultProjectName = `${path.basename(video.originalName, ext)} - Fotogramas`;
+    const finalProjectName = (targetName || defaultProjectName).trim();
+
+    const task = await VideoTask.create({
+      userId: req.params.userId,
+      type: "extract_frames",
+      sourceVideoId: video._id,
+      targetName: finalProjectName,
+      start: numStart,
+      end: numEnd,
+      duration: intervalDuration,
+      step: numStep,
+      format: outputFormat,
+      destinationType: destType,
+      destinationProjectId: destinationProjectId || null,
+      totalFramesCount: totalFrames,
+      extractedFramesCount: 0,
+      status: "queued",
+      chargedOperation: userType !== "premium",
+    });
+
+    enqueueExtractFramesTask(task.id);
+    return res.status(201).json({ taskId: task.id, status: "queued" });
   } catch (error) {
-    return res.status(500).json({ error: "Unable to cancel video task." });
+    console.error("Unable to create extract frames task", error);
+    return res.status(500).json({ error: "Unable to create extract frames task." });
   }
 });
 

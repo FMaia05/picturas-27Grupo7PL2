@@ -46,6 +46,17 @@ The video trim use case is implemented across these layers:
 5. `imageStorageService/services/videoTrimWorker.js` executes lossless stream copy (`ffmpeg -ss ... -to ... -c copy -avoid_negative_ts make_zero`), enforces 10-minute timeout, implements 1 automatic internal retry on failure, performs cleanup on fail/cancel, validates storage quota, updates or creates library video, and refunds the operation in `users:10001` on cancellation or failure.
 6. `imageStorageService/models/videoTask.js` persists task status (`queued`, `processing`, `completed`, `failed`, `cancelled`), progress, retries and result video ID.
 
+## Video frame extraction design (UC-VID-003)
+
+The frame extraction use case is implemented across these layers:
+
+1. `frontend/components/extract-frames-dialog.tsx` provides video preview, start/end range controls, sampling step (1–60s), output format (PNG/JPEG), destination (new project with editable name or existing project), dynamic calculation of frames and duration, and suggestion of minimum step if limit is exceeded (30 free / 200 premium).
+2. `frontend/providers/video-task-provider.tsx` monitors active extraction tasks asynchronously, updates progress (`extractedFramesCount / totalFramesCount`), allows cancellation, and provides direct link to open the project on completion.
+3. `apiGateway/routes/videos.js` enforces authentication, rejects anonymous users, provisionally charges 1 daily operation for registered users, forwards to `imageStorageService`, and refunds if task creation fails.
+4. `imageStorageService/route/videos.js` validates source video format (MP4/MOV H.264), size (200MB free / 2GB premium), resolution (1080p free / 4K premium), interval duration (120s free / 1800s premium), sampling step (1–60s), frame count (30 free / 200 premium), and concurrent tasks (1 free / 3 premium), creating a `VideoTask` with `type: "extract_frames"`.
+5. `imageStorageService/services/videoFrameExtractionWorker.js` downloads video from S3, extracts frames closest to $t_k = \text{start} + k \times \text{step}$ using `ffmpeg` (applying orientation from metadata and format settings), names files `<video>_<hh-mm-ss-mmm>.<ext>`, uploads images to S3 bucket `user-${userId}`, and calls `projects` service internal endpoints (`create-with-frames` or `append-frames`). Enforces 10-minute timeout, 1 internal retry, storage quota check, and cleans up temporary files on any final state.
+6. `projects/routes/projects.js` exposes internal endpoints `/internal/:user/create-with-frames` and `/internal/:user/:project/append-frames` protected by `INTERNAL_SERVICE_TOKEN` to persist extracted frames directly into project models without breaking concurrency or tool pipelines.
+
 ## Development and validation
 
 Run the smallest relevant checks first:

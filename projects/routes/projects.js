@@ -2563,4 +2563,55 @@ router.post(
   }
 );
 
+// Middleware para verificar token de serviço interno
+function checkInternalServiceToken(req, res, next) {
+  const token = req.headers["x-internal-service-token"];
+  const expectedToken = process.env.INTERNAL_SERVICE_TOKEN || "picturas-internal-video-token";
+  if (!token || token !== expectedToken) {
+    return res.status(403).jsonp({ error: "Unauthorized internal service access." });
+  }
+  next();
+}
+
+// Criar novo projeto diretamente com fotogramas extraídos (UC-VID-003)
+router.post("/internal/:user/create-with-frames", checkInternalServiceToken, async (req, res) => {
+  try {
+    const projectData = {
+      name: req.body.name || "Projeto de Fotogramas",
+      user_id: req.params.user,
+      imgs: req.body.imgs || [],
+      tools: [],
+    };
+    if (req.body._id) {
+      projectData._id = req.body._id;
+    }
+    const created = await Project.create(projectData);
+    return res.status(201).jsonp(created);
+  } catch (err) {
+    console.error("Error creating project with frames:", err);
+    return res.status(500).jsonp({ error: "Error creating project with frames" });
+  }
+});
+
+// Anexar fotogramas extraídos a um projeto existente (FA2, UC-VID-003)
+router.post("/internal/:user/:project/append-frames", checkInternalServiceToken, async (req, res) => {
+  try {
+    const project = await Project.getOne(req.params.user, req.params.project);
+    if (!project) {
+      return res.status(404).jsonp({ error: "Project not found" });
+    }
+
+    if (Array.isArray(req.body.imgs) && req.body.imgs.length > 0) {
+      project.imgs.push(...req.body.imgs);
+    }
+    project.version = (project.version || 0) + 1;
+    await project.save();
+
+    return res.status(200).jsonp(project);
+  } catch (err) {
+    console.error("Error appending frames to project:", err);
+    return res.status(500).jsonp({ error: "Error appending frames to project" });
+  }
+});
+
 module.exports = { router, process_msg };
