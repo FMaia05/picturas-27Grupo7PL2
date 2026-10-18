@@ -32,6 +32,8 @@ const videoTaskSchema = new mongoose.Schema(
     resultVideoId: { type: mongoose.Schema.Types.ObjectId, ref: "video" },
     error: String,
     chargedOperation: { type: Boolean, default: false },
+    refunded: { type: Boolean, default: false },
+    userType: { type: String, enum: ["free", "premium"], default: "free" },
   },
   { timestamps: true },
 );

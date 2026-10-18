@@ -14,8 +14,8 @@ try {
 const Video = require("../models/video");
 const VideoTask = require("../models/videoTask");
 const s3 = require("./s3Client");
+const { refundTaskOperation, videoStorageQuota } = require("./videoTaskBilling");
 
-const USERS_URL = process.env.USERS_URL || "https://users:10001/";
 const PROJECTS_URL = process.env.PROJECTS_URL || "https://projects:9001/";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
@@ -94,38 +94,6 @@ async function postJsonInternal(targetUrl, payload, headers = {}) {
   });
 }
 
-async function refundOperation(userId) {
-  try {
-    const url = new URL(`${userId}/process/refund/1`, USERS_URL);
-    await new Promise((resolve) => {
-      const req = https.request(
-        url,
-        {
-          method: "POST",
-          agent: httpsAgent,
-          headers: { "Content-Type": "application/json" },
-        },
-        (res) => {
-          res.resume();
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            resolve();
-          } else {
-            console.warn(`Refund returned status ${res.statusCode} for user ${userId}`);
-            resolve();
-          }
-        },
-      );
-      req.on("error", (err) => {
-        console.error(`Refund network error for user ${userId}:`, err.message);
-        resolve();
-      });
-      req.end();
-    });
-  } catch (error) {
-    console.error(`Refund failed for user ${userId}:`, error.message);
-  }
-}
-
 async function extractSingleFrame(tempInput, outputFilePath, timestamp, format, taskId) {
   const ffmpegArgs = [
     "-ss",
@@ -172,7 +140,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "cancelled";
     task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     cancelledTasks.delete(taskId);
     return;
   }
@@ -191,7 +159,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "failed";
     task.error = "Original video not found or not in ready state.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     return;
   }
 
@@ -296,15 +264,12 @@ async function executeExtractFrames(task, isRetry = false) {
 
       // 4. Verify storage quota (RN2, Exceção 8, REQ-VID-FRAME-051)
       const totalExtractedBytes = extractedFiles.reduce((acc, f) => acc + f.size, 0);
-      const quota = Number(process.env.FREE_VIDEO_QUOTA_BYTES || 1024 ** 3);
       const usage = await Video.aggregate([
         { $match: { userId: task.userId, status: { $in: ["uploading", "processing", "ready"] } } },
         { $group: { _id: null, total: { $sum: "$size" } } },
       ]);
       const currentUsage = usage[0]?.total || 0;
-      const userQuota = originalVideo.size > 200 * 1024 * 1024 || task.duration > 120
-        ? Number(process.env.PREMIUM_VIDEO_QUOTA_BYTES || 20 * 1024 ** 3)
-        : quota;
+      const userQuota = videoStorageQuota(task.userType);
 
       if (currentUsage + totalExtractedBytes > userQuota) {
         const err = new Error("Armazenamento insuficiente para guardar os fotogramas.");
@@ -410,7 +375,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "cancelled";
       task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       cancelledTasks.delete(taskId);
       return;
     }
@@ -419,7 +384,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "failed";
       task.error = "Armazenamento insuficiente para guardar os fotogramas.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       return;
     }
 
@@ -427,7 +392,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "failed";
       task.error = "A extração demorou mais do que o permitido. Reduza o intervalo ou aumente o passo.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       return;
     }
 
@@ -446,7 +411,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "failed";
     task.error = "Não foi possível extrair os fotogramas deste vídeo. A operação não foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
     activeProcesses.delete(taskId);
@@ -497,9 +462,7 @@ async function cancelExtractFramesTask(taskId) {
     task.status = "cancelled";
     task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) {
-      await refundOperation(task.userId);
-    }
+    await refundTaskOperation(task);
   }
 }
 

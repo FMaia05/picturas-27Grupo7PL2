@@ -10,6 +10,7 @@ const s3 = require("../services/s3Client");
 const enqueueVideo = require("../services/videoWorker");
 const { enqueueTrimTask, cancelTrimTask } = require("../services/videoTrimWorker");
 const { enqueueExtractFramesTask, cancelExtractFramesTask } = require("../services/videoFrameExtractionWorker");
+const { videoStorageQuota } = require("../services/videoTaskBilling");
 
 const router = express.Router();
 const PART_SIZE = 8 * 1024 * 1024;
@@ -29,9 +30,7 @@ router.post("/:userId/uploads", async (req, res) => {
   const { name, size, mimeType, userType } = req.body;
   const extension = path.extname(name || "").toLowerCase();
   const limit = userType === "premium" ? 2000 * 1024 * 1024 : 200 * 1024 * 1024;
-  const quota = userType === "premium"
-    ? Number(process.env.PREMIUM_VIDEO_QUOTA_BYTES || 20 * 1024 ** 3)
-    : Number(process.env.FREE_VIDEO_QUOTA_BYTES || 1024 ** 3);
+  const quota = videoStorageQuota(userType);
 
   if (!SUPPORTED[extension]?.includes(mimeType) || !Number.isSafeInteger(size) || size <= 0 || size > limit) {
     return res.status(400).json({ error: "Unsupported file or file exceeds your plan's size limit." });
@@ -296,6 +295,7 @@ router.post("/:userId/:videoId/trim", async (req, res) => {
       duration: trimDuration,
       status: "queued",
       chargedOperation: userType !== "premium",
+      userType: userType === "premium" ? "premium" : "free",
     });
 
     enqueueTrimTask(task.id);
@@ -441,6 +441,7 @@ router.post("/:userId/:videoId/extract-frames", async (req, res) => {
       extractedFramesCount: 0,
       status: "queued",
       chargedOperation: userType !== "premium",
+      userType: userType === "premium" ? "premium" : "free",
     });
 
     enqueueExtractFramesTask(task.id);
