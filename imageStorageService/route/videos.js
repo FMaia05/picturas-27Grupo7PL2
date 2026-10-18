@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
 const Video = require("../models/video");
 const VideoTask = require("../models/videoTask");
@@ -21,6 +22,15 @@ const SUPPORTED = {
 };
 
 router.use(internalAuth);
+
+// Malformed ids would make Mongoose throw a CastError (500, or a hanging request in
+// handlers without try/catch); they can never match a video or task, so answer 404.
+for (const param of ["videoId", "taskId"]) {
+  router.param(param, (req, res, next, id) => {
+    if (!mongoose.isValidObjectId(id)) return res.status(404).json({ error: "Not found." });
+    next();
+  });
+}
 
 function ownerFilter(req) {
   return { _id: req.params.videoId, userId: req.params.userId };

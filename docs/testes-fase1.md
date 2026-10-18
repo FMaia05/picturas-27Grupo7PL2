@@ -21,13 +21,14 @@ Node 20 + ffmpeg (Debian bookworm) na imagem `img_storage`.
 ## 2. Testes automáticos — componente e gateway
 
 Resultado da execução de 2026-10-18 na branch `feat/fase1-testes-evidencias`:
-**imageStorageService 53/53 ✔** (no contentor, com ffmpeg) e **apiGateway 16/16 ✔**.
+**imageStorageService 54/54 ✔** (no contentor, com ffmpeg), **apiGateway 16/16 ✔** e **E2E 13/13 ✔** (stack completa).
 
 ### Upload e biblioteca (UC-VID-001 / UC-VID-002)
 
 | ID | Tipo | Dado … Quando … Então | Requisito / regra | Resultado |
 |----|------|------------------------|-------------------|-----------|
 | TST-SEC-01 | Componente | Dado um pedido sem token interno ou com um token errado, quando chega ao `img_storage`, então é recusado com 403 | Convenção: rotas internas protegidas | ✔ |
+| TST-SEC-02 | Componente | Dado um ID de vídeo/tarefa malformado, quando é usado em qualquer rota, então a resposta é 404 (antes: 500 ou pedido pendurado) | Robustez, D-03 | ✔ (falhava antes da correção D-03) |
 | TST-UPLOAD-01 | Componente | Dado MP4/MOV/WebM com o MIME correspondente, quando o upload é iniciado, então é criada uma sessão `uploading` com partes de 8 MiB | Formatos suportados | ✔ |
 | TST-UPLOAD-02 | Componente | Dado um nome malicioso (`../../etc/passwd.mp4`), quando o upload é iniciado, então a chave S3 é `videos/<uuid>.mp4` e o nome fica apenas como metadado | Chaves geradas pelo servidor | ✔ |
 | TST-UPLOAD-03 | Componente | Dada uma extensão não suportada ou um MIME que não corresponde à extensão, quando o upload é iniciado, então é recusado com 400 e nada é criado | Formatos suportados | ✔ |
@@ -111,23 +112,23 @@ Resultado da execução de 2026-10-18 na branch `feat/fase1-testes-evidencias`:
 
 ## 3. Testes de sistema (E2E)
 
-Correm contra a stack completa (`imageStorageService/test/e2e/videoApi.e2e.js`).
+Correm contra a stack completa (`imageStorageService/test/e2e/videoApi.e2e.js`). Execução de 2026-10-18: **13/13 ✔**. A 1.ª execução falhou em TST-E2E-12 e revelou o defeito D-03.
 
 | ID | Dado … Quando … Então | Resultado |
 |----|------------------------|-----------|
-| TST-E2E-01 | Um utilizador anónimo não faz upload, recorte nem extração | _por correr_ |
-| TST-E2E-02 | MP4, MOV e WebM válidos ficam `ready` com metadados e não consomem operações | _por correr_ |
-| TST-E2E-03 | Um ficheiro corrompido → `failed`, objeto apagado no SeaweedFS e ausente da biblioteca | _por correr_ |
-| TST-E2E-04 | Um codec não suportado e um contentor falsificado → `failed` e objeto apagado | _por correr_ |
-| TST-E2E-05 | Um ficheiro acima do limite do plano é recusado antes de qualquer envio | _por correr_ |
-| TST-E2E-06 | Cancelar depois de uma parte aborta o multipart no SeaweedFS | _por correr_ |
-| TST-E2E-07 | Um lote de 6 ficheiros enviados em paralelo fica todo `ready` | _por correr_ |
-| TST-E2E-08 | A quota total de 1 GiB bloqueia novos uploads (413) | _por correr_ |
-| TST-E2E-09 | O recorte cria um vídeo novo e consome 1 operação | _por correr_ |
-| TST-E2E-10 | A extração cria um projeto com 3 fotogramas e consome 1 operação | _por correr_ |
-| TST-E2E-11 | Cancelar um recorte em fila reembolsa a operação exatamente uma vez | _por correr_ |
-| TST-E2E-12 | A 6.ª operação diária de um utilizador gratuito é recusada; o Premium não é limitado | _por correr_ |
-| TST-E2E-13 | Um utilizador não lê nem apaga vídeos de outro | _por correr_ |
+| TST-E2E-01 | Um utilizador anónimo não faz upload, recorte nem extração | ✔ |
+| TST-E2E-02 | MP4, MOV e WebM válidos ficam `ready` com metadados e não consomem operações | ✔ |
+| TST-E2E-03 | Um ficheiro corrompido → `failed`, objeto apagado no SeaweedFS e ausente da biblioteca | ✔ |
+| TST-E2E-04 | Um codec não suportado e um contentor falsificado → `failed` e objeto apagado | ✔ |
+| TST-E2E-05 | Um ficheiro acima do limite do plano é recusado antes de qualquer envio | ✔ |
+| TST-E2E-06 | Cancelar depois de uma parte aborta o multipart no SeaweedFS | ✔ |
+| TST-E2E-07 | Um lote de 6 ficheiros enviados em paralelo fica todo `ready` | ✔ |
+| TST-E2E-08 | A quota total de 1 GiB bloqueia novos uploads (413) | ✔ |
+| TST-E2E-09 | O recorte cria um vídeo novo e consome 1 operação | ✔ |
+| TST-E2E-10 | A extração cria um projeto com 3 fotogramas e consome 1 operação | ✔ |
+| TST-E2E-11 | Cancelar um recorte em fila reembolsa a operação exatamente uma vez | ✔ |
+| TST-E2E-12 | A 6.ª operação diária de um utilizador gratuito é recusada; o Premium não é limitado | ✔ |
+| TST-E2E-13 | Um utilizador não lê nem apaga vídeos de outro | ✔ |
 
 ## 4. Testes manuais (interface)
 
@@ -152,6 +153,7 @@ Executar em `https://localhost:8080` com uma conta gratuita e uma conta Premium.
 |----|------|-----------|--------|
 | D-01 | Defeito (corrigido) | Reembolso duplicado ao cancelar uma tarefa em processamento | Corrigido em `9b79646`; TST-TRIM-10, TST-FRAME-13 |
 | D-02 | Defeito (corrigido) | Quota de armazenamento do worker inferida do vídeo em vez do perfil | Corrigido em `9b79646`; TST-TRIM-13, TST-FRAME-14 |
+| D-03 | Defeito (corrigido) | Um ID malformado nas rotas de vídeo/tarefas do `img_storage` dava 500 (`CastError`) ou deixava o pedido pendurado (handlers sem `try/catch` no Express 4) | Corrigido com `router.param` + `mongoose.isValidObjectId`; TST-SEC-02, TST-E2E-12 |
 | L-01 | Limitação | O recorte com *stream copy* corta em fronteiras de pacote/keyframe: o resultado pode ser até ~0,3–0,5 s mais longo do que o pedido (por exemplo, 2–5 s → 3,30 s no contentor, 3,08 s de vídeo) | Por desenho (sem perdas); documentar no relatório |
 | L-02 | Limitação | As filas dos workers estão em memória num único processo `img_storage`; após um reinício as tarefas são reagendadas, mas não há escala horizontal | Aceitável no MVP; candidato à Fase 2 |
 | L-03 | Limitação | O limite de concorrência do recorte conta tarefas de todos os tipos; o da extração conta só extrações (como especificado em REQ-VID-FRAME-021) | Confirmar com o documento de requisitos |

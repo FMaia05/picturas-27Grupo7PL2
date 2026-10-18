@@ -78,6 +78,18 @@ describe("internal authentication", () => {
   });
 });
 
+describe("malformed identifiers", () => {
+  test("TST-SEC-02 malformed video or task ids return 404 instead of failing", async () => {
+    for (const [method, url] of [
+      ["GET", "/u1/not-an-id"], ["DELETE", "/u1/not-an-id"], ["POST", "/u1/x/trim"], ["POST", "/u1/x/extract-frames"],
+      ["GET", "/u1/tasks/x"], ["POST", "/u1/tasks/x/cancel"], ["PUT", "/u1/uploads/x/parts/1"], ["DELETE", "/u1/uploads/x"],
+    ]) {
+      const response = await call(method, url, { body: method === "POST" ? {} : undefined });
+      assert.equal(response.status, 404, `${method} ${url}`);
+    }
+  });
+});
+
 describe("upload initialisation (UC-VID-001)", () => {
   const init = (body) => call("POST", "/u1/uploads", { body: { userType: "free", size: 5 * MiB, ...body } });
 

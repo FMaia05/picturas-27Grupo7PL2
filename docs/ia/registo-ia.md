@@ -30,6 +30,7 @@ indica a ferramenta, o pedido (prompt), o que foi produzido, como a equipa valid
 |----|-----------|-------------------|----------|
 | D-01 | Cancelar uma tarefa de recorte/extração **em processamento** reembolsava a operação diária **duas vezes** (endpoint de cancelamento e worker), dando ao utilizador uma operação extra | Revisão do código dos workers; reproduzido por TST-TRIM-10 / TST-FRAME-13 | `services/videoTaskBilling.js`: reembolso idempotente com a flag `refunded` reclamada atomicamente |
 | D-02 | Nos workers, a quota de armazenamento era inferida do tamanho/duração do vídeo; um utilizador Premium com um vídeo pequeno ficava limitado à quota gratuita (1 GiB) | Revisão do código; reproduzido por TST-TRIM-13 / TST-FRAME-14 | `userType` persistido na `VideoTask` e `videoStorageQuota(task.userType)` |
+| D-03 | ID malformado nas rotas de vídeo dava 500 ou deixava o pedido pendurado | Teste E2E TST-E2E-12 contra a stack real | `router.param` valida `videoId`/`taskId` e responde 404 |
 
 ## Análise crítica (notas para o relatório)
 
