@@ -45,6 +45,7 @@ The video trim use case is implemented across these layers:
 4. `imageStorageService/route/videos.js` validates source format (MP4/MOV with H.264), origin size limits (200MB free / 2GB premium), timestamps (`0 <= start < end <= duration`), segment duration, concurrent active task limits (1 free / 3 premium), and creates a `VideoTask`.
 5. `imageStorageService/services/videoTrimWorker.js` executes lossless stream copy (`ffmpeg -ss ... -to ... -c copy -avoid_negative_ts make_zero`), enforces 10-minute timeout, implements 1 automatic internal retry on failure, performs cleanup on fail/cancel, validates storage quota, updates or creates library video, and refunds the operation in `users:10001` on cancellation or failure.
 6. `imageStorageService/models/videoTask.js` persists task status (`queued`, `processing`, `completed`, `failed`, `cancelled`), progress, retries and result video ID.
+7. `imageStorageService/services/videoTaskBilling.js` is shared by the trim and frame workers: `refundTaskOperation` claims the `refunded` flag atomically so the cancel endpoint and the worker never refund twice, and `videoStorageQuota` uses the `userType` persisted on the task.
 
 ## Video frame extraction design (UC-VID-003)
 
@@ -66,7 +67,15 @@ cd frontend
 npm run build
 ```
 
-The frontend's `lint` script may be unavailable with the pinned Next.js version; use the production build as the TypeScript and framework check. For Node services, check changed JavaScript with:
+Automated tests use the Node built-in runner (see `.claude/skills/picturas-video-tests/SKILL.md`):
+
+```bash
+cd apiGateway && npm test
+cd imageStorageService && npm test   # ffmpeg suites skip without ffmpeg
+docker compose build img_storage && docker compose run --rm --no-deps img_storage npm test
+```
+
+Record results in `docs/testes-fase1.md`. The frontend's `lint` script may be unavailable with the pinned Next.js version; use the production build as the TypeScript and framework check. For Node services, check changed JavaScript with:
 
 ```bash
 node --check path/to/file.js

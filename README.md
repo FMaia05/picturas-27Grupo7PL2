@@ -55,6 +55,7 @@ PictuRAS is a web-based image editing platform that combines traditional image p
 - **Project Management**: organise images and editing pipelines into projects
 - **Real-time Processing**: WebSocket-based progress updates while tools run
 - **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback
+- **Frame extraction**: sample frames from a video every 1–60 s as PNG or JPEG into a new or existing project, with per-plan limits on interval, resolution and frame count, background worker, cancellation and quota rollback
 - **Automated backups**: periodic `mongodump` of all three databases
 
 ---
@@ -118,7 +119,7 @@ has no link to any other microservice. Note that **`subscriptions` means paid me
 | **User Service**          | 10001          | Registration, authentication, user profile      |
 | **Project Service**       | 9001           | Projects, image pipelines, tool orchestration   |
 | **Subscription Service**  | 11001          | Plans, payments (mock), usage limits            |
-| **Image Storage Service** | 11000          | Upload/download façade in front of SeaweedFS    |
+| **Image Storage Service** | 11000          | S3 façade, video library, trim and frame workers |
 | **WebSocket Gateway**     | 4000           | Real-time progress events to the browser        |
 
 ### Processing Tools
@@ -384,6 +385,9 @@ picturas-27/
 ├── backups/mongo/            # Generated database dumps (git-ignored)
 ├── logstash.conf, kibana.yml # ELK configuration (stack currently disabled)
 ├── docker-compose.yaml       # Service orchestration — the single source of truth
+├── docs/testes-fase1.md      # Phase 1 test catalogue and results (automated + manual)
+├── .claude/skills/           # AI agent skills used to build and test the video features
+├── AGENTS.md                 # Instructions for AI coding agents working on this repository
 └── LICENSE                   # CC BY-NC-SA 4.0
 ```
 
@@ -431,6 +435,32 @@ docker compose up -d --build border_tool
 4. Add the service to `docker-compose.yaml` with `depends_on: rabbitmq (service_healthy)` and
    the `image_data` volume.
 5. Expose it in the project service and in the frontend toolbar.
+
+### Running the tests
+
+The video features have automated tests written with the Node.js built-in test runner (no
+extra dependencies). MongoDB, SeaweedFS and the other services are replaced by in-memory fakes;
+the trim, frame-extraction and metadata workers run the real `ffmpeg`/`ffprobe` on small
+generated clips.
+
+```bash
+# API Gateway: JWT ownership, anonymous users, daily-operation charge and refund
+cd apiGateway && npm install && npm test
+
+# Image Storage Service: routes and workers (ffmpeg suites are skipped if ffmpeg is missing)
+cd imageStorageService && npm install && npm test
+
+# Full storage suite including ffmpeg, inside the service image (no other service needed)
+docker compose build img_storage
+docker compose run --rm --no-deps img_storage npm test
+
+# Frontend type and framework check
+cd frontend && npm run build
+```
+
+Each test name starts with its identifier (`TST-TRIM-04`, `TST-GW-FRAME-02`, ...). The
+catalogue with the requirement each test verifies, the latest results and the manual test
+checklist is in [`docs/testes-fase1.md`](docs/testes-fase1.md).
 
 ### Inspecting data
 
