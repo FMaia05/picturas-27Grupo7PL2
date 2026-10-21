@@ -14,6 +14,12 @@ let isWorkerRunning = false;
 const activeProcesses = new Map();
 const cancelledTasks = new Set();
 
+// RN7/RN8, REQ-VID-TRIM-NF10 / REQ-VID-FRAME-052: 10-minute processing limit,
+// configurable through VIDEO_TASK_TIMEOUT_MS so tests can exercise it.
+function taskTimeoutMs() {
+  return Number(process.env.VIDEO_TASK_TIMEOUT_MS) || 10 * 60 * 1000;
+}
+
 async function uploadFileStream(bucket, key, filePath, mimeType) {
   const fileStream = fs.createReadStream(filePath);
   return s3
@@ -110,7 +116,7 @@ async function executeTrim(task, isRetry = false) {
       const timeout = setTimeout(() => {
         child.kill("SIGKILL");
         reject(new Error("Processing timeout exceeded 10 minutes."));
-      }, 10 * 60 * 1000);
+      }, taskTimeoutMs());
 
       child.on("error", (err) => {
         clearTimeout(timeout);

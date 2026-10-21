@@ -53,6 +53,13 @@ describe("ffprobe inspection", { skip: skipReason }, () => {
     await assert.rejects(inspectVideo(null, null, ".mp4", fixtures.file("corrupt.mp4")));
   });
 
+  test("TST-META-08 records the display rotation of a portrait recording", async () => {
+    const metadata = await inspectVideo(null, null, ".mp4", fixtures.file("rotated.mp4"));
+    assert.equal(Math.abs(metadata.rotation), 90);
+    assert.equal(metadata.width, 320);
+    assert.equal(metadata.height, 240);
+  });
+
   test("TST-META-07 downloads the stored object to a temporary file and always deletes it", async () => {
     s3.put("user-u1", "videos/a.mp4", fs.readFileSync(fixtures.file("clip.mp4")));
     s3.put("user-u1", "videos/bad.mp4", fs.readFileSync(fixtures.file("corrupt.mp4")));

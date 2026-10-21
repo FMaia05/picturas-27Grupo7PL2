@@ -163,4 +163,22 @@ describe("trim worker", { skip: skipReason }, () => {
     assert.equal(premiumTask.status, "completed", premiumTask.error);
     assert.equal(http.refunds().length, 1, "premium operations are never refunded");
   });
+
+  test("TST-TRIM-14 the time limit kills ffmpeg; the task fails with one refund and no leftovers (REQ-VID-TRIM-NF10)", async () => {
+    process.env.VIDEO_TASK_TIMEOUT_MS = "1";
+    try {
+      const original = sourceVideo();
+      const task = trimTask(original);
+      await run(task);
+      assert.equal(task.status, "failed");
+      assert.equal(Video.docs.length, 1, "no video is created");
+      assert.equal(s3.calls.uploaded.length, 0);
+      assert.equal(http.refunds().length, 1);
+      assert.equal(tempEntries(`picturas-trim-out-${task.id}`).length, 0);
+      // Current behaviour: a timeout counts as a worker failure and is retried once.
+      assert.equal(task.retries, 1);
+    } finally {
+      delete process.env.VIDEO_TASK_TIMEOUT_MS;
+    }
+  });
 });

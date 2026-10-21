@@ -1,4 +1,4 @@
-// Server-side validation of the video API (UC-VID-001/002 upload and library,
+// Server-side validation of the video API (UC-VID-001 upload and library,
 // UC-VID-003 frame extraction, UC-VID-004 trim). MongoDB, S3 and the workers are
 // replaced by in-memory fakes; the Express router is the production module.
 const { test, describe, beforeEach, before, after } = require("node:test");
@@ -201,7 +201,7 @@ describe("multipart transfer (UC-VID-001)", () => {
   });
 });
 
-describe("video library (UC-VID-002)", () => {
+describe("video library (UC-VID-001)", () => {
   test("TST-LIB-01 lists only the owner's ready videos with a playback URL", async () => {
     readyVideo({ originalName: "mine.mp4" });
     readyVideo({ userId: "u2", originalName: "theirs.mp4" });

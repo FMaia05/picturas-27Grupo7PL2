@@ -7,7 +7,7 @@ const path = require("path");
 const { Readable } = require("stream");
 const axios = require("axios");
 const { stubModule, createModel, createS3, waitFor } = require("./helpers/fakes");
-const { skipReason, createFixtures, tempEntries } = require("./helpers/ffmpeg");
+const { skipReason, createFixtures, tempEntries, pngSize } = require("./helpers/ffmpeg");
 const { interceptHttps } = require("./helpers/https");
 
 const ROOT = path.join(__dirname, "..");
@@ -31,8 +31,8 @@ const { enqueueExtractFramesTask, cancelExtractFramesTask } = require(path.join(
 const FINAL = ["completed", "failed", "cancelled"];
 let fixtures;
 
-function sourceVideo() {
-  const buffer = fs.readFileSync(fixtures.file("clip.mp4"));
+function sourceVideo(fixture = "clip.mp4") {
+  const buffer = fs.readFileSync(fixtures.file(fixture));
   s3.put("user-u1", "videos/source.mp4", buffer);
   return Video.insert({
     userId: "u1", originalName: "clip.mp4", mimeType: "video/mp4", size: buffer.length, objectKey: "videos/source.mp4",
@@ -69,6 +69,7 @@ describe("frame extraction worker", { skip: skipReason }, () => {
     http.calls.length = 0;
     projectCalls.length = 0;
     projectsAvailable = true;
+    delete process.env.VIDEO_TASK_TIMEOUT_MS;
   });
 
   test("TST-FRAME-10 extracts frames at t_k = start + k*step into a new project (REQ-VID-FRAME-032/040)", async () => {
@@ -167,5 +168,44 @@ describe("frame extraction worker", { skip: skipReason }, () => {
     const premiumTask = extractTask(video, { userType: "premium", chargedOperation: false });
     await run(premiumTask);
     assert.equal(premiumTask.status, "completed", premiumTask.error);
+  });
+
+  test("TST-FRAME-15 the time limit stops the extraction: no project, no frames left, one refund (REQ-VID-FRAME-052)", async () => {
+    // The limit expires while the first frame is being uploaded, outside ffmpeg.
+    process.env.VIDEO_TASK_TIMEOUT_MS = "2500";
+    const upload = s3.upload;
+    let firstUpload = true;
+    s3.upload = (params) => ({
+      promise: async () => {
+        if (firstUpload) {
+          firstUpload = false;
+          await new Promise((resolve) => setTimeout(resolve, 4000));
+        }
+        return upload.call(s3, params).promise();
+      },
+    });
+    try {
+      const task = extractTask(sourceVideo());
+      await run(task);
+      assert.equal(task.status, "failed");
+      assert.match(task.error, /demorou mais do que o permitido/);
+      // Give a background continuation time to show up before checking side effects.
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      assert.equal(task.status, "failed", "the task must stay failed");
+      assert.equal(task.retries, 0, "a timeout is not retried");
+      assert.equal(projectCalls.length, 0, "no project is created after the time limit");
+      assert.deepEqual(frameKeys(), [], "no frame is left in storage");
+      assert.equal(http.refunds().length, 1);
+    } finally {
+      s3.upload = upload;
+    }
+  });
+
+  test("TST-FRAME-16 frames of a rotated (portrait) recording are extracted upright", async () => {
+    const task = extractTask(sourceVideo("rotated.mp4"), { start: 1, end: 1, step: 1, totalFramesCount: 1 });
+    await run(task);
+    assert.equal(task.status, "completed", task.error);
+    const [key] = frameKeys();
+    assert.deepEqual(pngSize(s3.objects.get(key)), { width: 240, height: 320 });
   });
 });

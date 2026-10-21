@@ -329,6 +329,7 @@ All configuration currently lives as `environment:` entries in `docker-compose.y
 | `INTERNAL_SERVICE_TOKEN`                       | local development token       | gateway, img_storage   | Authenticates internal video API calls       |
 | `FREE_VIDEO_QUOTA_BYTES`                       | `1073741824` (1 GiB)          | img_storage            | Total video storage for free accounts        |
 | `PREMIUM_VIDEO_QUOTA_BYTES`                    | `21474836480` (20 GiB)        | img_storage            | Total video storage for Premium accounts     |
+| `VIDEO_TASK_TIMEOUT_MS`                        | `600000` (10 min)             | img_storage            | Time limit of a trim or frame-extraction task |
 | `RABBITMQ_DEFAULT_USER` / `_PASS`             | `user` / `password`           | rabbitmq               | Broker credentials                           |
 | `RABBITMQ_HOST` / `_PORT` / `_USER` / `_PASS` | `rabbitmq` / `5672` / ...     | tools, projects, ws    | Broker connection                            |
 | `FRONTEND_URL`                                | `https://localhost:8080`      | img_storage            | CORS / redirect origin                       |

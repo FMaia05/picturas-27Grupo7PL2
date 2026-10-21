@@ -27,14 +27,21 @@ function createFixtures() {
     "-c:v", "libvpx-vp9", "-deadline", "realtime", "-cpu-used", "8", "-c:a", "libopus", "-shortest", file("clip.webm"),
   ]);
   ffmpeg([...source, "-c:v", "mpeg4", file("mpeg4.mp4")]);
+  // Phone-style portrait clip: 320x240 pixels with a 90-degree display rotation.
+  ffmpeg(["-i", file("clip.mp4"), "-c", "copy", "-metadata:s:v:0", "rotate=90", file("rotated.mp4")]);
   fs.copyFileSync(file("clip.webm"), file("spoofed-webm.mp4"));
   fs.writeFileSync(file("corrupt.mp4"), "this is not a video file");
 
   return { dir, file, cleanup: () => fs.rmSync(dir, { recursive: true, force: true }) };
 }
 
+// Width and height from the IHDR chunk of a PNG buffer.
+function pngSize(buffer) {
+  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+}
+
 function tempEntries(prefix) {
   return fs.readdirSync(os.tmpdir()).filter((name) => name.startsWith(prefix));
 }
 
-module.exports = { hasFfmpeg, skipReason, createFixtures, tempEntries };
+module.exports = { hasFfmpeg, skipReason, createFixtures, tempEntries, pngSize };
