@@ -157,5 +157,5 @@ Executar em `https://localhost:8080` com uma conta gratuita e uma conta Premium.
 | L-01 | Limitação | O recorte com *stream copy* corta em fronteiras de pacote/keyframe: o resultado pode ser até ~0,3–0,5 s mais longo do que o pedido (por exemplo, 2–5 s → 3,30 s no contentor, 3,08 s de vídeo) | Por desenho (sem perdas); documentar no relatório |
 | L-02 | Limitação | As filas dos workers estão em memória num único processo `img_storage`; após um reinício as tarefas são reagendadas, mas não há escala horizontal | Aceitável no MVP; candidato à Fase 2 |
 | L-03 | Limitação | O limite de concorrência do recorte conta tarefas de todos os tipos; o da extração conta só extrações (como especificado em REQ-VID-FRAME-021) | Confirmar com o documento de requisitos |
-| T-01 | Baseline | `users`: `POST /users` aceita `type` do cliente (é possível registar uma conta `premium` diretamente) e `GET /users/:id` não exige autenticação | Por corrigir (Cap. 11) |
-| T-02 | Baseline | `apiGateway/routes/projects.js:46` — `// TODO Verify jwt` | Por analisar (Cap. 11) |
+| T-12 | Baseline | `users`: `POST /users` aceita `type` do cliente (é possível registar uma conta `premium` diretamente) e `GET /users/:id` não exige autenticação | Por corrigir (Cap. 11) |
+| T-13 | Baseline | `apiGateway/routes/projects.js:46` — `// TODO Verify jwt` | Por analisar (Cap. 11) |
