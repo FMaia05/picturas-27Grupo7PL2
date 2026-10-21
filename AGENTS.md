@@ -91,11 +91,11 @@ For integration work, build only affected services first:
 
 ```bash
 docker compose build api_gateway img_storage frontend
-docker compose up -d api_gateway img_storage frontend
+docker compose up -d -V api_gateway img_storage frontend
 docker compose logs -f api_gateway img_storage frontend
 ```
 
-The full application is at `https://localhost:8080`; accept the local certificate warning. Direct frontend port 3000 is not the supported route. Keep `NEXT_PUBLIC_API_BASE_URL=/api-gateway/` to avoid mixed-content and proxy failures.
+Always pass `-V` when recreating `frontend`: its `.next` and `node_modules` are anonymous volumes, and without it the old build keeps being served. Next.js only generates Tailwind classes for the folders listed in `frontend/tailwind.config.ts` (`app`, `components`, `pages`, `providers`); add a folder there before styling components in it. The full application is at `https://localhost:8080`; accept the local certificate warning. Direct frontend port 3000 is not the supported route. Keep `NEXT_PUBLIC_API_BASE_URL=/api-gateway/` to avoid mixed-content and proxy failures.
 
 When changing video ingestion, verify at least one valid file for each supported container, a renamed/corrupt file, an unsupported codec, a file over the plan limit, cancellation after one part, a six-file batch, anonymous access, quota exhaustion, successful metadata persistence, and object cleanup after failure.
 

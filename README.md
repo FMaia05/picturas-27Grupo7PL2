@@ -415,8 +415,12 @@ The **frontend image is built for production** (`bun run build` / `bun start`), 
 will **not** hot-reload. For frontend development either rebuild:
 
 ```bash
-docker compose up -d --build frontend
+docker compose up -d --build -V frontend
 ```
+
+The `-V` (`--renew-anon-volumes`) flag is required: `node_modules` and `.next` are anonymous
+volumes, and without it Compose reattaches the old ones, so the container keeps serving the
+**previous** build even though the image was rebuilt.
 
 ...or switch `frontend/Dockerfile` to the dev command already prepared there
 (`CMD ["bun", "dev"]`, commented out at the bottom of the file).

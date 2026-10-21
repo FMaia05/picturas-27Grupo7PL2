@@ -18,10 +18,10 @@ instalação real.
 | Nível | Objeto de teste | O que é real | O que é simulado | N.º de testes |
 |-------|-----------------|--------------|------------------|---------------|
 | **Componente — rotas** | API interna de vídeo do `imageStorageService` (*router* Express de produção) | Validação, regras de perfil, códigos HTTP | MongoDB, SeaweedFS (S3) e *workers*, por réplicas em memória | 33 |
-| **Componente — *workers*** | *Workers* de metadados, recorte e extração de fotogramas | **ffmpeg/ffprobe** sobre vídeos gerados no momento do teste | MongoDB, S3 e os serviços `users` e `projects` | 21 |
+| **Componente — *workers*** | *Workers* de metadados, recorte e extração de fotogramas | **ffmpeg/ffprobe** sobre vídeos gerados no momento do teste | MongoDB, S3 e os serviços `users` e `projects` | 25 |
 | **Gateway** | Rotas de vídeo do `apiGateway` | Verificação de JWT, débito e reembolso de operações | Serviços `users` e `imageStorageService` | 16 |
 | **Sistema (E2E)** | Aplicação completa através do ponto de entrada público (nginx) | Todos os serviços, as bases de dados e o SeaweedFS | Nada | 13 |
-| **Manual** | Interface web (`https://localhost:8080`) | Tudo | Nada | 10 |
+| **Manual (interface)** | Interface web (`https://localhost:8080`), conduzida num browser *headless* | Tudo | Nada | 10 |
 
 Princípios seguidos:
 
@@ -29,8 +29,11 @@ Princípios seguidos:
   valor imediatamente acima (por exemplo, 300 s e 300,5 s de recorte no perfil gratuito), para os
   dois perfis.
 - **Media real.** Os testes dos *workers* não simulam o ffmpeg. Geram clips sintéticos (MP4
-  H.264+AAC, MOV H.264, WebM VP9+Opus, MP4 MPEG-4 Part 2, um WebM renomeado para `.mp4` e um ficheiro
-  corrompido) e verificam o resultado com ffprobe.
+  H.264+AAC, MOV H.264, WebM VP9+Opus, MP4 MPEG-4 Part 2, um WebM renomeado para `.mp4`, um MP4 com
+  rotação de 90° e um ficheiro corrompido) e verificam o resultado com ffprobe.
+- **Tempo limite testável.** O limite de 10 minutos é configurável (`VIDEO_TASK_TIMEOUT_MS`), o que
+  permite exercitá-lo nos testes com limites de milissegundos sem alterar o comportamento em
+  produção.
 - **Dados do cliente não são confiáveis.** Há testes específicos que enviam um perfil, uma
   extensão ou um MIME falsos e confirmam que o servidor os ignora ou recusa.
 - **Estados finais e efeitos laterais.** Para cada falha ou cancelamento verifica-se o estado
@@ -49,6 +52,9 @@ Princípios seguidos:
 - **ffmpeg/ffprobe** instalados na imagem Docker `img_storage`.
 - **Docker Compose** para os testes de sistema, executados num contentor ligado à rede interna
   da aplicação.
+- **Chromium *headless*** (Playwright/patchright), conduzido por *scripts* que reproduzem os passos
+  dos testes manuais: carregar ficheiros, preencher diálogos, cancelar tarefas e navegar. As
+  verificações de interface usam a árvore de acessibilidade e capturas de ecrã.
 
 ### Ambiente
 
@@ -59,8 +65,9 @@ Princípios seguidos:
 | Imagem `img_storage` | Node.js 20, ffmpeg do Debian bookworm |
 | Base de dados | MongoDB 4.4 |
 | Armazenamento de objetos | SeaweedFS 4.47 (API S3) |
-| Código testado | Branch `feat/fase1-testes-evidencias`, *commit* `6bcd3fc` |
-| Data da execução | 18 de outubro de 2026 |
+| Browser (testes de interface) | Chromium *headless*, janela de 1366×900 |
+| Código testado | Branch `feat/fase1-testes-evidencias`, *commit* `8fb6ade` |
+| Datas de execução | 18 e 21 de outubro de 2026 (execução final: 21 de outubro) |
 
 As instruções para reproduzir todas as execuções estão no Anexo (Instruções de execução dos
 testes).
@@ -71,7 +78,7 @@ Legenda — **Tipo**: C = componente, C+ff = componente com ffmpeg real, GW = ga
 sistema, M = manual. **Resultado**: ✔ passou na execução final; «falhava antes de …» indica que
 o teste detetou um defeito (ver 10.4) e passou depois da correção.
 
-### 10.2.1. Submeter vídeo e biblioteca (UC-VID-001, UC-VID-002)
+### 10.2.1. Submeter vídeo e biblioteca (UC-VID-001)
 
 | ID | Tipo | Descrição (Dado … Quando … Então) | Requisitos | Resultado |
 |----|------|-----------------------------------|------------|-----------|
@@ -95,8 +102,9 @@ o teste detetou um defeito (ver 10.4) e passou depois da correção.
 | TST-META-05 | C+ff | **Dado** um WebM renomeado para `.mp4`, **quando** é inspecionado, **então** é recusado. | UC-VID-001 (exceção: ficheiro falsificado) | ✔ |
 | TST-META-06 | C+ff | **Dado** um ficheiro de texto renomeado para `.mp4`, **quando** é inspecionado, **então** é recusado. | UC-VID-001 (exceção: ficheiro corrompido) | ✔ |
 | TST-META-07 | C+ff | **Dado** um objeto armazenado, **quando** é inspecionado, com sucesso ou com falha, **então** o ficheiro temporário descarregado é sempre apagado. | UC-VID-001 | ✔ |
-| TST-LIB-01 | C | **Dados** vídeos de vários utilizadores e em vários estados, **quando** um utilizador consulta a biblioteca, **então** vê apenas os seus vídeos `ready`, cada um com URL de reprodução. | UC-VID-002; RNF44 (ALT) | ✔ |
-| TST-LIB-02 | C | **Dado** um vídeo de outro utilizador, **quando** se tenta apagá-lo, **então** nada acontece; apagar um vídeo próprio remove o objeto e o registo. | UC-VID-002; RNF44 (ALT) | ✔ |
+| TST-META-08 | C+ff | **Dado** um vídeo 320×240 gravado com rotação de 90° (como num telemóvel na vertical), **quando** é inspecionado, **então** a rotação de 90° fica registada nos metadados. | UC-VID-001 (metadados) | ✔ |
+| TST-LIB-01 | C | **Dados** vídeos de vários utilizadores e em vários estados, **quando** um utilizador consulta a biblioteca, **então** vê apenas os seus vídeos `ready`, cada um com URL de reprodução. | UC-VID-001; RNF44 (ALT) | ✔ |
+| TST-LIB-02 | C | **Dado** um vídeo de outro utilizador, **quando** se tenta apagá-lo, **então** nada acontece; apagar um vídeo próprio remove o objeto e o registo. | UC-VID-001; RNF44 (ALT) | ✔ |
 
 ### 10.2.2. Recortar vídeo (UC-VID-004)
 
@@ -111,10 +119,11 @@ o teste detetou um defeito (ver 10.4) e passou depois da correção.
 | TST-TRIM-07 | C | **Dado** um pedido válido, **quando** é aceite, **então** é criada uma tarefa `queued` com o nome por omissão `<nome>-trim.<ext>`, a indicação de operação debitada e o perfil do utilizador. | UC-VID-004 (fluxo principal) | ✔ |
 | TST-TRIM-08 | C+ff | **Dado** um vídeo de 10 s, **quando** é recortado o intervalo 2–5 s, **então** é criado um novo vídeo `ready`, H.264+AAC, com duração entre 2,95 e 3,5 s, e o original é mantido. | UC-VID-004/RN6 (recorte sem perdas) | ✔ (ver L-01) |
 | TST-TRIM-09 | C+ff | **Dada** a opção «Substituir original», **quando** o recorte termina, **então** o registo existente é atualizado (nome, tamanho, metadados) e o objeto antigo é apagado. | UC-VID-004/FA2 | ✔ |
-| TST-TRIM-10 | C+ff | **Dado** um recorte em processamento, **quando** o utilizador cancela, **então** a tarefa fica `cancelled`, não é criado vídeo e a operação é reembolsada **exatamente uma vez**. | UC-VID-004 (cancelamento) | ✔ (falhava antes de `9b79646`, D-01) |
+| TST-TRIM-10 | C+ff | **Dado** um recorte em processamento, **quando** o utilizador cancela, **então** a tarefa fica `cancelled`, não é criado vídeo e a operação é reembolsada **exatamente uma vez**. | UC-VID-004 (cancelamento) | ✔ (falhava antes de `f192dac`, D-01) |
 | TST-TRIM-11 | C | **Dado** um recorte em fila, **quando** é cancelado, **então** o ffmpeg não chega a ser executado e há um único reembolso. | UC-VID-004 (cancelamento) | ✔ |
 | TST-TRIM-12 | C | **Dada** uma falha do *worker* (origem indisponível), **quando** o recorte é executado, **então** há uma repetição automática, depois a tarefa fica `failed`, a operação é reembolsada e os temporários são removidos. | REQ-VID-TRIM-NF12 | ✔ |
-| TST-TRIM-13 | C+ff | **Dada** uma quota de armazenamento cheia, **quando** o recorte termina, **então** um utilizador gratuito recebe «Armazenamento insuficiente» com reembolso, e um Premium com a mesma utilização conclui. | UC-VID-004 (exceção: armazenamento cheio) | ✔ (falhava antes de `9b79646`, D-02) |
+| TST-TRIM-13 | C+ff | **Dada** uma quota de armazenamento cheia, **quando** o recorte termina, **então** um utilizador gratuito recebe «Armazenamento insuficiente» com reembolso, e um Premium com a mesma utilização conclui. | UC-VID-004 (exceção: armazenamento cheio) | ✔ (falhava antes de `f192dac`, D-02) |
+| TST-TRIM-14 | C+ff | **Dado** um tempo limite que expira durante o ffmpeg, **quando** o recorte é executado, **então** o processo é terminado, a tarefa fica `failed`, não é criado vídeo, os temporários são removidos e há um reembolso. | REQ-VID-TRIM-NF10 | ✔ (ver Q-01) |
 
 ### 10.2.3. Extrair fotogramas (UC-VID-003)
 
@@ -132,8 +141,10 @@ o teste detetou um defeito (ver 10.4) e passou depois da correção.
 | TST-FRAME-10 | C+ff | **Dado** o intervalo 0–4 s com passo 2 s em PNG para um projeto novo, **quando** a extração termina, **então** existem 3 imagens `clip_00-00-0X-000.png` no armazenamento do utilizador, cada uma com SHA-256, e o projeto é criado através do endpoint interno autenticado. | REQ-VID-FRAME-032, REQ-VID-FRAME-040 | ✔ |
 | TST-FRAME-11 | C+ff | **Dado** o intervalo 1,5–3,5 s com passo 1 s em JPEG para um projeto existente, **quando** a extração termina, **então** as imagens são acrescentadas ao projeto com nomes ao milissegundo (`…_00-00-01-500.jpg`). | UC-VID-003/FA2; REQ-VID-FRAME-035 | ✔ |
 | TST-FRAME-12 | C+ff | **Dado** o serviço de projetos indisponível, **quando** a extração termina, **então** há uma repetição automática, a tarefa fica `failed`, todas as imagens carregadas são apagadas e há um reembolso. | REQ-VID-FRAME-046, REQ-VID-FRAME-050 | ✔ |
-| TST-FRAME-13 | C | **Dada** uma extração em processamento, **quando** o utilizador cancela, **então** a tarefa fica `cancelled`, não é criado projeto e há **exatamente um** reembolso. | UC-VID-003 (cancelamento) | ✔ (falhava antes de `9b79646`, D-01) |
-| TST-FRAME-14 | C+ff | **Dada** uma quota de armazenamento cheia, **quando** a extração termina, **então** um gratuito falha e um Premium com a mesma utilização conclui. | REQ-VID-FRAME-051 | ✔ (falhava antes de `9b79646`, D-02) |
+| TST-FRAME-13 | C | **Dada** uma extração em processamento, **quando** o utilizador cancela, **então** a tarefa fica `cancelled`, não é criado projeto e há **exatamente um** reembolso. | UC-VID-003 (cancelamento) | ✔ (falhava antes de `f192dac`, D-01) |
+| TST-FRAME-14 | C+ff | **Dada** uma quota de armazenamento cheia, **quando** a extração termina, **então** um gratuito falha e um Premium com a mesma utilização conclui. | REQ-VID-FRAME-051 | ✔ (falhava antes de `f192dac`, D-02) |
+| TST-FRAME-15 | C+ff | **Dado** um tempo limite que expira durante o envio de um fotograma para o armazenamento, **quando** a extração é executada, **então** a tarefa fica `failed` com a mensagem de tempo excedido, não é repetida, não é criado projeto, não fica nenhum fotograma no armazenamento e há um reembolso. | REQ-VID-FRAME-052 | ✔ (falhava antes de `263904b`, D-04) |
+| TST-FRAME-16 | C+ff | **Dado** um vídeo gravado com rotação de 90°, **quando** é extraído um fotograma, **então** a imagem sai direita (240×320). | UC-VID-003 (orientação) | ✔ |
 
 ### 10.2.4. Acompanhar tarefas, autenticação e quota diária (transversal)
 
@@ -145,7 +156,7 @@ Estes requisitos são comuns aos três casos de uso. Por isso são verificados u
 | TST-STATUS-02 | C | **Dada** uma tarefa de outro utilizador, **quando** é consultada, **então** a resposta é 404. | RNF44 (ALT) | ✔ |
 | TST-STATUS-03 | C | **Dadas** uma tarefa de recorte e uma de extração, **quando** são canceladas, **então** cada cancelamento é tratado pelo *worker* do tipo correspondente. | UC-VID-003, UC-VID-004 | ✔ |
 | TST-SEC-01 | C | **Dado** um pedido aos serviços internos sem *token* de serviço, ou com um *token* errado, **quando** chega, **então** é recusado (403). | RNF44 (ALT) | ✔ |
-| TST-SEC-02 | C | **Dado** um identificador de vídeo ou de tarefa malformado, **quando** é usado em qualquer rota, **então** a resposta é 404. | Robustez | ✔ (corrigido em `6bcd3fc`, D-03) |
+| TST-SEC-02 | C | **Dado** um identificador de vídeo ou de tarefa malformado, **quando** é usado em qualquer rota, **então** a resposta é 404. | Robustez | ✔ (corrigido em `85c1077`, D-03) |
 | TST-GW-01 | GW | **Dado** um pedido sem JWT, com JWT inválido ou com JWT de outro utilizador, **quando** chega ao gateway, **então** é recusado (401) sem chamar nenhum serviço interno. | RNF44 (ALT) | ✔ |
 | TST-GW-02 | GW | **Dado** um pedido autenticado, **quando** é reencaminhado, **então** leva o *token* de serviço interno. | RNF44 (ALT) | ✔ |
 | TST-GW-03 | GW | **Dado** um utilizador anónimo, **quando** tenta iniciar um upload, **então** é recusado (403) antes de chegar ao armazenamento. | UC-VID-001 (perfis) | ✔ |
@@ -167,7 +178,7 @@ contador de operações do serviço `users`.
 | ID | Tipo | Descrição (Dado … Quando … Então) | Requisitos | Resultado |
 |----|------|-----------------------------------|------------|-----------|
 | TST-E2E-01 | E2E | **Dado** um utilizador anónimo, **quando** tenta fazer upload, recorte ou extração, **então** os três pedidos são recusados (403). | UC-VID-001/003/004 (perfis) | ✔ |
-| TST-E2E-02 | E2E | **Dados** MP4, MOV e WebM válidos, **quando** são enviados em partes de 8 MiB, **então** ficam `ready` com metadados, aparecem na biblioteca e o contador de operações não muda. | UC-VID-001, UC-VID-002 | ✔ |
+| TST-E2E-02 | E2E | **Dados** MP4, MOV e WebM válidos, **quando** são enviados em partes de 8 MiB, **então** ficam `ready` com metadados, aparecem na biblioteca e o contador de operações não muda. | UC-VID-001 | ✔ |
 | TST-E2E-03 | E2E | **Dado** um ficheiro de texto renomeado para `.mp4`, **quando** é enviado, **então** fica `failed`, o objeto deixa de existir no SeaweedFS e o ficheiro não aparece na biblioteca. | UC-VID-001 (exceção) | ✔ |
 | TST-E2E-04 | E2E | **Dados** um MP4 com codec não suportado e um WebM renomeado para `.mp4`, **quando** são enviados, **então** ambos ficam `failed` e os objetos são apagados. | UC-VID-001 (exceção) | ✔ |
 | TST-E2E-05 | E2E | **Dado** um ficheiro com 200 MB + 1 byte, **quando** um gratuito inicia o upload, **então** é recusado antes de enviar qualquer byte; um Premium pode iniciá-lo. | UC-VID-001 (limites) | ✔ |
@@ -183,55 +194,72 @@ contador de operações do serviço `users`.
 ### 10.2.6. Testes manuais da interface
 
 Verificam o que os testes automáticos não cobrem: o comportamento da interface web (progresso,
-navegação durante uploads, mensagens ao utilizador e contadores).
+navegação durante uploads, mensagens ao utilizador e contadores). Foram executados com uma conta
+gratuita nova em cada cenário, num browser *headless* conduzido por *scripts* que repetem os
+passos de um utilizador. O estado foi lido na árvore de acessibilidade e confirmado com capturas
+de ecrã. Três testes falharam na primeira execução e revelaram os defeitos D-05 e D-06 (ver 10.4);
+o resultado indicado é o da execução final, já com as correções.
 
 | ID | Tipo | Descrição (Dado … Quando … Então) | Requisitos | Resultado |
 |----|------|-----------------------------------|------------|-----------|
-| TST-MAN-01 | M | **Dados** um MP4, um MOV e um WebM, **quando** são arrastados para a biblioteca, **então** são mostrados o progresso, a taxa e a estimativa de tempo, e cada vídeo aparece com duração e resolução. | UC-VID-001, UC-VID-002 | {a preencher} |
-| TST-MAN-02 | M | **Dado** um lote de 6 ficheiros em envio, **quando** o utilizador navega para outra página do dashboard, **então** os uploads continuam. | UC-VID-001 | {a preencher} |
-| TST-MAN-03 | M | **Dado** um upload grande em curso, **quando** é cancelado, **então** o envio para e o vídeo não aparece na biblioteca. | UC-VID-001 | {a preencher} |
-| TST-MAN-04 | M | **Dado** um `.txt` renomeado para `.mp4`, **quando** é enviado, **então** é mostrada uma mensagem de erro e o ficheiro não aparece na biblioteca. | UC-VID-001 | {a preencher} |
-| TST-MAN-05 | M | **Dado** um vídeo pronto, **quando** é recortado com e sem «Substituir original», **então** a duração do segmento é atualizada ao mover os cursores, a tarefa aparece no monitor, o resultado aparece na biblioteca e o contador desce 1. | UC-VID-004; RNF48 (ALT) | {a preencher} |
-| TST-MAN-06 | M | **Dada** uma conta gratuita, **quando** é selecionado um segmento acima de 300 s, **então** o diálogo impede a submissão e explica o limite. | REQ-VID-TRIM-NF03 | {a preencher} |
-| TST-MAN-07 | M | **Dada** uma conta gratuita, **quando** a configuração gera mais de 30 fotogramas, **então** é sugerido o passo mínimo. | UC-VID-003/RN5 | {a preencher} |
-| TST-MAN-08 | M | **Dada** uma extração para um projeto novo, **quando** termina e o utilizador abre o projeto pelo link, **então** as imagens têm nomes `<vídeo>_<hh-mm-ss-mmm>` e as ferramentas de imagem aplicam-se normalmente. | UC-VID-003 | {a preencher} |
-| TST-MAN-09 | M | **Dada** uma tarefa em curso, **quando** é cancelada no monitor, **então** passa a «cancelado» e o contador de operações é reposto. | UC-VID-003, UC-VID-004 | {a preencher} |
-| TST-MAN-10 | M | **Dadas** as 5 operações diárias esgotadas, **quando** o utilizador tenta outra operação, **então** vê a mensagem de quota diária e a sugestão de Premium. | RNG da quota diária | {a preencher} |
+| TST-MAN-01 | M | **Dados** um MP4, um MOV e um WebM, **quando** são selecionados para upload, **então** o painel mostra o progresso e a inspeção de cada ficheiro, e cada vídeo aparece na biblioteca com resolução, duração e FPS (por exemplo, «640×360 · 0:10 · 25.00 fps»). | UC-VID-001 | ✔ (taxa e ETA não observáveis com ficheiros pequenos) |
+| TST-MAN-02 | M | **Dado** um lote de 6 ficheiros, **quando** é selecionado, **então** é recusado com «Select at most 5 videos per batch.»; **dado** um lote de 5, **quando** o utilizador navega para outra página do dashboard e volta, **então** os 5 vídeos ficam prontos na biblioteca. | UC-VID-001 (lote) | ✔ |
+| TST-MAN-03 | M | **Dado** um upload de 30 MB em curso, **quando** é cancelado (a 28%), **então** o envio para e o ficheiro não aparece na biblioteca. | UC-VID-001 (cancelamento) | ✔ |
+| TST-MAN-04 | M | **Dado** um ficheiro de texto renomeado para `.mp4`, **quando** é enviado, **então** é mostrada a mensagem «The uploaded file is corrupt or has an invalid video format.» e o ficheiro não aparece na biblioteca. | UC-VID-001 (exceção) | ✔ |
+| TST-MAN-05 | M | **Dado** um vídeo pronto, **quando** o fim do recorte é alterado para 10 s e o recorte é submetido, **então** a duração do segmento atualiza-se de imediato (00:10.0), a tarefa aparece no monitor «Tarefas de vídeo», o vídeo resultante aparece na biblioteca e o contador de operações passa de 5 para 4 **sem recarregar a página**. | UC-VID-004; RNF48 (ALT) | ✔ (falhava antes de `8fb6ade`, D-05) |
+| TST-MAN-06 | M | **Dada** uma conta gratuita e um vídeo de 6:40, **quando** é selecionado o vídeo inteiro (400 s), **então** o diálogo mostra «Limite de duração excedido… até 5 minutos (300s)» e o botão «Recortar e Guardar» fica desativado. | REQ-VID-TRIM-NF03 | ✔ |
+| TST-MAN-07 | M | **Dada** uma conta gratuita, **quando** a configuração gera 81 fotogramas, **então** o diálogo indica o limite de 30, sugere «um passo de pelo menos 14 s» e desativa a submissão. | UC-VID-003/RN5 | ✔ |
+| TST-MAN-08 | M | **Dada** uma extração de 0–4 s com passo 2 s para um projeto novo, **quando** termina, **então** o projeto aparece na lista sem recarregar a página; «Abrir projeto» abre-o com as imagens `long_00-00-00-000.png`, `long_00-00-02-000.png` e `long_00-00-04-000.png`; e a ferramenta Preto e Branco aplica-se às três. | UC-VID-003 | ✔ (falhava antes de `8fb6ade`, D-05) |
+| TST-MAN-09 | M | **Dada** uma extração de 30 fotogramas em curso, **quando** o utilizador clica no ✕ do monitor «Tarefas de vídeo», **então** a tarefa é cancelada (a 0 de 30), o monitor fecha, não é criado projeto e o contador volta a 5. | UC-VID-003, UC-VID-004 (cancelamento) | ✔ (falhava antes de `8fb6ade`, D-06) |
+| TST-MAN-10 | M | **Dadas** as 5 operações diárias esgotadas, **quando** o utilizador abre os diálogos de recorte e de extração, **então** ambos mostram «0/5 operações diárias» e a mensagem de quota esgotada com sugestão de Premium, e a submissão fica desativada. | RNG da quota diária; RNF48 (ALT) | ✔ |
 
 ## 10.3. Resumo da execução
 
 | Nível | Executados | Passaram | Falharam | Observações |
 |-------|-----------:|---------:|---------:|-------------|
-| Componente — `imageStorageService` (com ffmpeg) | 54 | 54 | 0 | Executados no contentor `img_storage` |
+| Componente — `imageStorageService` (com ffmpeg) | 58 | 58 | 0 | Executados no contentor `img_storage` |
 | Gateway — `apiGateway` | 16 | 16 | 0 | — |
 | Sistema (E2E) | 13 | 13 | 0 | Stack completa (30 serviços) |
-| **Total automático** | **83** | **83** | **0** | — |
-| Manual | 10 | {…} | {…} | {a preencher pela equipa} |
+| **Total automático** | **87** | **87** | **0** | — |
+| Manual (interface) | 10 | 10 | 0 | Browser *headless* |
+| Compilação de produção do frontend | 1 | 1 | 0 | Next.js `build`, inclui verificação de tipos TypeScript |
 
-Durante o desenvolvimento dos testes, quatro testes automáticos falharam antes das correções
-descritas em 10.4 (TST-TRIM-10, TST-TRIM-13, TST-FRAME-13 e TST-FRAME-14). Um teste E2E
-(TST-E2E-12) falhou na primeira execução contra a aplicação completa. Todas as falhas
-corresponderam a defeitos reais e não a erros dos testes. Houve ainda dois ajustes aos próprios
-testes, que não correspondem a defeitos do produto:
+Durante a verificação, vários testes falharam antes das correções descritas em 10.4, e todas as
+falhas corresponderam a defeitos reais:
+
+- **Testes automáticos:** TST-TRIM-10, TST-TRIM-13, TST-FRAME-13, TST-FRAME-14 e TST-FRAME-15.
+- **Teste E2E:** TST-E2E-12, na primeira execução contra a aplicação completa.
+- **Testes de interface:** TST-MAN-05, TST-MAN-08 e TST-MAN-09.
+
+Houve também três ajustes aos próprios testes, que não correspondem a defeitos do produto:
 
 - a réplica dos modelos não aplicava os valores por omissão do esquema Mongoose;
-- a tolerância de duração do recorte foi alargada, pelas razões explicadas em L-01.
+- a tolerância de duração do recorte foi alargada (ver L-01);
+- a expectativa de TST-MAN-02 foi corrigida, porque o limite de 5 ficheiros por lote é
+  intencional.
 
 ## 10.4. Defeitos encontrados e corrigidos
 
 | ID | Descrição | Impacto | Detetado por | Correção | Estado |
 |----|-----------|---------|--------------|----------|--------|
-| D-01 | Ao cancelar um recorte ou uma extração **em processamento**, o endpoint de cancelamento e o *worker* reembolsavam ambos a operação diária. | O utilizador gratuito ganhava uma operação extra por cada cancelamento, contornando a quota diária. | TST-TRIM-10, TST-FRAME-13 | Reembolso idempotente: a tarefa passa a ter o indicador `refunded`, reclamado de forma atómica na base de dados antes de contactar o serviço `users` (`videoTaskBilling.js`). | Corrigido (`9b79646`) |
-| D-02 | Os *workers* deduziam a quota de armazenamento a partir do tamanho e da duração do vídeo, e não do perfil do utilizador. | Um utilizador Premium com um vídeo pequeno ficava limitado à quota gratuita de 1 GiB. | TST-TRIM-13, TST-FRAME-14 | O perfil passa a ser guardado na tarefa (`userType`) e a quota é obtida a partir dele. | Corrigido (`9b79646`) |
-| D-03 | Um identificador de vídeo ou de tarefa malformado provocava um erro de conversão no Mongoose. As rotas com tratamento de erros respondiam 500; as rotas sem tratamento deixavam o pedido sem resposta até expirar. | Erros 500 e pedidos pendurados, com consumo de recursos do servidor. | TST-E2E-12 (1.ª execução) | Validação dos identificadores à entrada do *router*: identificadores inválidos recebem 404. Teste de regressão TST-SEC-02. | Corrigido (`6bcd3fc`) |
+| D-01 | Ao cancelar um recorte ou uma extração **em processamento**, o endpoint de cancelamento e o *worker* reembolsavam ambos a operação diária. | O utilizador gratuito ganhava uma operação extra por cada cancelamento, contornando a quota diária. | TST-TRIM-10, TST-FRAME-13 | Reembolso idempotente: a tarefa passa a ter o indicador `refunded`, reclamado de forma atómica na base de dados antes de contactar o serviço `users` (`videoTaskBilling.js`). | Corrigido (`f192dac`) |
+| D-02 | Os *workers* deduziam a quota de armazenamento a partir do tamanho e da duração do vídeo, e não do perfil do utilizador. | Um utilizador Premium com um vídeo pequeno ficava limitado à quota gratuita de 1 GiB. | TST-TRIM-13, TST-FRAME-14 | O perfil passa a ser guardado na tarefa (`userType`) e a quota é obtida a partir dele. | Corrigido (`f192dac`) |
+| D-03 | Um identificador de vídeo ou de tarefa malformado provocava um erro de conversão no Mongoose. As rotas com tratamento de erros respondiam 500; as rotas sem tratamento deixavam o pedido sem resposta até expirar. | Erros 500 e pedidos pendurados, com consumo de recursos do servidor. | TST-E2E-12 (1.ª execução) | Validação dos identificadores à entrada do *router*: identificadores inválidos recebem 404. Teste de regressão TST-SEC-02. | Corrigido (`85c1077`) |
+| D-04 | O tempo limite da extração usava `Promise.race`, que não interrompe o processamento. Quando o limite expirava fora do ffmpeg (por exemplo, durante o envio de um fotograma), a tarefa era marcada como falhada e reembolsada, mas o processamento continuava em segundo plano. | Fotogramas órfãos no armazenamento e, consoante o momento, um projeto criado depois de a operação ter sido reembolsada. | TST-FRAME-15 | Todos os pontos de verificação passam a testar também o tempo limite, e a limpeza espera que o processamento pare antes de apagar os objetos. | Corrigido (`263904b`) |
+| D-05 | Depois de um recorte ou de uma extração, o contador de operações diárias e a lista de projetos só se atualizavam ao recarregar a página. | Violava RNF48 (o contador deve atualizar-se após cada processamento); o utilizador não via o projeto criado. | TST-MAN-05, TST-MAN-08 | O fornecedor de tarefas de vídeo do frontend atualiza a sessão quando a operação é debitada, concluída, falhada ou cancelada, e invalida as consultas de projetos. | Corrigido (`8fb6ade`) |
+| D-06 | O painel «Tarefas de vídeo», com o botão de cancelamento, era desenhado abaixo da área visível: o Tailwind não analisava a pasta `providers/`, pelo que a classe de posicionamento do painel não era gerada. | O utilizador não conseguia acompanhar nem cancelar tarefas (UC-VID-003/004). | TST-MAN-09 | `providers/` foi acrescentada ao `content` de `tailwind.config.ts`. | Corrigido (`8fb6ade`) |
 
-Foram ainda identificados dois problemas na solução de base, fora do âmbito do vídeo. Ficam
-registados como tarefas de manutenção corretiva no Cap. 11, numeradas a seguir às tarefas
-T-01 a T-11 do documento de base:
+Foram ainda identificados três problemas na solução de base, fora do âmbito do vídeo. Ficam
+registados como tarefas de manutenção corretiva no Cap. 11, numeradas a seguir às tarefas T-01 a
+T-11 do documento de base:
 
 - **T-12:** o serviço `users` aceita o perfil (`type`) enviado pelo cliente no registo, permitindo
   criar uma conta Premium sem subscrição, e expõe os dados de um utilizador sem autenticação.
 - **T-13:** uma rota de projetos do gateway tem a verificação de JWT por implementar (`TODO`).
+- **T-14:** no `docker-compose.yaml`, o `.next` e o `node_modules` do frontend são volumes
+  anónimos. Depois de reconstruir a imagem, `docker compose up` continuava a servir a versão
+  anterior do frontend, o que mascarou a primeira verificação da correção de D-05. Mitigado na
+  documentação, com a opção `-V` (`--renew-anon-volumes`) no README e no AGENTS.md.
 
 ## 10.5. Limitações e defeitos conhecidos
 
@@ -242,21 +270,34 @@ T-01 a T-11 do documento de base:
 | L-01 | O recorte sem perdas (*stream copy*) corta em fronteiras de pacote e de *keyframe*. O resultado pode ser algumas décimas de segundo mais longo do que o pedido: no teste de 2–5 s, o vídeo tem 3,08 s e o contentor reporta 3,30 s, por causa do desfasamento dos *B-frames* H.264 e do preenchimento AAC. | Opção deliberada pelo recorte sem perdas e rápido (UC-VID-004/RN6). Um corte exato exigiria recodificação, com perda de qualidade e mais tempo de processamento. |
 | L-02 | As filas dos *workers* são mantidas em memória num único processo `img_storage`. As tarefas interrompidas são reagendadas no arranque, mas não há escala horizontal nem distribuição de carga. | Suficiente para o MVP. É candidata a melhoria na Fase 2 (por exemplo, migrar para RabbitMQ, já existente na arquitetura). |
 | L-03 | O limite de tarefas concorrentes do recorte conta tarefas de qualquer tipo; o da extração conta só extrações. | Comportamento conforme os requisitos de cada funcionalidade (REQ-VID-TRIM-NF05 e REQ-VID-FRAME-021). A uniformização fica registada como questão em aberto. |
+| L-04 | Cada lote de upload aceita no máximo 5 ficheiros; um lote de 6 é recusado na interface. | Limite intencional da interface (TST-MAN-02). |
+
+**Questões em aberto:**
+
+- **Q-01 — repetição após o tempo limite no recorte.** No recorte, um tempo limite conta como
+  falha do *worker* e dá origem à repetição automática (REQ-VID-TRIM-NF12). No pior caso, a tarefa
+  pode demorar cerca de 20 minutos antes de falhar. Na extração, o tempo limite é final, sem
+  repetição (REQ-VID-FRAME-052). Se REQ-VID-TRIM-NF10 for um limite ao tempo total da tarefa, o
+  recorte deve seguir o comportamento da extração. A equipa tem de confirmar a intenção do
+  requisito.
 
 **Limitações da verificação:**
 
-- **Interface sem testes automáticos.** Os componentes React não têm testes automáticos. São
-  verificados pela compilação de produção (verificação de tipos) e pelos testes manuais
-  TST-MAN-01 a TST-MAN-10.
-- **Tempo limite de 10 minutos não exercitado.** O cancelamento por tempo limite
-  (REQ-VID-TRIM-NF10, REQ-VID-FRAME-052) está implementado mas não foi testado, porque exigiria
-  vídeos de grande dimensão ou a parametrização do limite. Fica **por verificar**.
-- **Rotação não verificada na extração.** A aplicação da rotação dos metadados aos fotogramas
-  extraídos não foi verificada com um vídeo rodado. Os clips de teste não têm rotação.
+- **Interface sem testes automáticos no repositório.** Os componentes React não têm testes
+  unitários. A interface foi verificada pela compilação de produção (que inclui a verificação de
+  tipos) e pelos cenários TST-MAN-01 a TST-MAN-10. Estes foram executados apenas em Chromium
+  *headless* com uma janela de 1366×900: não foram testados outros browsers nem dispositivos
+  móveis.
+- **Limites de tamanho verificados sem ficheiros reais desse tamanho.** Os limites (200 MB e
+  2000 MB) foram verificados com tamanhos declarados e sessões de upload. Na interface, o maior
+  ficheiro enviado tinha 30 MB, por limitação da ferramenta de automação. A taxa de envio e o
+  tempo estimado (ETA) não foram observados, porque os ficheiros pequenos terminam quase de
+  imediato.
+- **Tempo limite real não esperado.** Os limites de 10 minutos foram verificados com o tempo
+  limite reduzido por configuração (`VIDEO_TASK_TIMEOUT_MS`), e não com uma tarefa real de 10
+  minutos.
 - **Réplicas em memória.** Os testes de componente não usam MongoDB real; operadores não
   replicados podem divergir. O risco é mitigado pelos testes E2E sobre a base de dados real.
-- **Sem testes de carga.** Não foram feitos testes de desempenho, de carga nem de ficheiros
-  próximos dos limites reais (2 GB). Os limites foram verificados com tamanhos declarados e com
-  sessões de upload, não com ficheiros completos desse tamanho.
+- **Sem testes de carga.** Não foram feitos testes de desempenho nem de carga.
 - **Um único ambiente.** A execução foi feita num único ambiente (Windows + Docker Desktop) e não
   num ambiente de integração contínua.

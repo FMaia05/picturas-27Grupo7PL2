@@ -23,6 +23,7 @@ indica a ferramenta, o pedido (prompt), o que foi produzido, como a equipa valid
 |---|------|--------|-----------------|-----------|-----------------------|-------------|
 | 1 | 2026-10-18 | Análise do que faltava para a entrega | «Que falta fazer sem ser relatorio e diagramas?» (com as diretrizes da Fase 1 e o enunciado) | Lista de lacunas: testes, evidências de IA, `grupo.csv`, README, empacotamento | Revisão da lista pela equipa | — |
 | 2 | 2026-10-18 | Testes automáticos, correções, skills, README, execução da stack | «Faz isso por essa ordem e corre o picturas para eu ver, faz numa branch…» | Branch `feat/fase1-testes-evidencias`: testes (`node:test`), 2 defeitos corrigidos, 3 skills, E2E, README, catálogo de testes | Ver [`docs/testes-fase1.md`](../testes-fase1.md): execução dos testes, revisão do diff, verificação manual na aplicação | ver `git log feat/fase1-testes-evidencias` |
+| 3 | 2026-10-21 | Verificar o que faltava (IDs dos UC, tempo limite, rotação, testes de interface) | «Ainda podemos verificar coisas que ainda não tenham sido, temos tempo; entretanto verifica as 3 coisas que me disseste» | Correção UC-VID-002 → UC-VID-001 nos testes; testes de tempo limite e rotação; 10 cenários de interface num browser *headless*; 3 defeitos corrigidos (D-04 a D-06); Cap. 10 atualizado | Execução dos testes (58 + 16 + 13), compilação do frontend, capturas de ecrã dos cenários de interface | `263904b`, `8fb6ade` |
 
 ## Defeitos encontrados com apoio da IA
 
@@ -31,6 +32,9 @@ indica a ferramenta, o pedido (prompt), o que foi produzido, como a equipa valid
 | D-01 | Cancelar uma tarefa de recorte/extração **em processamento** reembolsava a operação diária **duas vezes** (endpoint de cancelamento e worker), dando ao utilizador uma operação extra | Revisão do código dos workers; reproduzido por TST-TRIM-10 / TST-FRAME-13 | `services/videoTaskBilling.js`: reembolso idempotente com a flag `refunded` reclamada atomicamente |
 | D-02 | Nos workers, a quota de armazenamento era inferida do tamanho/duração do vídeo; um utilizador Premium com um vídeo pequeno ficava limitado à quota gratuita (1 GiB) | Revisão do código; reproduzido por TST-TRIM-13 / TST-FRAME-14 | `userType` persistido na `VideoTask` e `videoStorageQuota(task.userType)` |
 | D-03 | ID malformado nas rotas de vídeo dava 500 ou deixava o pedido pendurado | Teste E2E TST-E2E-12 contra a stack real | `router.param` valida `videoId`/`taskId` e responde 404 |
+| D-04 | O tempo limite da extração (`Promise.race`) não parava o processamento: deixava fotogramas órfãos e podia criar o projeto depois do reembolso | Novo teste TST-FRAME-15 com tempo limite configurável | Verificação do tempo limite em todos os pontos de controlo; a limpeza espera pelo processamento |
+| D-05 | O contador de operações e a lista de projetos só se atualizavam ao recarregar a página (RNF48) | Cenários de interface TST-MAN-05/08 num browser *headless* | O fornecedor de tarefas atualiza a sessão e invalida as consultas de projetos |
+| D-06 | O painel «Tarefas de vídeo» ficava fora do ecrã: o Tailwind não analisava `providers/` | Cenário TST-MAN-09 (o botão de cancelar estava fora da área visível) e captura de ecrã | `providers/` acrescentada a `tailwind.config.ts` |
 
 ## Análise crítica (notas para o relatório)
 
@@ -41,4 +45,8 @@ indica a ferramenta, o pedido (prompt), o que foi produzido, como a equipa valid
   Mongoose (teste TST-UPLOAD-01 falhou na 1.ª execução); teste E2E de cancelamento inicialmente
   sujeito a corrida (o recorte com *stream copy* termina em < 1 s), reescrito para cancelar uma
   tarefa em fila.
+- Os testes de interface conduzidos pelo agente encontraram dois defeitos (D-05, D-06) que os testes
+  de API não podiam apanhar. A primeira verificação de D-05 falhou por um problema de
+  infraestrutura (T-14: volume anónimo `.next`), que o agente diagnosticou antes de concluir que a
+  correção estava errada.
 - Todo o código gerado foi revisto e testado antes do merge; a equipa é responsável pelo conteúdo.
