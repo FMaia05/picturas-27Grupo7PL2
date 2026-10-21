@@ -13,7 +13,9 @@ import {
   videoErrorMessage,
   VideoTask,
 } from "@/lib/videos";
+import { SessionData, validateSession } from "@/lib/session";
 import { useSession } from "@/providers/session-provider";
+import { useQueryClient } from "@tanstack/react-query";
 import { Camera, Scissors, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -34,6 +36,29 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [tasks, setTasks] = useState<VideoTask[]>([]);
   const cancelledTasks = useRef(new Set<string>());
+  const qc = useQueryClient();
+
+  // RNF48: the daily-operation counter (session.remaining_operations) and the
+  // project list must reflect a video task as soon as it is charged, refunded or
+  // completed, without a page reload. Errors are only logged: a transient failure
+  // here must not log the user out.
+  async function refreshAccount(projectsChanged = false) {
+    if (projectsChanged) {
+      qc.invalidateQueries({ queryKey: ["projects", session.user._id, session.token], refetchType: "all" });
+      qc.invalidateQueries({ queryKey: ["project"], refetchType: "all" });
+      qc.invalidateQueries({ queryKey: ["projectImages"], refetchType: "all" });
+    }
+    if (session.user.type === "premium") return;
+    try {
+      const updated = await validateSession({ userId: session.user._id, token: session.token });
+      const newSession: SessionData = { user: updated.user, token: updated.token };
+      localStorage.setItem("session", JSON.stringify(newSession));
+      qc.setQueryData(["session"], newSession);
+      window.dispatchEvent(new Event("session-updated"));
+    } catch (err) {
+      console.error("Error refreshing session after video task:", err);
+    }
+  }
 
   const updateTask = (taskId: string, values: Partial<VideoTask>) => {
     setTasks((current) =>
@@ -50,9 +75,9 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
 
         if (task.status === "completed") {
           window.dispatchEvent(new Event("video-library-updated"));
+          refreshAccount(task.type === "extract_frames");
 
           if (task.type === "extract_frames") {
-            window.dispatchEvent(new Event("projects-updated"));
             const frameCount = task.extractedFramesCount || task.totalFramesCount || 0;
             toast({
               title: "Extração de fotogramas concluída!",
@@ -93,6 +118,7 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (task.status === "cancelled") {
+          refreshAccount();
           const isExtract = task.type === "extract_frames";
           toast({
             title: isExtract ? "Extração cancelada" : "Recorte cancelado",
@@ -104,6 +130,7 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (task.status === "failed") {
+          refreshAccount();
           toast({
             title: "Falha no processamento",
             description:
@@ -152,6 +179,7 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
         description: `O recorte de "${newTask.targetName}" foi colocado em fila de processamento.`,
       });
 
+      refreshAccount();
       pollTask(response.taskId);
       return response.taskId;
     } catch (error) {
@@ -203,6 +231,7 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
         description: `A extração para "${newTask.targetName}" foi colocada em fila de processamento.`,
       });
 
+      refreshAccount();
       pollTask(response.taskId);
       return response.taskId;
     } catch (error) {
@@ -222,6 +251,7 @@ export function VideoTaskProvider({ children }: { children: React.ReactNode }) {
     updateTask(taskId, { status: "cancelled", progress: 0 });
     try {
       await cancelVideoTask(session.user._id, session.token, taskId);
+      refreshAccount();
       const isExtract = existing?.type === "extract_frames";
       toast({
         title: isExtract ? "Extração cancelada" : "Recorte cancelado",
