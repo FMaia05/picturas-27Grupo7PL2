@@ -55,6 +55,7 @@ PictuRAS is a web-based image editing platform that combines traditional image p
 - **Project Management**: organise images and editing pipelines into projects
 - **Real-time Processing**: WebSocket-based progress updates while tools run
 - **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback; full-video conversion to MP4/H.264/AAC or WebM/VP9/Opus with resolution options, persistent tasks and quota reservations ([design](AGENTS.md#video-conversion-design-uc-vid-002), [usage and validation](AGENTS.md#video-conversion-validation))
+- **Frame extraction**: sample frames from a video every 1–60 s as PNG or JPEG into a new or existing project, with per-plan limits on interval, resolution and frame count, background worker, cancellation and quota rollback
 - **Automated backups**: periodic `mongodump` of all three databases
 
 ---
@@ -118,7 +119,7 @@ has no link to any other microservice. Note that **`subscriptions` means paid me
 | **User Service**          | 10001          | Registration, authentication, user profile      |
 | **Project Service**       | 9001           | Projects, image pipelines, tool orchestration   |
 | **Subscription Service**  | 11001          | Plans, payments (mock), usage limits            |
-| **Image Storage Service** | 11000          | Upload/download façade in front of SeaweedFS    |
+| **Image Storage Service** | 11000          | S3 façade, video library, trim and frame workers |
 | **WebSocket Gateway**     | 4000           | Real-time progress events to the browser        |
 
 ### Processing Tools
@@ -328,6 +329,7 @@ All configuration currently lives as `environment:` entries in `docker-compose.y
 | `INTERNAL_SERVICE_TOKEN`                       | local development token       | gateway, img_storage, users | Authenticates internal video and conversion quota API calls       |
 | `FREE_VIDEO_QUOTA_BYTES`                       | `1073741824` (1 GiB)          | img_storage            | Total video storage for free accounts        |
 | `PREMIUM_VIDEO_QUOTA_BYTES`                    | `21474836480` (20 GiB)        | img_storage            | Total video storage for Premium accounts     |
+| `VIDEO_TASK_TIMEOUT_MS`                        | `600000` (10 min)             | img_storage            | Time limit of a trim or frame-extraction task |
 | `RABBITMQ_DEFAULT_USER` / `_PASS`             | `user` / `password`           | rabbitmq               | Broker credentials                           |
 | `RABBITMQ_HOST` / `_PORT` / `_USER` / `_PASS` | `rabbitmq` / `5672` / ...     | tools, projects, ws    | Broker connection                            |
 | `FRONTEND_URL`                                | `https://localhost:8080`      | img_storage            | CORS / redirect origin                       |
@@ -384,6 +386,9 @@ picturas-27/
 ├── backups/mongo/            # Generated database dumps (git-ignored)
 ├── logstash.conf, kibana.yml # ELK configuration (stack currently disabled)
 ├── docker-compose.yaml       # Service orchestration — the single source of truth
+├── docs/testes-fase1.md      # Phase 1 test catalogue and results (automated + manual)
+├── .claude/skills/           # AI agent skills used to build and test the video features
+├── AGENTS.md                 # Instructions for AI coding agents working on this repository
 └── LICENSE                   # CC BY-NC-SA 4.0
 ```
 
@@ -410,8 +415,12 @@ The **frontend image is built for production** (`bun run build` / `bun start`), 
 will **not** hot-reload. For frontend development either rebuild:
 
 ```bash
-docker compose up -d --build frontend
+docker compose up -d --build -V frontend
 ```
+
+The `-V` (`--renew-anon-volumes`) flag is required: `node_modules` and `.next` are anonymous
+volumes, and without it Compose reattaches the old ones, so the container keeps serving the
+**previous** build even though the image was rebuilt.
 
 ...or switch `frontend/Dockerfile` to the dev command already prepared there
 (`CMD ["bun", "dev"]`, commented out at the bottom of the file).
@@ -431,6 +440,32 @@ docker compose up -d --build border_tool
 4. Add the service to `docker-compose.yaml` with `depends_on: rabbitmq (service_healthy)` and
    the `image_data` volume.
 5. Expose it in the project service and in the frontend toolbar.
+
+### Running the tests
+
+The video features have automated tests written with the Node.js built-in test runner (no
+extra dependencies). MongoDB, SeaweedFS and the other services are replaced by in-memory fakes;
+the trim, frame-extraction and metadata workers run the real `ffmpeg`/`ffprobe` on small
+generated clips.
+
+```bash
+# API Gateway: JWT ownership, anonymous users, daily-operation charge and refund
+cd apiGateway && npm install && npm test
+
+# Image Storage Service: routes and workers (ffmpeg suites are skipped if ffmpeg is missing)
+cd imageStorageService && npm install && npm test
+
+# Full storage suite including ffmpeg, inside the service image (no other service needed)
+docker compose build img_storage
+docker compose run --rm --no-deps img_storage npm test
+
+# Frontend type and framework check
+cd frontend && npm run build
+```
+
+Each test name starts with its identifier (`TST-TRIM-04`, `TST-GW-FRAME-02`, ...). The
+catalogue with the requirement each test verifies, the latest results and the manual test
+checklist is in [`docs/testes-fase1.md`](docs/testes-fase1.md).
 
 ### Inspecting data
 

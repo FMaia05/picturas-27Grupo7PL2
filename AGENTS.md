@@ -45,8 +45,8 @@ The video trim use case is implemented across these layers:
 4. `imageStorageService/route/videos.js` validates source format (MP4/MOV with H.264), origin size limits (200MB free / 2GB premium), timestamps (`0 <= start < end <= duration`), segment duration, concurrent active task limits (1 free / 3 premium), and creates a `VideoTask`.
 5. `imageStorageService/services/videoTrimWorker.js` executes lossless stream copy (`ffmpeg -ss ... -to ... -c copy -avoid_negative_ts make_zero`), enforces 10-minute timeout, implements 1 automatic internal retry on failure, performs cleanup on fail/cancel, validates storage quota, updates or creates library video, and refunds the operation in `users:10001` on cancellation or failure.
 6. `imageStorageService/models/videoTask.js` persists task status (`queued`, `processing`, `completed`, `failed`, `cancelled`), progress, retries and result video ID.
+7. `imageStorageService/services/videoTaskBilling.js` is shared by the trim and frame workers: `refundTaskOperation` claims the `refunded` flag atomically so the cancel endpoint and the worker never refund twice, and `videoStorageQuota` uses the `userType` persisted on the task.
 
-<<<<<<< HEAD
 ## Video frame extraction design (UC-VID-003)
 
 The frame extraction use case is implemented across these layers:
@@ -57,7 +57,7 @@ The frame extraction use case is implemented across these layers:
 4. `imageStorageService/route/videos.js` validates source video format (MP4/MOV H.264), size (200MB free / 2GB premium), resolution (1080p free / 4K premium), interval duration (120s free / 1800s premium), sampling step (1–60s), frame count (30 free / 200 premium), and concurrent tasks (1 free / 3 premium), creating a `VideoTask` with `type: "extract_frames"`.
 5. `imageStorageService/services/videoFrameExtractionWorker.js` downloads video from S3, extracts frames closest to $t_k = \text{start} + k \times \text{step}$ using `ffmpeg` (applying orientation from metadata and format settings), names files `<video>_<hh-mm-ss-mmm>.<ext>`, uploads images to S3 bucket `user-${userId}`, and calls `projects` service internal endpoints (`create-with-frames` or `append-frames`). Enforces 10-minute timeout, 1 internal retry, storage quota check, and cleans up temporary files on any final state.
 6. `projects/routes/projects.js` exposes internal endpoints `/internal/:user/create-with-frames` and `/internal/:user/:project/append-frames` protected by `INTERNAL_SERVICE_TOKEN` to persist extracted frames directly into project models without breaking concurrency or tool pipelines.
-=======
+
 ## Video conversion design (UC-VID-002)
 
 This Phase 1 MVP follows `RAS_converter_video_revisto.md` v1.3. It converts an entire video already in the library, preserves the original and adds a new result to the same account. Reuse the existing authentication, library, MongoDB, SeaweedFS and daily operation counter; no new microservice or npm dependency is needed. The academic use-case identifier still requires confirmation by the team.
@@ -106,7 +106,6 @@ Internal storage routes use `/video-conversions`; `users` exposes `POST /:user/c
 Preexisting findings for the team, not conversion fixes: the image-sharing JWT middleware permits an owner mismatch with `?share=...` on old video records; generic `GET /:user/:videoId` routes precede and can shadow the old Trim task-list route; legacy refunds lack an operation identifier. The conversion has its own ownership protection, but this does not certify the entire old library. Ask before changing shared functional rules.
 
 The MVP assumes one `img_storage` instance. Total space is checked through the existing library data; cross-feature storage-quota races with upload/Trim are not solved transactionally. Multiple replicas, high availability, batch/chained conversion, advanced codec options, automatic retry/resume, emails and stricter future production performance/TLS targets are outside this MVP.
->>>>>>> origin/feature/converter-video
 
 ## Development and validation
 
@@ -117,7 +116,15 @@ cd frontend
 npm run build
 ```
 
-The frontend's `lint` script may be unavailable with the pinned Next.js version; use the production build as the TypeScript and framework check. For Node services, check changed JavaScript with:
+Automated tests use the Node built-in runner (see `.claude/skills/picturas-video-tests/SKILL.md`):
+
+```bash
+cd apiGateway && npm test
+cd imageStorageService && npm test   # ffmpeg suites skip without ffmpeg
+docker compose build img_storage && docker compose run --rm --no-deps img_storage npm test
+```
+
+Record results in `docs/testes-fase1.md`. The frontend's `lint` script may be unavailable with the pinned Next.js version; use the production build as the TypeScript and framework check. For Node services, check changed JavaScript with:
 
 ```bash
 node --check path/to/file.js
@@ -133,11 +140,11 @@ For integration work, build only affected services first:
 
 ```bash
 docker compose build api_gateway img_storage frontend
-docker compose up -d api_gateway img_storage frontend
+docker compose up -d -V api_gateway img_storage frontend
 docker compose logs -f api_gateway img_storage frontend
 ```
 
-The full application is at `https://localhost:8080`; accept the local certificate warning. Direct frontend port 3000 is not the supported route. Keep `NEXT_PUBLIC_API_BASE_URL=/api-gateway/` to avoid mixed-content and proxy failures.
+Always pass `-V` when recreating `frontend`: its `.next` and `node_modules` are anonymous volumes, and without it the old build keeps being served. Next.js only generates Tailwind classes for the folders listed in `frontend/tailwind.config.ts` (`app`, `components`, `pages`, `providers`); add a folder there before styling components in it. The full application is at `https://localhost:8080`; accept the local certificate warning. Direct frontend port 3000 is not the supported route. Keep `NEXT_PUBLIC_API_BASE_URL=/api-gateway/` to avoid mixed-content and proxy failures.
 
 When changing video ingestion, verify at least one valid file for each supported container, a renamed/corrupt file, an unsupported codec, a file over the plan limit, cancellation after one part, a six-file batch, anonymous access, quota exhaustion, successful metadata persistence, and object cleanup after failure.
 

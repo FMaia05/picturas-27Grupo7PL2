@@ -1,52 +1,23 @@
 const { spawn } = require("child_process");
 const crypto = require("crypto");
 const fs = require("fs");
-const https = require("https");
 const os = require("os");
 const path = require("path");
 const Video = require("../models/video");
 const VideoTask = require("../models/videoTask");
 const s3 = require("./s3Client");
 const inspectVideo = require("./videoMetadata");
-
-const USERS_URL = process.env.USERS_URL || "https://users:10001/";
-const httpsAgent = new https.Agent({ rejectUnauthorized: false });
+const { refundTaskOperation, videoStorageQuota } = require("./videoTaskBilling");
 
 const pendingTasks = [];
 let isWorkerRunning = false;
 const activeProcesses = new Map();
 const cancelledTasks = new Set();
 
-async function refundOperation(userId) {
-  try {
-    const url = new URL(`${userId}/process/refund/1`, USERS_URL);
-    await new Promise((resolve, reject) => {
-      const req = https.request(
-        url,
-        {
-          method: "POST",
-          agent: httpsAgent,
-          headers: { "Content-Type": "application/json" },
-        },
-        (res) => {
-          res.resume();
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            resolve();
-          } else {
-            console.warn(`Refund returned status ${res.statusCode} for user ${userId}`);
-            resolve(); // Do not crash worker on refund failure
-          }
-        },
-      );
-      req.on("error", (err) => {
-        console.error(`Refund network error for user ${userId}:`, err.message);
-        resolve(); // Continue even if users service has transient error
-      });
-      req.end();
-    });
-  } catch (error) {
-    console.error(`Refund failed for user ${userId}:`, error.message);
-  }
+// RN7/RN8, REQ-VID-TRIM-NF10 / REQ-VID-FRAME-052: 10-minute processing limit,
+// configurable through VIDEO_TASK_TIMEOUT_MS so tests can exercise it.
+function taskTimeoutMs() {
+  return Number(process.env.VIDEO_TASK_TIMEOUT_MS) || 10 * 60 * 1000;
 }
 
 async function uploadFileStream(bucket, key, filePath, mimeType) {
@@ -66,7 +37,7 @@ async function executeTrim(task, isRetry = false) {
   if (cancelledTasks.has(taskId)) {
     task.status = "cancelled";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     cancelledTasks.delete(taskId);
     return;
   }
@@ -84,7 +55,7 @@ async function executeTrim(task, isRetry = false) {
     task.status = "failed";
     task.error = "Original video not found or not in ready state.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     return;
   }
 
@@ -145,7 +116,7 @@ async function executeTrim(task, isRetry = false) {
       const timeout = setTimeout(() => {
         child.kill("SIGKILL");
         reject(new Error("Processing timeout exceeded 10 minutes."));
-      }, 10 * 60 * 1000);
+      }, taskTimeoutMs());
 
       child.on("error", (err) => {
         clearTimeout(timeout);
@@ -179,19 +150,14 @@ async function executeTrim(task, isRetry = false) {
     // Inspect metadata of trimmed file
     const metadata = await inspectVideo(bucket, null, extension, tempOutput);
 
-    // 4. Validate storage quota before final persist (Passo 7 Exceção)
-    const quota = Number(process.env.FREE_VIDEO_QUOTA_BYTES || 1024 ** 3); // Base fallback
+    // 4. Validate storage quota of the user's plan before final persist (Passo 7 Exceção)
     const usage = await Video.aggregate([
       { $match: { userId: task.userId, status: { $in: ["uploading", "processing", "ready"] } } },
       { $group: { _id: null, total: { $sum: "$size" } } },
     ]);
     const currentUsage = usage[0]?.total || 0;
     const additionalSize = task.replaceOriginal ? Math.max(0, newSize - originalVideo.size) : newSize;
-
-    // We verify if adding this video exceeds storage (using reasonable default or environment)
-    const userStorageQuota = originalVideo.size > 200 * 1024 * 1024 || (task.duration > 300)
-      ? Number(process.env.PREMIUM_VIDEO_QUOTA_BYTES || 20 * 1024 ** 3)
-      : Number(process.env.FREE_VIDEO_QUOTA_BYTES || 1024 ** 3);
+    const userStorageQuota = videoStorageQuota(task.userType);
 
     if (currentUsage + additionalSize > userStorageQuota) {
       const err = new Error("Armazenamento insuficiente para guardar o novo vídeo.");
@@ -247,7 +213,7 @@ async function executeTrim(task, isRetry = false) {
       task.status = "cancelled";
       task.error = "Recorte cancelado. Nenhuma operação foi contabilizada.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       cancelledTasks.delete(taskId);
       return;
     }
@@ -256,7 +222,7 @@ async function executeTrim(task, isRetry = false) {
       task.status = "failed";
       task.error = "Armazenamento insuficiente para guardar o novo vídeo.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       return;
     }
 
@@ -275,7 +241,7 @@ async function executeTrim(task, isRetry = false) {
     task.status = "failed";
     task.error = "Ocorreu um erro ao processar o seu vídeo. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
   } finally {
     activeProcesses.delete(taskId);
     await fs.promises.rm(tempInput, { force: true }).catch(() => {});
@@ -324,9 +290,7 @@ async function cancelTrimTask(taskId) {
     task.status = "cancelled";
     task.error = "Recorte cancelado. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) {
-      await refundOperation(task.userId);
-    }
+    await refundTaskOperation(task);
   }
 }
 

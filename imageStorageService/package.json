@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "test:e2e": "node --test --test-concurrency=1 test/e2e/videoApi.e2e.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",

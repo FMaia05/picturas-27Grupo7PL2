@@ -6,11 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import { deleteVideo, getVideos, LibraryVideo } from "@/lib/videos";
 import { useSession } from "@/providers/session-provider";
 import { useVideoUploads } from "@/providers/video-upload-provider";
-<<<<<<< HEAD
-import { Film, Scissors, Trash2, Upload, Camera } from "lucide-react";
-=======
-import { Film, Scissors, Trash2, Upload, Repeat2 } from "lucide-react";
->>>>>>> origin/feature/converter-video
+import { Film, Scissors, Trash2, Upload, Camera, Repeat2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import TrimVideoDialog from "@/components/trim-video-dialog";
 import ExtractFramesDialog from "@/components/extract-frames-dialog";

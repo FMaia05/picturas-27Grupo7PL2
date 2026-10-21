@@ -14,8 +14,8 @@ try {
 const Video = require("../models/video");
 const VideoTask = require("../models/videoTask");
 const s3 = require("./s3Client");
+const { refundTaskOperation, videoStorageQuota } = require("./videoTaskBilling");
 
-const USERS_URL = process.env.USERS_URL || "https://users:10001/";
 const PROJECTS_URL = process.env.PROJECTS_URL || "https://projects:9001/";
 const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
@@ -23,6 +23,12 @@ const pendingTasks = [];
 let isWorkerRunning = false;
 const activeProcesses = new Map();
 const cancelledTasks = new Set();
+
+// RN7/RN8, REQ-VID-TRIM-NF10 / REQ-VID-FRAME-052: 10-minute processing limit,
+// configurable through VIDEO_TASK_TIMEOUT_MS so tests can exercise it.
+function taskTimeoutMs() {
+  return Number(process.env.VIDEO_TASK_TIMEOUT_MS) || 10 * 60 * 1000;
+}
 
 function formatTimestamp(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -94,38 +100,6 @@ async function postJsonInternal(targetUrl, payload, headers = {}) {
   });
 }
 
-async function refundOperation(userId) {
-  try {
-    const url = new URL(`${userId}/process/refund/1`, USERS_URL);
-    await new Promise((resolve) => {
-      const req = https.request(
-        url,
-        {
-          method: "POST",
-          agent: httpsAgent,
-          headers: { "Content-Type": "application/json" },
-        },
-        (res) => {
-          res.resume();
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            resolve();
-          } else {
-            console.warn(`Refund returned status ${res.statusCode} for user ${userId}`);
-            resolve();
-          }
-        },
-      );
-      req.on("error", (err) => {
-        console.error(`Refund network error for user ${userId}:`, err.message);
-        resolve();
-      });
-      req.end();
-    });
-  } catch (error) {
-    console.error(`Refund failed for user ${userId}:`, error.message);
-  }
-}
-
 async function extractSingleFrame(tempInput, outputFilePath, timestamp, format, taskId) {
   const ffmpegArgs = [
     "-ss",
@@ -172,7 +146,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "cancelled";
     task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     cancelledTasks.delete(taskId);
     return;
   }
@@ -191,7 +165,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "failed";
     task.error = "Original video not found or not in ready state.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
     return;
   }
 
@@ -208,6 +182,14 @@ async function executeExtractFrames(task, isRetry = false) {
   const bucket = `user-${task.userId}`;
   const uploadedS3Keys = [];
   let timeoutHandle = null;
+  let timedOut = false;
+  let processPromise = null;
+  // Promise.race does not stop the losing branch: after a timeout the processing
+  // keeps running until its next checkpoint, so every checkpoint also checks it.
+  const assertActive = () => {
+    if (cancelledTasks.has(taskId)) throw new Error("Task was cancelled by user.");
+    if (timedOut) throw new Error("Task stopped after the time limit.");
+  };
 
   try {
     await fs.promises.mkdir(tempFramesDir, { recursive: true });
@@ -215,6 +197,7 @@ async function executeExtractFrames(task, isRetry = false) {
     // 10 minutes global timeout (RN8, REQ-VID-FRAME-052)
     const timeoutPromise = new Promise((_, reject) => {
       timeoutHandle = setTimeout(() => {
+        timedOut = true;
         const child = activeProcesses.get(taskId);
         if (child) {
           try {
@@ -224,10 +207,10 @@ async function executeExtractFrames(task, isRetry = false) {
         const timeoutErr = new Error("A extração demorou mais do que o permitido. Reduza o intervalo ou aumente o passo.");
         timeoutErr.code = "TASK_TIMEOUT";
         reject(timeoutErr);
-      }, 10 * 60 * 1000);
+      }, taskTimeoutMs());
     });
 
-    const processPromise = (async () => {
+    processPromise = (async () => {
       // 1. Download original video from S3 to temporary input file
       await new Promise((resolve, reject) => {
         const input = s3.getObject({ Bucket: bucket, Key: originalVideo.objectKey }).createReadStream();
@@ -238,9 +221,7 @@ async function executeExtractFrames(task, isRetry = false) {
         input.pipe(output);
       });
 
-      if (cancelledTasks.has(taskId)) {
-        throw new Error("Task was cancelled by user.");
-      }
+      assertActive();
 
       task.progress = 10;
       await task.save();
@@ -262,9 +243,7 @@ async function executeExtractFrames(task, isRetry = false) {
 
       // 3. Extract frames sequentially, updating progress at least every 5s (REQ-VID-FRAME-030)
       for (let i = 0; i < instants.length; i++) {
-        if (cancelledTasks.has(taskId)) {
-          throw new Error("Task was cancelled by user.");
-        }
+        assertActive();
 
         const instant = instants[i];
         const timestampStr = formatTimestamp(instant);
@@ -290,21 +269,16 @@ async function executeExtractFrames(task, isRetry = false) {
         await task.save();
       }
 
-      if (cancelledTasks.has(taskId)) {
-        throw new Error("Task was cancelled by user.");
-      }
+      assertActive();
 
       // 4. Verify storage quota (RN2, Exceção 8, REQ-VID-FRAME-051)
       const totalExtractedBytes = extractedFiles.reduce((acc, f) => acc + f.size, 0);
-      const quota = Number(process.env.FREE_VIDEO_QUOTA_BYTES || 1024 ** 3);
       const usage = await Video.aggregate([
         { $match: { userId: task.userId, status: { $in: ["uploading", "processing", "ready"] } } },
         { $group: { _id: null, total: { $sum: "$size" } } },
       ]);
       const currentUsage = usage[0]?.total || 0;
-      const userQuota = originalVideo.size > 200 * 1024 * 1024 || task.duration > 120
-        ? Number(process.env.PREMIUM_VIDEO_QUOTA_BYTES || 20 * 1024 ** 3)
-        : quota;
+      const userQuota = videoStorageQuota(task.userType);
 
       if (currentUsage + totalExtractedBytes > userQuota) {
         const err = new Error("Armazenamento insuficiente para guardar os fotogramas.");
@@ -325,9 +299,7 @@ async function executeExtractFrames(task, isRetry = false) {
       const imagesForProject = [];
 
       for (const item of extractedFiles) {
-        if (cancelledTasks.has(taskId)) {
-          throw new Error("Task was cancelled by user.");
-        }
+        assertActive();
 
         const fileBuffer = await fs.promises.readFile(item.filePath);
         const sha = crypto.createHash("sha256").update(fileBuffer).digest("hex");
@@ -356,12 +328,12 @@ async function executeExtractFrames(task, isRetry = false) {
         });
       }
 
-      if (cancelledTasks.has(taskId)) {
-        throw new Error("Task was cancelled by user.");
-      }
+      assertActive();
 
       task.progress = 95;
       await task.save();
+
+      assertActive();
 
       // 6. Integrate with projects microservice (REQ-VID-FRAME-040, FA2)
       const internalToken = process.env.INTERNAL_SERVICE_TOKEN || "picturas-internal-video-token";
@@ -399,6 +371,10 @@ async function executeExtractFrames(task, isRetry = false) {
   } catch (error) {
     console.error(`Error processing extract frames task ${taskId}:`, error.message);
 
+    // Let a processing branch that lost the race reach its next checkpoint, so an
+    // upload still in flight is recorded in uploadedS3Keys before the cleanup below.
+    if (timedOut && processPromise) await processPromise.catch(() => {});
+
     // If images were uploaded to S3 but task failed/cancelled before project was created, clean them up (RN12, REQ-VID-FRAME-046)
     if (!task.resultProjectId && uploadedS3Keys.length > 0) {
       for (const key of uploadedS3Keys) {
@@ -410,7 +386,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "cancelled";
       task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       cancelledTasks.delete(taskId);
       return;
     }
@@ -419,7 +395,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "failed";
       task.error = "Armazenamento insuficiente para guardar os fotogramas.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       return;
     }
 
@@ -427,7 +403,7 @@ async function executeExtractFrames(task, isRetry = false) {
       task.status = "failed";
       task.error = "A extração demorou mais do que o permitido. Reduza o intervalo ou aumente o passo.";
       await task.save();
-      if (task.chargedOperation) await refundOperation(task.userId);
+      await refundTaskOperation(task);
       return;
     }
 
@@ -446,7 +422,7 @@ async function executeExtractFrames(task, isRetry = false) {
     task.status = "failed";
     task.error = "Não foi possível extrair os fotogramas deste vídeo. A operação não foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) await refundOperation(task.userId);
+    await refundTaskOperation(task);
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
     activeProcesses.delete(taskId);
@@ -497,9 +473,7 @@ async function cancelExtractFramesTask(taskId) {
     task.status = "cancelled";
     task.error = "Extração cancelada. Nenhuma operação foi contabilizada.";
     await task.save();
-    if (task.chargedOperation) {
-      await refundOperation(task.userId);
-    }
+    await refundTaskOperation(task);
   }
 }
 
