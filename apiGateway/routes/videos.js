@@ -12,6 +12,7 @@ const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 function storageHeaders(req, contentType) {
   return {
     "x-internal-service-token": process.env.INTERNAL_SERVICE_TOKEN,
+    "x-conversion-caller-id": req.authUserId,
     ...(contentType ? { "content-type": contentType } : {}),
   };
 }

@@ -184,6 +184,7 @@ services:
       - "10001:10001"
     restart: on-failure
     environment:
+      - INTERNAL_SERVICE_TOKEN=${INTERNAL_SERVICE_TOKEN:-picturas-internal-video-token}
       - FREE_DAILY_OP=5
       - JWT_SECRET_KEY=lisan_al_gaib
       - FIELD_ENCRYPTION_KEY=uma-frase-secreta-bem-grande-ou-64-hex

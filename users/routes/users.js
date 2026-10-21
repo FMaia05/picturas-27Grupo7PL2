@@ -25,6 +25,8 @@ const usersURL = "https://users:10001/";
 // URL interna do microserviço de projects
 const projects_ms = "https://projects:10002/projects/";
 
+const operationQuota = require("../services/operationQuota");
+
 const max_free_daily_op = process.env.FREE_DAILY_OP || 5;
 
 function get_cur_date() {
@@ -38,7 +40,7 @@ function get_cur_date() {
 
 function removeSensitiveInfo(user) {
   const userObj = user.toObject ? user.toObject() : user; // Ensure it's a plain object
-  const { password_hash, ...userWithoutPassword } = userObj; // Destructure to exclude password_hash
+  const { password_hash, conversionReservations, ...userWithoutPassword } = userObj; // Hide password hash and internal conversion receipts.
   return userWithoutPassword;
 }
 
@@ -63,16 +65,6 @@ function getRemainingOperations(user) {
   return 0;
 }
 
-
-function check_process(user, op, op_num) {
-  if (op_num == 0) return true;
-
-  return (
-    user.type == "premium" ||
-    (user.type == "free" && max_free_daily_op - op.processed >= op_num) ||
-    (user.type == "anonymous" && op_num == 0)
-  );
-}
 
 // Get list of all users
 router.get("/", function (req, res, next) {
@@ -137,33 +129,9 @@ router.get("/:user/process/:advanced_tools", async function (req, res, next) {
     }
 
     const op_num = parseInt(req.params.advanced_tools, 10) || 0;
-
-    const { year, month, day } = get_cur_date();
-    const process_date = new Date(year, month, day);
-
-    // procurar operações de hoje
-    let op =
-      user.operations.find((o) => o.day.getTime() === process_date.getTime()) ||
-      { day: process_date, processed: 0 };
-
-    // verificar se pode processar
-    const can_process = check_process(user, op, op_num);
-
-    if (!can_process) {
-      // aqui é o caso de ficar sem operações
+    if (!await operationQuota.charge(req.params.user, op_num)) {
       return res.status(701).jsonp("No more daily_operations available");
     }
-
-    // se pode processar, reservar as operações
-    op.processed += op_num;
-
-    // remover registo antigo de hoje (se existir) e voltar a pôr atualizado
-    user.operations = user.operations.filter(
-      (o) => o.day.getTime() !== process_date.getTime(),
-    );
-    user.operations.push(op);
-
-    await User.update(req.params.user, user);
 
     return res.status(200).jsonp(true);
   } catch (err) {
@@ -263,55 +231,21 @@ router.put("/:user", function (req, res, next) {
 });
 
 // Update number of advanced tools used
-router.put("/:user/process/:advanced_tools", function (req, res, next) {
-  User.getOne(req.params.user)
-    .then((user) => {
-      const date = get_cur_date();
-      const process_date = new Date(date.year, date.month, date.day);
-      const op_num = parseInt(req.params.advanced_tools);
-
-      let op = {};
-      let rem_prev_op = false;
-
-      if (
-        user.operations.filter(
-          (o) => o.day.getTime() === process_date.getTime(),
-        ).length > 0
-      ) {
-        op = user.operations.filter(
-          (o) => o.day.getTime() === process_date.getTime(),
-        )[0];
-        rem_prev_op = true;
-      } else {
-        op = {
-          day: process_date,
-          processed: 0,
-        };
-      }
-
-      let can_process = check_process(user, op, op_num);
-
-      if (!can_process) {
-        res.status(799).jsonp("Cannot perform desired operation");
-        return;
-      }
-
-      if (rem_prev_op) user.operations.remove(op);
-
-      let new_op = {
-        day: op.day,
-        processed: op.processed + op_num,
-      };
-
-      user.operations.push(new_op);
-
-      User.update(req.params.user, user)
-        .then((_) => res.sendStatus(204))
-        .catch((_) =>
-          res.status(704).jsonp(`Error updating user's information`),
-        );
-    })
-    .catch((_) => res.status(701).jsonp(`Error acquiring user's information.`));
+router.put("/:user/process/:advanced_tools", async function (req, res) {
+  // Preserve the legacy distinction between acquiring the user (701) and
+  // updating their operations (704); the debit itself remains atomic.
+  try {
+    if (!await User.getOne(req.params.user)) {
+      return res.status(701).jsonp("Error acquiring user's information.");
+    }
+  } catch (_) {
+    return res.status(701).jsonp("Error acquiring user's information.");
+  }
+  try {
+    const count = parseInt(req.params.advanced_tools);
+    if (!await operationQuota.charge(req.params.user, count)) return res.status(799).jsonp("Cannot perform desired operation");
+    return res.sendStatus(204);
+  } catch (_) { return res.status(704).jsonp("Error updating user's information"); }
 });
 
 // Refund de operações quando um processamento é cancelado
@@ -324,38 +258,9 @@ router.post("/:user/process/refund/:advanced_tools", async function (req, res) {
       return res.status(400).jsonp("Invalid operations number");
     }
 
-    // premium não precisa de refund (não tem limite diário)
-    if (user.type === "premium") {
-      return res.status(200).jsonp(true);
+    if (!user || !await operationQuota.refund(req.params.user, op_num)) {
+      return res.status(701).jsonp("Error acquiring user's information.");
     }
-
-    const { year, month, day } = get_cur_date();
-    const process_date = new Date(year, month, day);
-
-    // procurar operações de hoje
-    const opToday = user.operations.find(
-      (o) => o.day.getTime() === process_date.getTime(),
-    );
-
-    // se não havia registo para hoje, não há nada para devolver
-    if (!opToday) {
-      return res.status(200).jsonp(true);
-    }
-
-    // tirar as operações gastas, sem ir abaixo de 0
-    opToday.processed = Math.max(0, opToday.processed - op_num);
-
-    // recriar o array de operações sem o registo antigo de hoje
-    user.operations = user.operations.filter(
-      (o) => o.day.getTime() !== process_date.getTime(),
-    );
-
-    // se ainda sobrar algo processado hoje, voltamos a inserir
-    if (opToday.processed > 0) {
-      user.operations.push(opToday);
-    }
-
-    await User.update(req.params.user, user);
     return res.status(200).jsonp(true);
   } catch (err) {
     console.error("Error refunding operations:", err);

@@ -6,10 +6,17 @@ import { toast } from "@/hooks/use-toast";
 import { deleteVideo, getVideos, LibraryVideo } from "@/lib/videos";
 import { useSession } from "@/providers/session-provider";
 import { useVideoUploads } from "@/providers/video-upload-provider";
+<<<<<<< HEAD
 import { Film, Scissors, Trash2, Upload, Camera } from "lucide-react";
+=======
+import { Film, Scissors, Trash2, Upload, Repeat2 } from "lucide-react";
+>>>>>>> origin/feature/converter-video
 import { useCallback, useEffect, useRef, useState } from "react";
 import TrimVideoDialog from "@/components/trim-video-dialog";
 import ExtractFramesDialog from "@/components/extract-frames-dialog";
+
+import ConvertVideoDialog from "@/components/convert-video-dialog";
+import VideoConversionTasks from "@/components/video-conversion-tasks";
 
 function formatDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -26,6 +33,8 @@ export default function VideoLibrary() {
   const [dragging, setDragging] = useState(false);
   const [selectedVideoForTrim, setSelectedVideoForTrim] = useState<LibraryVideo | null>(null);
   const [selectedVideoForExtract, setSelectedVideoForExtract] = useState<LibraryVideo | null>(null);
+
+  const [conversionVideo, setConversionVideo] = useState<LibraryVideo | null>(null);
 
   const refresh = useCallback(() => {
     getVideos(session.user._id, session.token)
@@ -154,6 +163,10 @@ export default function VideoLibrary() {
                   >
                     <Scissors className="size-4 text-primary" />
                   </Button>
+                  <Button size="icon" variant="ghost" onClick={() => setConversionVideo(video)}
+                    disabled={session.user.type === "anonymous"} aria-label={`Converter vídeo ${video.originalName}`} title="Converter vídeo">
+                    <Repeat2 className="size-4 text-primary" />
+                  </Button>
                   <Button
                     size="icon"
                     variant="ghost"
@@ -168,6 +181,9 @@ export default function VideoLibrary() {
           </div>
         )}
       </div>
+
+      <ConvertVideoDialog video={conversionVideo} onClose={() => setConversionVideo(null)} />
+      {session.user.type !== "anonymous" && <VideoConversionTasks />}
 
       <TrimVideoDialog
         video={selectedVideoForTrim}

@@ -21,6 +21,19 @@ app.use("/image", imageRoutes);
 app.use("/delete", deleteRoutes);
 app.use("/copy", copyRoutes); 
 app.use("/videos", videoRoutes);
+app.use("/video-conversions", require("./route/videoConversions"));
+
+// Conversion recovery is independent of the existing upload/Trim startup sequence.
+mongoose.connection.once("open", () => {
+  const startConversions = async () => {
+    try { await require("./services/videoConversionWorker").start(); }
+    catch (error) {
+      console.error("Conversion reconciliation pending:", error.message);
+      setTimeout(startConversions, 5000).unref();
+    }
+  };
+  void startConversions();
+});
 
 mongoose
   .connect(videoMongoDB)

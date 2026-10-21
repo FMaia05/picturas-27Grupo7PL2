@@ -4,6 +4,7 @@ const path = require("path");
 const Video = require("../models/video");
 const VideoTask = require("../models/videoTask");
 const internalAuth = require("../middleware/internalAuth");
+const conversionVisibility = require("../services/videoConversionAccess");
 const createBucket = require("../services/createBucket");
 const { getPublicObjectUrl } = require("../services/getPresignedUrl");
 const s3 = require("../services/s3Client");
@@ -22,7 +23,7 @@ const SUPPORTED = {
 router.use(internalAuth);
 
 function ownerFilter(req) {
-  return { _id: req.params.videoId, userId: req.params.userId };
+  return { _id: req.params.videoId, userId: req.params.userId, ...conversionVisibility(req) };
 }
 
 router.post("/:userId/uploads", async (req, res) => {
@@ -205,10 +206,12 @@ router.post("/:userId/tasks/:taskId/cancel", async (req, res) => {
 });
 
 router.get("/:userId", async (req, res) => {
-  const videos = await Video.find({ userId: req.params.userId, status: "ready" }).sort({ createdAt: -1 }).lean();
+  const videos = await Video.find({ userId: req.params.userId, status: "ready", ...conversionVisibility(req) }).sort({ createdAt: -1 }).lean();
   const result = await Promise.all(videos.map(async (video) => ({
     ...video,
-    url: await getPublicObjectUrl(video.userId, video.objectKey),
+    url: video.conversionTaskId
+      ? await require("../services/videoConversionDownload")(video)
+      : await getPublicObjectUrl(video.userId, video.objectKey),
   })));
   return res.json(result);
 });
