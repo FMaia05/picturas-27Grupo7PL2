@@ -4,14 +4,25 @@
 
 PictuRAS is a web-based image editing platform that combines traditional image processing with AI-powered tools. It is built as a **microservices architecture** orchestrated with Docker Compose, and it is the code base for the group project of the curricular unit _Requisitos e Arquitetura de Software_ (RAS), University of Minho.
 
-> **This repository is a starting point, not a finished product.**
-> It is the result of two previous academic years of student work (see [Authors](#-authors)). It contains working features, known limitations and technical debt — finding, documenting and improving those is part of your job this semester.
+This repository is the **2026/2027 continuation by Group PL2-G7**. We kept the PictuRAS code
+base built over the two previous academic years (see [Authors](#-authors)) and, in Phase 1,
+extended it with a **video extension**: a per-account video library and four video use cases
+(upload, conversion, frame extraction and trim) that reuse the existing authentication, plan
+tiers, daily-operation counter, MongoDB and object storage. See
+[Video Extension](#-video-extension-20262027) for the summary and [`AGENTS.md`](AGENTS.md) for
+the detailed design of each use case.
+
+> **Inherited code base.** The image editor, the AI tools and the infrastructure come from the
+> previous groups and still carry their known limitations and technical debt. The findings we
+> identified in the base solution are recorded in the Phase 1 report
+> ([`docs/relatorio/`](docs/relatorio/)) and in [`AGENTS.md`](AGENTS.md).
 
 ---
 
 ## 📑 Table of Contents
 
 - [Features](#-features)
+- [Video Extension (2026/2027)](#-video-extension-20262027)
 - [Architecture](#-architecture)
 - [Quick Start](#-quick-start)
 - [Ports and Endpoints](#-ports-and-endpoints)
@@ -54,9 +65,62 @@ PictuRAS is a web-based image editing platform that combines traditional image p
 - **Subscription Plans**: free and premium tiers with different daily usage limits
 - **Project Management**: organise images and editing pipelines into projects
 - **Real-time Processing**: WebSocket-based progress updates while tools run
-- **Video library & editing**: multipart MP4/MOV/WebM upload with progress, quotas and ffprobe metadata; lossless temporal trimming (Trim) with stream copy, background worker, cancellation and quota rollback; full-video conversion to MP4/H.264/AAC or WebM/VP9/Opus with resolution options, persistent tasks and quota reservations ([design](AGENTS.md#video-conversion-design-uc-vid-002), [usage and validation](AGENTS.md#video-conversion-validation))
-- **Frame extraction**: sample frames from a video every 1–60 s as PNG or JPEG into a new or existing project, with per-plan limits on interval, resolution and frame count, background worker, cancellation and quota rollback
+- **Video library and video tools** _(new in 2026/2027)_: upload, conversion, frame extraction
+  and trim — see [Video Extension](#-video-extension-20262027)
 - **Automated backups**: periodic `mongodump` of all three databases
+
+---
+
+## 🎬 Video Extension (2026/2027)
+
+Phase 1 of the 2026/2027 project added video support to the existing image editor. It is
+available to **free** and **Premium** accounts from the dashboard; anonymous users are
+rejected by the API Gateway.
+
+| Use case | Feature | What it does |
+| -------- | ------- | ------------ |
+| **UC-VID-001** | Video upload | Batches of MP4/MOV (H.264, optional AAC) or WebM (VP9, optional Opus) files sent in 8 MiB multipart parts, with progress, rate, ETA, retry and cancellation. Content is re-checked with `ffprobe`; spoofed or corrupt files are deleted. |
+| **UC-VID-002** | Video conversion | Converts a whole library video to MP4/H.264/AAC or WebM/VP9/Opus, preserving the resolution or reducing it to 720p. The original is kept and the result is added to the library. |
+| **UC-VID-003** | Frame extraction | Samples frames every 1–60 s from a time range, as PNG or JPEG, into a new or existing project, so they can go straight into the image pipeline. |
+| **UC-VID-004** | Video trim | Lossless temporal cut (`ffmpeg -c copy`) saved as a new video or replacing the original. |
+
+All video tools run as **persistent background tasks** in `imageStorageService`: the dashboard
+shows their progress, they can be cancelled and they survive page navigation. Each accepted
+trim, extraction or conversion uses **one daily operation** of the existing counter (only free
+accounts have a daily limit), and the operation is given back when the task fails or is
+cancelled. Uploads do not count as operations.
+
+### Plan limits
+
+| Limit | Free | Premium |
+| ----- | ---- | ------- |
+| Upload — size per file | 200 MB | 2000 MB |
+| Upload — total video storage | 1 GiB | 20 GiB |
+| Trim — source size / segment length | 200 MB / 300 s | 2 GB / 3600 s |
+| Frame extraction — interval / frames / resolution | 120 s / 30 / 1080p | 1800 s / 200 / 4K |
+| Conversion — source size / duration | 200,000,000 bytes / 120 s | 500,000,000 bytes / 300 s |
+| Concurrent trim or extraction tasks | 1 | 3 |
+| Daily operations (`FREE_DAILY_OP`) | 5 | not limited |
+
+Trim and frame-extraction tasks time out after 10 minutes (`VIDEO_TASK_TIMEOUT_MS`) with one
+internal retry; conversions have a 900-second total deadline and are never retried. Conversion
+limits live in `imageStorageService/config/videoConversion.js`; the storage quotas are set in
+[Configuration](#-configuration).
+
+### Where the code is
+
+| Layer | Files |
+| ----- | ----- |
+| Frontend | `frontend/components/video-library.tsx`, `*-video-dialog.tsx`, `extract-frames-dialog.tsx`; upload, task and conversion providers in `frontend/providers/` |
+| API Gateway | `apiGateway/routes/videos.js` (`/api-gateway/videos/...`) and `videoConversions.js` (`/api-gateway/video-conversions/...`) |
+| Storage and workers | `imageStorageService/route/`, `services/` (metadata, trim, frame-extraction and conversion workers), `models/` (`Video`, `VideoTask`, `VideoConversionTask`) |
+| Quotas | `users/services/operationQuota.js` and `users/routes/conversionQuota.js` (conversion reservations) |
+| Projects | internal `create-with-frames` / `append-frames` endpoints in `projects/routes/projects.js` |
+
+Calls between the gateway, `img_storage`, `users` and `projects` for these features use the
+shared `INTERNAL_SERVICE_TOKEN`. Video records and tasks are stored in the `video_library`
+database of the existing projects MongoDB; the video files are SeaweedFS objects. The
+`img_storage` image now installs **FFmpeg**.
 
 ---
 
@@ -105,6 +169,21 @@ the browser over Socket.IO, authenticating the connection with the shared `JWT_S
 has no link to any other microservice. Note that **`subscriptions` means paid memberships**
 (plans, cards, billing status) — it is unrelated to WebSocket/event subscriptions.
 
+The diagram leaves out the **Image Storage Service** (`img_storage`, port 11000), which sits
+between the API Gateway and SeaweedFS. It was an S3 façade for images and now also runs the
+video extension:
+
+```
+API Gateway ──► img_storage ──► SeaweedFS (video objects)
+  (JWT, plan,        │    └───► MongoDB :27018, database video_library (videos, tasks)
+   daily op)         ├────────► users    (plan, daily-operation charge/refund/reservation)
+                     └────────► projects (internal endpoints that receive extracted frames)
+```
+
+Video work does not go through RabbitMQ: the trim, frame-extraction, conversion and metadata
+workers run inside `img_storage` and call FFmpeg/ffprobe directly. The browser polls the task
+endpoints for progress.
+
 ### Frontend
 
 - **Technology**: Next.js 15 with React 19, TypeScript and Tailwind CSS
@@ -119,7 +198,7 @@ has no link to any other microservice. Note that **`subscriptions` means paid me
 | **User Service**          | 10001          | Registration, authentication, user profile      |
 | **Project Service**       | 9001           | Projects, image pipelines, tool orchestration   |
 | **Subscription Service**  | 11001          | Plans, payments (mock), usage limits            |
-| **Image Storage Service** | 11000          | S3 façade, video library, trim and frame workers |
+| **Image Storage Service** | 11000          | S3 façade, video library, video task workers     |
 | **WebSocket Gateway**     | 4000           | Real-time progress events to the browser        |
 
 ### Processing Tools
@@ -139,8 +218,10 @@ exchange:
 ### Infrastructure
 
 - **Message Queue**: RabbitMQ (asynchronous tool invocation)
-- **Databases**: three independent MongoDB 4.4 instances (users, projects, subscriptions)
-- **Object Storage**: SeaweedFS (S3-compatible) with encryption at rest
+- **Databases**: three independent MongoDB 4.4 instances (users, projects, subscriptions); the
+  projects instance also holds the `video_library` database
+- **Object Storage**: SeaweedFS (S3-compatible) with encryption at rest, for images and videos
+- **Media processing**: FFmpeg/ffprobe installed in the `img_storage` image
 
 > **Why SeaweedFS?** The project originally used MinIO, whose container images were withdrawn
 > from Docker Hub and quay.io in 2026, breaking every fresh build. SeaweedFS is S3-compatible,
@@ -175,9 +256,12 @@ OOM-killed.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/picturas-um/picturas-27 picturas-27
-   cd picturas-27
+   git clone https://github.com/FMaia05/picturas-27Grupo7PL2
+   cd picturas-27Grupo7PL2
    ```
+
+   The base code base we started from is <https://github.com/picturas-um/picturas-27>
+   (configured as the `upstream` remote in our clones).
 
 2. **Build and start the whole stack**
 
@@ -215,6 +299,9 @@ OOM-killed.
 3. Create a project and upload an image.
 4. Build a pipeline with the toolbar (filters, geometry, AI tools) and run it.
 5. Watch the progress arrive live over the WebSocket, then download the results.
+6. With a free or Premium account, open the video library in the dashboard, upload an MP4,
+   MOV or WebM video and wait for its metadata. Its actions convert, trim or extract frames
+   from it; the task monitor shows progress and lets you cancel.
 
 ---
 
@@ -306,6 +393,10 @@ entry there updates both the storage server and the client that talks to it:
 cp .env.example .env     # then edit, and: docker compose up -d
 ```
 
+The video variables `INTERNAL_SERVICE_TOKEN`, `FREE_VIDEO_QUOTA_BYTES`,
+`PREMIUM_VIDEO_QUOTA_BYTES` and `VIDEO_TASK_TIMEOUT_MS` are read the same way and can also be
+set in `.env` (see [Configuration](#-configuration)).
+
 > 🔎 **Committed secrets are a known issue.** Private keys, JWT secrets and database passwords
 > are hard-coded in this repository for convenience. That is acceptable for a local
 > setup but _unacceptable in production_ — moving them to a `.env` file (git-ignored) or a secrets
@@ -326,12 +417,13 @@ All configuration currently lives as `environment:` entries in `docker-compose.y
 | `S3_ENDPOINT`                                 | `seaweedfs:9000`              | img_storage            | Object storage endpoint                      |
 | `S3_ACCESS_KEY` / `S3_SECRET_KEY`             | `admin` / `admin123`          | seaweedfs, img_storage | Object storage credentials                   |
 | `S3_KEK_PASSPHRASE`                           | `picturas-kek-...`            | seaweedfs              | Protects the key used for encryption at rest |
-| `INTERNAL_SERVICE_TOKEN`                       | local development token       | gateway, img_storage, users | Authenticates internal video and conversion quota API calls       |
+| `INTERNAL_SERVICE_TOKEN`                       | `picturas-internal-video-token` | gateway, img_storage, users, projects | Authenticates internal video, frame and conversion-quota calls — **must match everywhere** |
 | `FREE_VIDEO_QUOTA_BYTES`                       | `1073741824` (1 GiB)          | img_storage            | Total video storage for free accounts        |
 | `PREMIUM_VIDEO_QUOTA_BYTES`                    | `21474836480` (20 GiB)        | img_storage            | Total video storage for Premium accounts     |
 | `VIDEO_TASK_TIMEOUT_MS`                        | `600000` (10 min)             | img_storage            | Time limit of a trim or frame-extraction task |
 | `RABBITMQ_DEFAULT_USER` / `_PASS`             | `user` / `password`           | rabbitmq               | Broker credentials                           |
 | `RABBITMQ_HOST` / `_PORT` / `_USER` / `_PASS` | `rabbitmq` / `5672` / ...     | tools, projects, ws    | Broker connection                            |
+| `USERS_URL` / `PROJECTS_URL`                  | `https://users:10001/` / `https://projects:9001/` | img_storage | Internal calls for quotas and extracted frames |
 | `FRONTEND_URL`                                | `https://localhost:8080`      | img_storage            | CORS / redirect origin                       |
 | `NEXT_PUBLIC_API_BASE_URL`                    | `/api-gateway/`               | frontend               | Relative API base (keep it relative!)        |
 | `GEN_EXPAND_URL`                              | `http://generative-mock:7860` | expand_ai              | Generative image API endpoint                |
@@ -342,8 +434,11 @@ All configuration currently lives as `environment:` entries in `docker-compose.y
 ### Persistent data
 
 Named Docker volumes: `user_data`, `project_data`, `subscription_data`, `image_data`,
-`seaweedfs_data`, `rabbitmq_data`. Database dumps are written to the host at `./backups/mongo`
-(git-ignored). `docker compose down -v` deletes every volume — the dumps survive.
+`seaweedfs_data`, `rabbitmq_data`. Video records and tasks live in `project_data` (database
+`video_library`) and the video files in `seaweedfs_data`. Database dumps are written to the
+host at `./backups/mongo` (git-ignored); the projects dump includes `video_library`, but the
+SeaweedFS objects are not backed up. `docker compose down -v` deletes every volume — the dumps
+survive.
 
 ### Scaling
 
@@ -366,13 +461,15 @@ Uncomment both to enable centralised logging — budget an extra ~4 GB of RAM.
 ## 📁 Project Structure
 
 ```
-picturas-27/
-├── frontend/                 # Next.js 15 + React 19 frontend
-├── apiGateway/               # REST API gateway (Express)
-├── users/                    # User management service (Express + MongoDB)
+picturas-27Grupo7PL2/
+├── frontend/                 # Next.js 15 + React 19 frontend (video library, dialogs, providers)
+├── apiGateway/               # REST API gateway (Express), incl. video and conversion routes + tests
+├── users/                    # User management service (Express + MongoDB), daily-operation quotas
 ├── projects/                 # Project & pipeline orchestration service
 ├── subscriptions/            # Subscription / payment service
-├── imageStorageService/      # Image storage service: S3 façade in front of SeaweedFS
+├── imageStorageService/      # S3 façade in front of SeaweedFS + video library and workers
+│   ├── route/  services/  models/  config/  middleware/
+│   └── test/                 #   node:test suites, fakes and E2E test
 ├── wsGateway/                # WebSocket gateway (Socket.IO)
 ├── generative-mock/          # Mock of the Stable Diffusion WebUI API (for expand_ai)
 ├── Tools/                    # Image processing microservices
@@ -386,7 +483,10 @@ picturas-27/
 ├── backups/mongo/            # Generated database dumps (git-ignored)
 ├── logstash.conf, kibana.yml # ELK configuration (stack currently disabled)
 ├── docker-compose.yaml       # Service orchestration — the single source of truth
-├── docs/testes-fase1.md      # Phase 1 test catalogue and results (automated + manual)
+├── docs/
+│   ├── testes-fase1.md       # How to run the tests and the latest results
+│   ├── relatorio/            # Phase 1 report chapters (tests and validation, AI agents)
+│   └── ia/registo-ia.md      # Log of AI agent usage during Phase 1
 ├── .claude/skills/           # AI agent skills used to build and test the video features
 ├── AGENTS.md                 # Instructions for AI coding agents working on this repository
 └── LICENSE                   # CC BY-NC-SA 4.0
@@ -425,10 +525,12 @@ volumes, and without it Compose reattaches the old ones, so the container keeps 
 ...or switch `frontend/Dockerfile` to the dev command already prepared there
 (`CMD ["bun", "dev"]`, commented out at the bottom of the file).
 
-Python tools have no bind mount — rebuild them after every change:
+Python tools, `img_storage` and `projects` have no bind mount — rebuild them after every
+change:
 
 ```bash
 docker compose up -d --build border_tool
+docker compose up -d --build --no-deps img_storage
 ```
 
 ### Adding a new tool
@@ -459,19 +561,29 @@ cd imageStorageService && npm install && npm test
 docker compose build img_storage
 docker compose run --rm --no-deps img_storage npm test
 
+# End-to-end video API test against the running stack
+docker compose up -d
+docker compose run --rm --no-deps img_storage npm run test:e2e
+
 # Frontend type and framework check
 cd frontend && npm run build
 ```
 
-Each test name starts with its identifier (`TST-TRIM-04`, `TST-GW-FRAME-02`, ...). The
-catalogue with the requirement each test verifies, the latest results and the manual test
-checklist is in [`docs/testes-fase1.md`](docs/testes-fase1.md).
+Each test name starts with its identifier (`TST-TRIM-04`, `TST-GW-FRAME-02`, ...). How to run
+them and the latest results are in [`docs/testes-fase1.md`](docs/testes-fase1.md); the full
+catalogue, with the requirement each test verifies, and the manual interface scenarios are in
+[`docs/relatorio/cap10-testes-validacao.md`](docs/relatorio/cap10-testes-validacao.md).
+
+The development tests written for video conversion were removed from the working tree; the
+conversion is checked with the build/syntax checks and the manual scenarios in
+[`AGENTS.md`](AGENTS.md#video-conversion-validation).
 
 ### Inspecting data
 
 ```bash
 docker compose exec users_mongoDB mongo --port 27019
 docker compose exec projects_mongoDB mongo --port 27018
+docker compose exec projects_mongoDB mongo --port 27018 video_library   # videos and video tasks
 ```
 
 Stored objects: <http://localhost:9090> (SeaweedFS filer UI).
@@ -515,8 +627,22 @@ It depends on `generative-mock` being healthy. Check <http://localhost:7860> and
 **Login works, then every request returns 401**
 `JWT_SECRET_KEY` differs between `users`, `api_gateway` and `ws_gateway`.
 
+**Video actions fail with 403 `Forbidden`, or extracted frames never reach the project**
+`INTERNAL_SERVICE_TOKEN` must have the same value in `api_gateway`, `img_storage`, `users` and
+`projects`.
+
+**Starting a conversion returns 503 right after a restart**
+`img_storage` reconciles interrupted conversions on startup and refuses new ones until it
+finishes. Wait a few seconds and try again; `docker compose logs img_storage` shows the progress.
+
+**A frontend change does not show up after rebuilding**
+Recreate it with `docker compose up -d -V frontend` (see
+[Live code reloading](#live-code-reloading)). If Nginx answers 502 after a service was
+recreated, it may still hold the old container IP: `docker compose restart nginx`.
+
 **Everything is broken after pulling new code**
-Rebuild from a clean slate:
+First try rebuilding the affected services. As a last resort, rebuild from a clean slate —
+`down -v` **deletes all accounts, projects and videos**:
 
 ```bash
 docker compose down -v
@@ -562,11 +688,18 @@ integration, and assorted frontend and service improvements:
 - **PG61515** — Diogo Miguel Pinto
 - **PG61534** — Mariana Miguel Pinto
 
-### Continuation — Group PL?-?, 2026/2027
+### Continuation — Group PL2-G7, 2026/2027
 
-That is you. Add your names here as you start working on the project:
+Contributed the video extension: the user video library with multipart upload and ffprobe
+metadata validation, lossless temporal trimming (Trim), frame extraction into projects and
+full-video conversion to MP4/H.264/AAC or WebM/VP9/Opus, with per-plan limits, daily-operation
+billing and persistent background tasks:
 
-- **PG?????** — _name_
+- **PG65400** — André Pinto
+- **PG63956** — Fábio Magalhães
+- **PG63991** — José Silva
+- **PG63929** — Carlos Cunha
+- **PG65408** — Francisco Maia
 
 _Note: minor improvements and adjustments have also been introduced by the course lecturers._
 
