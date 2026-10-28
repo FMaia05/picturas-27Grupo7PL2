@@ -2,6 +2,8 @@
 
 ## Verificação local — 28 de outubro de 2026
 
+- Diagnóstico da extração de fotogramas: os logs mostraram extração completa seguida de HTTP 404 em `/internal/:user/create-with-frames`, incluindo a repetição automática. A imagem antiga de `projects` não continha as rotas `create-with-frames`/`append-frames`; as duas tarefas falhadas consultadas tinham `refunded: true`.
+- `docker compose build projects` e `docker compose up -d --no-deps projects` passaram. Pedidos a partir de `img_storage` confirmaram ambas as rotas protegidas (403 sem token) e acesso autenticado à rota de anexação (404 explícito `Project not found` para um projeto de diagnóstico inexistente). Sem criação/alteração de projetos nestes pedidos; uma extração completa após a atualização não foi executada nesta verificação.
 - Correção do overflow da barra de ferramentas: `docker compose exec -T frontend npm run build` passou, incluindo tipos, com os avisos de lint existentes; frontend reiniciado com `docker compose restart frontend`.
 - Verificação de layout em Chrome headless com respostas de API simuladas, sem escrever dados reais: 24 combinações de 1606×1035, 1366×768, 390×844 e 640×480; grelha em edição e carrossel em edição/resultados; lista Applied vazia ou com 12 nomes longos. Sem overflow da página, barra com largura de 96 px dentro do viewport, conteúdos sem fuga horizontal e carrossel dentro da altura disponível. Verificação adicional de scroll em 1366×768 confirmou acesso ao botão Clear; capturas revistas visualmente. Não valida processamento, drag-and-drop ou mutações reais.
 - Diagnóstico de interface antiga: o volume `.next` do frontend continha uma compilação de 14 de outubro, apesar de os ficheiros de origem serem mais recentes.
