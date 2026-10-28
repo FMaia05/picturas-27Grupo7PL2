@@ -16,9 +16,9 @@ export function SortableToolItem({ tool, onRemove }: { tool: any, onRemove: (id:
       }}
       className="flex w-full items-center justify-between rounded bg-muted/50 px-2 py-1"
     >
-      <div className="flex items-center gap-2 min-w-0">
-        <GripVertical className="w-3 h-3 cursor-grab" {...attributes} {...listeners} />
-        <span className="max-w-[4.5rem] truncate text-[11px]">
+      <div className="flex flex-1 items-center gap-1 min-w-0">
+        <GripVertical className="w-3 h-3 shrink-0 cursor-grab" {...attributes} {...listeners} />
+        <span className="min-w-0 truncate text-[11px]" title={tool.procedure}>
             {tool.procedure}
         </span>     
       </div>

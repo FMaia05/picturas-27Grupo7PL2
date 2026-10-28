@@ -175,20 +175,20 @@ useEffect(() => {
         setPreviewImage(null);
       }}
     >
-      <div className="size-full">
+      <div className="h-full min-h-0 min-w-0 flex-1 overflow-hidden">
         {view === "grid" || project.imgs.length <= 0 ? (
           // Grid view
-          <div className="size-full flex flex-col items-center">
+          <div className="size-full min-h-0 flex flex-col items-center">
             {(mode === "edit" && project.imgs.length > 0) ||
             (mode === "results" &&
               (results.imgs.length > 0 || results.texts.length > 0)) ? (
               <>
                 {mode !== "results" && (
-                  <div className="relative pt-4 pb-2 text-gray-500 text-sm after:h-2 after:bg-gradient-to-b after:from-background after:to-background/10 after:w-full after:absolute after:bottom-0 after:translate-y-2 after:z-50 w-full text-center flex flex-col">
+                  <div className="relative shrink-0 pt-4 pb-2 text-gray-500 text-sm after:h-2 after:bg-gradient-to-b after:from-background after:to-background/10 after:w-full after:absolute after:bottom-0 after:translate-y-2 after:z-50 w-full text-center flex flex-col">
                     To start editing, select an image from the grid.
                   </div>
                 )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 p-2 overflow-scroll overflow-x-hidden h-fit">
+                <div className="grid min-h-0 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 p-2 overflow-y-auto overflow-x-hidden">
                   {(mode === "results" ? results.imgs : project.imgs).map(
                     (image, index) => (
                       <button
@@ -255,9 +255,9 @@ useEffect(() => {
           </div>
         ) : (
           // Carousel view
-          <div className="size-full px-2 sm:px-16 py-2">
-            <Carousel setApi={setApi}>
-              <CarouselContent className="aspect-auto h-[calc(100vh-99px-0.5rem-36px)] xl:h-[calc(100vh-55px-0.5rem-36px)]">
+          <div className="size-full min-h-0 flex flex-col px-2 sm:px-16 py-2">
+            <Carousel setApi={setApi} className="min-h-0 flex-1 [&>div]:h-full">
+              <CarouselContent className="aspect-auto h-full">
                 {mode === "edit" &&
                   project.imgs.length > 0 &&
                   project.imgs.map((image) => (
@@ -283,7 +283,7 @@ useEffect(() => {
               <CarouselPrevious className="hidden sm:flex" />
               <CarouselNext className="hidden sm:flex" />
             </Carousel>
-            <div className="py-2 text-center text-sm text-muted-foreground">
+            <div className="shrink-0 py-2 text-center text-sm text-muted-foreground">
               {current} / {count}
             </div>
           </div>

@@ -56,8 +56,8 @@ export function Toolbar() {
   );
 
   return (
-    <div className="flex h-full w-24 flex-col justify-between items-stretch border-r bg-background p-2">
-      <div className="flex flex-col gap-2 items-center">
+    <div className="flex h-full min-h-0 w-24 shrink-0 flex-col gap-3 items-stretch overflow-y-auto overflow-x-hidden border-r bg-background p-2">
+      <div className="flex shrink-0 flex-col gap-2 items-center">
         <span className="text-sm text-gray-500">Tools</span>
         <BrightnessTool disabled={disabled} />
         <ContrastTool disabled={disabled} />
@@ -81,7 +81,7 @@ export function Toolbar() {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="text-red-400 size-8"
+            className="mt-auto shrink-0 text-red-400 size-8"
             disabled={project.tools.length === 0}
           >
             <Eraser />

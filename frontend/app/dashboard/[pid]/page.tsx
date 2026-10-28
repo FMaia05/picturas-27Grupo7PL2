@@ -601,7 +601,7 @@ const handleCancel = () => {
       shareId={shareId}
       canEdit={canEdit}
     >
-      <div className="flex flex-col h-screen relative">
+      <div className="flex min-h-0 h-full flex-col overflow-hidden relative">
         {/* Barra de aviso quando o link partilhado é revogado */}
         {shareId && shareRevoked && (
           <div className="w-full border-b border-destructive bg-destructive/10 text-destructive text-sm px-4 py-2 text-center">
@@ -610,7 +610,7 @@ const handleCancel = () => {
         )}
 
         {/* Header */}
-        <div className="flex flex-col xl:flex-row justify-center items-start xl:items-center xl:justify-between border-b border-sidebar-border py-2 px-2 md:px-3 xl:px-4 h-fit gap-2">
+        <div className="flex shrink-0 flex-col xl:flex-row justify-center items-start xl:items-center xl:justify-between border-b border-sidebar-border py-2 px-2 md:px-3 xl:px-4 h-fit gap-2">
           <div className="flex items-center justify-between w-full xl:w-auto gap-2">
             <h1 className="text-lg font-semibold truncate">
               {project.data.name}
@@ -826,7 +826,7 @@ const handleCancel = () => {
         </div>
         {/* Main Content */}
 
-        <div className="h-full overflow-x-hidden flex">
+        <div className="min-h-0 min-w-0 flex-1 overflow-hidden flex">
         <Toolbar />
         <ProjectImageList
           setCurrentImageId={setCurrentImage}

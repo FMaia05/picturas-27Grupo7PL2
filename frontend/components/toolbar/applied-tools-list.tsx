@@ -235,8 +235,8 @@ export function AppliedToolsList() {
   }
 
   return (
-    <div className="mt-3 flex w-full flex-col gap-2">
-      <div className="flex items-center justify-between">
+    <div className="mt-3 flex min-w-0 w-full flex-col gap-2">
+      <div className="flex flex-col items-center gap-1">
         <span className="text-xs text-gray-500">Applied</span>
 
         <div className="flex items-center gap-1">

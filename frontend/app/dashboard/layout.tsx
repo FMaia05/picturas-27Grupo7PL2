@@ -18,7 +18,7 @@ export default function RootLayout({
     <SidebarProvider defaultOpen>
       <div className="flex min-h-screen w-screen">
         <DashboardSidebar />
-        <main className="w-full h-screen max-w-full overflow-hidden relative">
+        <main className="min-w-0 flex-1 h-screen max-w-full overflow-hidden relative">
           {path === "/dashboard" && (
             <SidebarTrigger
               variant="outline"

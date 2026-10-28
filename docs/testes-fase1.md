@@ -1,5 +1,16 @@
 # Testes da extensão de vídeo — registo de execução
 
+## Verificação local — 28 de outubro de 2026
+
+- Correção do overflow da barra de ferramentas: `docker compose exec -T frontend npm run build` passou, incluindo tipos, com os avisos de lint existentes; frontend reiniciado com `docker compose restart frontend`.
+- Verificação de layout em Chrome headless com respostas de API simuladas, sem escrever dados reais: 24 combinações de 1606×1035, 1366×768, 390×844 e 640×480; grelha em edição e carrossel em edição/resultados; lista Applied vazia ou com 12 nomes longos. Sem overflow da página, barra com largura de 96 px dentro do viewport, conteúdos sem fuga horizontal e carrossel dentro da altura disponível. Verificação adicional de scroll em 1366×768 confirmou acesso ao botão Clear; capturas revistas visualmente. Não valida processamento, drag-and-drop ou mutações reais.
+- Diagnóstico de interface antiga: o volume `.next` do frontend continha uma compilação de 14 de outubro, apesar de os ficheiros de origem serem mais recentes.
+- `docker compose exec -T frontend npm run build`: passou, incluindo tipos, com avisos de lint.
+- Após `docker compose restart frontend`, o novo `BUILD_ID` foi `okxnwf_QuMvcazl1sszbC` e `https://localhost:8080/` respondeu HTTP 200.
+- Esta verificação não incluiu navegação visual no browser nem testes funcionais dos vídeos.
+- Diagnóstico adicional do HTTP 404 nas conversões: a imagem em execução de `img_storage` não continha `route/videoConversions.js`. `docker compose build users api_gateway img_storage` e `docker compose up -d --no-deps users api_gateway img_storage` concluíram com sucesso.
+- Após a atualização, a listagem interna autenticada de tarefas respondeu HTTP 200 (`[]`) para um identificador de diagnóstico sem dados; sem token interno respondeu 403. A rota pública sem JWT respondeu 401. Os logs do gateway confirmaram também HTTP 200 na listagem autenticada pedida pela sessão já aberta. Não foi executada uma conversão completa nesta verificação.
+
 O catálogo completo (cada teste no formato *Dado … Quando … Então*, com requisito e resultado),
 os defeitos encontrados e as limitações estão no capítulo do relatório:
 [`docs/relatorio/cap10-testes-validacao.md`](relatorio/cap10-testes-validacao.md).
