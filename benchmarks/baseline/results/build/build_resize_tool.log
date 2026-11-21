@@ -1,0 +1,52 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.16kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 270B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 3.87kB 0.0s done
+#6 DONE 0.0s
+
+#7 [3/6] COPY ./resize .
+#7 CACHED
+
+#8 [5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#8 CACHED
+
+#9 [2/6] WORKDIR /app
+#9 CACHED
+
+#10 [4/6] COPY ./utils ./utils
+#10 CACHED
+
+#11 [6/6] RUN pip install --no-cache-dir -r requirements.txt
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:c6861c6f958f14fc3bb8537c330ae2b8a9b0dfc5e827fa812c496d30ddd7e76f done
+#12 exporting config sha256:28aa73595790bb41cd91ea43128ac69140bd1c2e649610bea597c4288c5c842a done
+#12 exporting attestation manifest sha256:9d01ea12aaa6366c86de38acaf9292f62eb90aa5b8db2e0c0b00a070459c9ccc
+#12 exporting attestation manifest sha256:9d01ea12aaa6366c86de38acaf9292f62eb90aa5b8db2e0c0b00a070459c9ccc 0.0s done
+#12 exporting manifest list sha256:42fb90c5ad97dfe3e450a5e0bf9a2d9a04b2a0333a2af3d28930529b569bef1d 0.0s done
+#12 naming to docker.io/library/picturas-baseline-resize_tool:latest done
+#12 unpacking to docker.io/library/picturas-baseline-resize_tool:latest done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ picturas-baseline-resize_tool  Built

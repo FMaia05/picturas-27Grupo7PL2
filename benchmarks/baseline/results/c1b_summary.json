@@ -1,0 +1,515 @@
+{
+  "aggregate": {
+    "idle_n": 9,
+    "idle_p50_s": 2.083,
+    "idle_p95_s": 2.315,
+    "overlapped_n": 3,
+    "overlapped_p50_s": 171.278,
+    "overlapped_p95_s": 173.26,
+    "subtitles_e2e_s": [
+      176.376,
+      174.515,
+      166.638
+    ]
+  },
+  "runs": [
+    {
+      "scenario": "C1-B",
+      "rep": 1,
+      "idle_latency_s": [
+        2.248,
+        1.969,
+        2.018
+      ],
+      "loaded_latency_s": [
+        173.26,
+        2.16,
+        2.23
+      ],
+      "idle_p50_s": 2.018,
+      "idle_p95_s": 2.248,
+      "loaded_p50_s": 2.23,
+      "loaded_p95_s": 173.26,
+      "ratio_p50_loaded_over_idle": 1.11,
+      "overlapped_latency_s": [
+        173.26
+      ],
+      "ratio_overlapped_max_over_idle_p50": 85.9,
+      "subtitles_job": {
+        "msg_id": "request-40d8498e-6fb6-4f33-bb19-e38f0f4ecd52",
+        "project_id": "6b01e6328f1b3c17134162b3",
+        "published_vm": "2026-11-21T18:43:37.618000+00:00",
+        "worker_start_vm": "2026-11-21T18:43:37.666838+00:00",
+        "worker_ok_vm": "2026-11-21T18:46:34.100932+00:00",
+        "worker_starts": 1,
+        "queue_wait_s": 0.049,
+        "service_s": 176.434,
+        "sent_host": "2026-11-21T18:43:37.916152+00:00",
+        "done_host": "2026-11-21T18:46:34.292236+00:00",
+        "e2e_s": 176.376,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b01e6328f1b3c17134162ce",
+          "http_status": 201,
+          "t_send": 1795286581.110486,
+          "t_ready": 1795286583.4360974,
+          "sent_host": "2026-11-21T18:43:01.110486+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.326,
+          "msg_id": "preview-5f473bf0-51ea-415c-b13d-0e5403a04c56",
+          "queue_wait_s": 0.054,
+          "service_s": 2.106,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b01e6338f1b3c17134162e9",
+          "http_status": 201,
+          "t_send": 1795286583.4360974,
+          "t_ready": 1795286585.684157,
+          "sent_host": "2026-11-21T18:43:03.436097+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.248,
+          "msg_id": "preview-7f377f7e-607f-43fd-95de-22052c45e36d",
+          "queue_wait_s": 0.049,
+          "service_s": 2.039,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b01e6338f1b3c1713416304",
+          "http_status": 201,
+          "t_send": 1795286585.684157,
+          "t_ready": 1795286587.6527689,
+          "sent_host": "2026-11-21T18:43:05.684157+00:00",
+          "event": "preview-ready",
+          "latency_s": 1.969,
+          "msg_id": "preview-4486540a-9894-4e55-8ee0-16db8ebc1fc4",
+          "queue_wait_s": 0.053,
+          "service_s": 1.78,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b01e6338f1b3c171341631f",
+          "http_status": 201,
+          "t_send": 1795286587.6527689,
+          "t_ready": 1795286589.6710236,
+          "sent_host": "2026-11-21T18:43:07.652769+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.018,
+          "msg_id": "preview-1272b5a1-9aac-4ec5-a54f-294edf49244a",
+          "queue_wait_s": 0.049,
+          "service_s": 1.849,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b01e6348f1b3c171341633a",
+          "http_status": 201,
+          "t_send": 1795286622.9167454,
+          "t_ready": 1795286796.1767964,
+          "sent_host": "2026-11-21T18:43:42.916745+00:00",
+          "event": "preview-ready",
+          "latency_s": 173.26,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-83429f43-7498-435d-9035-15b08e6507f4",
+          "queue_wait_s": 171.45,
+          "service_s": 2.026,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b01e6348f1b3c1713416355",
+          "http_status": 201,
+          "t_send": 1795286796.1767964,
+          "t_ready": 1795286798.3369944,
+          "sent_host": "2026-11-21T18:46:36.176796+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.16,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-27400019-af63-4330-b110-9847ec218654",
+          "queue_wait_s": 0.053,
+          "service_s": 1.917,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b01e6348f1b3c1713416370",
+          "http_status": 201,
+          "t_send": 1795286798.3369944,
+          "t_ready": 1795286800.567482,
+          "sent_host": "2026-11-21T18:46:38.336994+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.23,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-a7667846-3cc8-49e1-a8f9-61b049393828",
+          "queue_wait_s": 0.049,
+          "service_s": 2.82,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 1042.86,
+          "mem_mb_max": 2473.984,
+          "samples": 110
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 20.13,
+          "mem_mb_max": 255.4,
+          "samples": 110
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 347.56,
+          "mem_mb_max": 222.6,
+          "samples": 110
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 2,
+      "idle_latency_s": [
+        2.221,
+        2.071,
+        2.083
+      ],
+      "loaded_latency_s": [
+        171.278,
+        2.031,
+        2.128
+      ],
+      "idle_p50_s": 2.083,
+      "idle_p95_s": 2.221,
+      "loaded_p50_s": 2.128,
+      "loaded_p95_s": 171.278,
+      "ratio_p50_loaded_over_idle": 1.02,
+      "overlapped_latency_s": [
+        171.278
+      ],
+      "ratio_overlapped_max_over_idle_p50": 82.2,
+      "subtitles_job": {
+        "msg_id": "request-ff77ed5b-21fd-4fd1-acb7-2a7ef4eacd3f",
+        "project_id": "6b01e7168f1b3c1713416423",
+        "published_vm": "2026-11-21T18:47:01.662000+00:00",
+        "worker_start_vm": "2026-11-21T18:47:01.712881+00:00",
+        "worker_ok_vm": "2026-11-21T18:49:55.439964+00:00",
+        "worker_starts": 1,
+        "queue_wait_s": 0.051,
+        "service_s": 173.727,
+        "sent_host": "2026-11-21T18:47:01.100734+00:00",
+        "done_host": "2026-11-21T18:49:55.615293+00:00",
+        "e2e_s": 174.515,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b01e7178f1b3c171341643e",
+          "http_status": 201,
+          "t_send": 1795286808.5393791,
+          "t_ready": 1795286810.6743855,
+          "sent_host": "2026-11-21T18:46:48.539379+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.135,
+          "msg_id": "preview-b7081032-1cb5-4d74-a6a2-9d89a34bd1d2",
+          "queue_wait_s": 0.052,
+          "service_s": 1.884,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b01e7178f1b3c1713416459",
+          "http_status": 201,
+          "t_send": 1795286810.6743855,
+          "t_ready": 1795286812.8954232,
+          "sent_host": "2026-11-21T18:46:50.674386+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.221,
+          "msg_id": "preview-d1ea42a1-eec9-4b9a-a01f-d85f51d6e711",
+          "queue_wait_s": 0.051,
+          "service_s": 2.012,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b01e7188f1b3c1713416474",
+          "http_status": 201,
+          "t_send": 1795286812.8954232,
+          "t_ready": 1795286814.9664514,
+          "sent_host": "2026-11-21T18:46:52.895423+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.071,
+          "msg_id": "preview-a56c400e-7192-4597-9c38-51db198b6957",
+          "queue_wait_s": 0.048,
+          "service_s": 1.704,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b01e7188f1b3c171341648f",
+          "http_status": 201,
+          "t_send": 1795286814.9664514,
+          "t_ready": 1795286817.0490386,
+          "sent_host": "2026-11-21T18:46:54.966451+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.083,
+          "msg_id": "preview-37554c4d-330f-4fb1-a06c-f620df1b6382",
+          "queue_wait_s": 0.051,
+          "service_s": 1.716,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b01e7188f1b3c17134164aa",
+          "http_status": 201,
+          "t_send": 1795286826.1023343,
+          "t_ready": 1795286997.380202,
+          "sent_host": "2026-11-21T18:47:06.102334+00:00",
+          "event": "preview-ready",
+          "latency_s": 171.278,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-1986e437-24e0-4390-b241-a70851f2cd82",
+          "queue_wait_s": 169.482,
+          "service_s": 1.84,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b01e7198f1b3c17134164c5",
+          "http_status": 201,
+          "t_send": 1795286997.380202,
+          "t_ready": 1795286999.4116285,
+          "sent_host": "2026-11-21T18:49:57.380202+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.031,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-c82de6ee-c687-4272-b6f8-2d1be20d8768",
+          "queue_wait_s": 0.054,
+          "service_s": 1.768,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b01e7198f1b3c17134164e0",
+          "http_status": 201,
+          "t_send": 1795286999.4116285,
+          "t_ready": 1795287001.539815,
+          "sent_host": "2026-11-21T18:49:59.411628+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.128,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-9276c26f-2499-4e59-a098-9bcae977931b",
+          "queue_wait_s": 0.049,
+          "service_s": 1.872,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 1135.92,
+          "mem_mb_max": 2533.376,
+          "samples": 94
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 17.69,
+          "mem_mb_max": 271.4,
+          "samples": 94
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 331.48,
+          "mem_mb_max": 212.5,
+          "samples": 94
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 3,
+      "idle_latency_s": [
+        2.315,
+        2.152,
+        2.006
+      ],
+      "loaded_latency_s": [
+        163.604,
+        2.46,
+        2.576
+      ],
+      "idle_p50_s": 2.152,
+      "idle_p95_s": 2.315,
+      "loaded_p50_s": 2.576,
+      "loaded_p95_s": 163.604,
+      "ratio_p50_loaded_over_idle": 1.2,
+      "overlapped_latency_s": [
+        163.604
+      ],
+      "ratio_overlapped_max_over_idle_p50": 76.0,
+      "subtitles_job": {
+        "msg_id": "request-b6ae4377-b0fd-4864-b090-a617dd27bc1b",
+        "project_id": "6b01e7de8f1b3c1713416593",
+        "published_vm": "2026-11-21T18:50:24.562000+00:00",
+        "worker_start_vm": "2026-11-21T18:50:24.613343+00:00",
+        "worker_ok_vm": "2026-11-21T18:53:10.598374+00:00",
+        "worker_starts": 1,
+        "queue_wait_s": 0.051,
+        "service_s": 165.985,
+        "sent_host": "2026-11-21T18:50:24.314502+00:00",
+        "done_host": "2026-11-21T18:53:10.952177+00:00",
+        "e2e_s": 166.638,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b01e7df8f1b3c17134165ae",
+          "http_status": 201,
+          "t_send": 1795287009.536306,
+          "t_ready": 1795287011.7944028,
+          "sent_host": "2026-11-21T18:50:09.536306+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.258,
+          "msg_id": "preview-58926a87-fc68-4856-ac80-d4d2c00f7bd5",
+          "queue_wait_s": 0.049,
+          "service_s": 1.994,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b01e7e08f1b3c17134165c9",
+          "http_status": 201,
+          "t_send": 1795287011.7944028,
+          "t_ready": 1795287014.109813,
+          "sent_host": "2026-11-21T18:50:11.794403+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.315,
+          "msg_id": "preview-f4f02665-4f53-423a-9508-00ee174d2348",
+          "queue_wait_s": 0.048,
+          "service_s": 2.037,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b01e7e08f1b3c17134165e4",
+          "http_status": 201,
+          "t_send": 1795287014.109813,
+          "t_ready": 1795287016.2615047,
+          "sent_host": "2026-11-21T18:50:14.109813+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.152,
+          "msg_id": "preview-246878f9-362c-440f-9f4f-5a202095bd62",
+          "queue_wait_s": 0.056,
+          "service_s": 1.885,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b01e7e08f1b3c17134165ff",
+          "http_status": 201,
+          "t_send": 1795287016.2615047,
+          "t_ready": 1795287018.267825,
+          "sent_host": "2026-11-21T18:50:16.261505+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.006,
+          "msg_id": "preview-e96d8c2b-c58d-4006-8719-8c5a0194f4d2",
+          "queue_wait_s": 0.053,
+          "service_s": 1.644,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b01e7e18f1b3c171341661a",
+          "http_status": 201,
+          "t_send": 1795287029.3148952,
+          "t_ready": 1795287192.9190538,
+          "sent_host": "2026-11-21T18:50:29.314895+00:00",
+          "event": "preview-ready",
+          "latency_s": 163.604,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-a4b9ff4a-811b-4db2-b3ca-b6a415a78b00",
+          "queue_wait_s": 161.233,
+          "service_s": 3.668,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b01e7e18f1b3c1713416635",
+          "http_status": 201,
+          "t_send": 1795287192.9195817,
+          "t_ready": 1795287195.3799849,
+          "sent_host": "2026-11-21T18:53:12.919582+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.46,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-679738be-cdd5-465a-9e4f-43a4551fd0fb",
+          "queue_wait_s": 0.054,
+          "service_s": 1.815,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b01e7e18f1b3c1713416650",
+          "http_status": 201,
+          "t_send": 1795287195.3809848,
+          "t_ready": 1795287197.9571018,
+          "sent_host": "2026-11-21T18:53:15.380985+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.576,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-96b53d9d-2b41-4842-9594-b1aaae011341",
+          "queue_wait_s": 0.052,
+          "service_s": 1.736,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 1036.19,
+          "mem_mb_max": 2480.128,
+          "samples": 92
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 10.62,
+          "mem_mb_max": 310.5,
+          "samples": 92
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 328.07,
+          "mem_mb_max": 212.0,
+          "samples": 92
+        }
+      }
+    }
+  ]
+}

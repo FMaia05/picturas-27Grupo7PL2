@@ -1,0 +1,2 @@
+msg_id,project_id,published_vm,worker_start_vm,worker_ok_vm,worker_starts,queue_wait_s,service_s,sent_host,done_host,e2e_s,user,http_status,completion_event,result_rows,N,rep
+request-7a724c4d-1eb2-4f60-9d8a-fc8f17520d6d,6b01dca1756c34bc1638321d,2026-11-21T18:02:12.584000+00:00,2026-11-21T18:02:12.632923+00:00,2026-11-21T18:02:23.241685+00:00,1,0.049,10.609,2026-11-21T18:02:12.420262+00:00,2026-11-21T18:02:23.253731+00:00,10.833,0,201,process-update,1,1,1

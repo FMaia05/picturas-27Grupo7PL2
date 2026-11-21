@@ -1,0 +1,237 @@
+{
+  "scenario": "C2-D",
+  "storage_failure": {
+    "http_status": 201,
+    "storage_down_s": 39.7,
+    "first_event": "process-error",
+    "first_event_data": {
+      "error_code": "30000",
+      "error_msg": "An error happened while processing the project"
+    },
+    "worker_finished_ok": true,
+    "worker_starts": 1,
+    "project_queue_after": {
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 1,
+      "durable": true,
+      "arguments": {
+        "x-queue-type": "classic"
+      },
+      "policy": null
+    },
+    "state_while_storage_down": {
+      "pending_process_docs": 0,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "state_60s_after_storage_back": {
+      "pending_process_docs": 0,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "process_error_events": 1,
+    "retried_automatically": false,
+    "reapply_status": 201,
+    "reapply_event": "process-update"
+  },
+  "invalid_trim": {
+    "http_status": 201,
+    "http_body": "\"Created\"",
+    "event": "process-error",
+    "event_data": {
+      "error_code": 2003,
+      "error_msg": "Trim [50.0, 60.0] s is outside the video duration (10.00 s)"
+    },
+    "seconds": 0.278,
+    "worker_attempts": 1,
+    "state": {
+      "pending_process_docs": 0,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    }
+  },
+  "missing_input": {
+    "msg_id": "request-bench-missing-e78b6742-32ad-4735-a49e-568a48a447e4",
+    "worker_attempts": 1,
+    "queue_after_20s": {
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 1,
+      "durable": true,
+      "arguments": {
+        "x-queue-type": "classic"
+      },
+      "policy": null
+    }
+  },
+  "poison_pill": {
+    "msg_id": "request-bench-poison-04e4bed0-57ed-4005-8094-7b0e3894e4d4",
+    "window_s": 90,
+    "worker_restarts_in_window": 10,
+    "tracebacks_in_window": 10,
+    "queue_at_end": {
+      "messages": 1,
+      "messages_ready": 1,
+      "messages_unacknowledged": 0,
+      "consumers": 0,
+      "durable": true,
+      "arguments": {
+        "x-queue-type": "classic"
+      },
+      "policy": null
+    },
+    "message_still_in_queue": true,
+    "samples": [
+      {
+        "t_s": 0.2,
+        "restart_count": 0,
+        "status": "running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 5.4,
+        "restart_count": 2,
+        "status": "running",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 10.5,
+        "restart_count": 5,
+        "status": "running",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 15.7,
+        "restart_count": 7,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 20.8,
+        "restart_count": 7,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 26.0,
+        "restart_count": 8,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 31.2,
+        "restart_count": 8,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 36.3,
+        "restart_count": 9,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 41.5,
+        "restart_count": 9,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 46.6,
+        "restart_count": 9,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 51.8,
+        "restart_count": 9,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 57.0,
+        "restart_count": 9,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 62.1,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 67.3,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 72.4,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 77.6,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 82.7,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      },
+      {
+        "t_s": 87.9,
+        "restart_count": 10,
+        "status": "restarting",
+        "messages": 1,
+        "unacked": 0
+      }
+    ],
+    "cleanup": "video_queue purged through the management API"
+  },
+  "dead_letter": {
+    "queues_with_dlx": [],
+    "queues_named_dead_or_dlq": [],
+    "video_queue_arguments": {
+      "x-queue-type": "classic"
+    },
+    "policies": []
+  },
+  "heal": [
+    "restarted video_tool (0 consumers on video_queue)"
+  ]
+}

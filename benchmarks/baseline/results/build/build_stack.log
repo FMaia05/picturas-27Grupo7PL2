@@ -1,0 +1,176 @@
+latest: Pulling from library/node
+eca6dde014d7: Pulling fs layer
+14f1299dcbc9: Pulling fs layer
+e8a88afca2bd: Pulling fs layer
+a6dd1c05fbba: Pulling fs layer
+411d2dc8717d: Pulling fs layer
+696c1fe91c64: Pulling fs layer
+4266ea158291: Pulling fs layer
+14f1299dcbc9: Already exists
+eca6dde014d7: Already exists
+e8a88afca2bd: Already exists
+4266ea158291: Already exists
+a6dd1c05fbba: Download complete
+a6dd1c05fbba: Pull complete
+e8a88afca2bd: Pull complete
+411d2dc8717d: Download complete
+411d2dc8717d: Pull complete
+696c1fe91c64: Download complete
+696c1fe91c64: Pull complete
+14f1299dcbc9: Pull complete
+4266ea158291: Pull complete
+eca6dde014d7: Pull complete
+Digest: sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+Status: Downloaded newer image for node:latest
+docker.io/library/node:latest
+=== build nginx (attempt 1) 2026-11-21T17:18:27Z
+=== ok nginx
+=== build api_gateway (attempt 1) 2026-11-21T17:18:27Z
+=== ok api_gateway
+=== build users (attempt 1) 2026-11-21T17:19:39Z
+=== ok users
+=== build users_mongoDB (attempt 1) 2026-11-21T17:20:08Z
+=== ok users_mongoDB
+=== build projects (attempt 1) 2026-11-21T17:20:08Z
+=== ok projects
+=== build projects_mongoDB (attempt 1) 2026-11-21T17:26:05Z
+=== ok projects_mongoDB
+=== build rabbitmq (attempt 1) 2026-11-21T17:26:06Z
+=== ok rabbitmq
+=== build seaweedfs (attempt 1) 2026-11-21T17:26:24Z
+=== ok seaweedfs
+=== build img_storage (attempt 1) 2026-11-21T17:26:24Z
+=== ok img_storage
+=== build ws_gateway (attempt 1) 2026-11-21T17:27:23Z
+=== ok ws_gateway
+=== build video_tool (attempt 1) 2026-11-21T17:27:30Z
+=== ok video_tool
+=== build binarization_tool (attempt 1) 2026-11-21T17:37:28Z
+=== ok binarization_tool
+=== build border_tool (attempt 1) 2026-11-21T17:37:58Z
+=== ok border_tool
+=== build brightness_tool (attempt 1) 2026-11-21T17:38:01Z
+=== ok brightness_tool
+=== build contrast_tool (attempt 1) 2026-11-21T17:38:16Z
+=== ok contrast_tool
+=== build cut_tool (attempt 1) 2026-11-21T17:38:21Z
+=== ok cut_tool
+=== build resize_tool (attempt 1) 2026-11-21T17:38:23Z
+=== ok resize_tool
+=== build rotate_tool (attempt 1) 2026-11-21T17:38:24Z
+=== ok rotate_tool
+=== build saturation_tool (attempt 1) 2026-11-21T17:38:26Z
+=== ok saturation_tool
+ Network picturas-baseline_elk  Creating
+ Network picturas-baseline_elk  Created
+ Volume "picturas-baseline_project_data"  Creating
+ Volume "picturas-baseline_project_data"  Created
+ Volume "picturas-baseline_rabbitmq_data"  Creating
+ Volume "picturas-baseline_rabbitmq_data"  Created
+ Volume "picturas-baseline_image_data"  Creating
+ Volume "picturas-baseline_image_data"  Created
+ Volume "picturas-baseline_whisper_models"  Creating
+ Volume "picturas-baseline_whisper_models"  Created
+ Volume "picturas-baseline_user_data"  Creating
+ Volume "picturas-baseline_user_data"  Created
+ Volume "picturas-baseline_seaweedfs_data"  Creating
+ Volume "picturas-baseline_seaweedfs_data"  Created
+ Container picturas-baseline-rabbitmq-1  Creating
+ Container picturas-baseline-projects_mongoDB-1  Creating
+ Container picturas-baseline-users_mongoDB-1  Creating
+ Container picturas-baseline-seaweedfs-1  Creating
+ Container picturas-baseline-users_mongoDB-1  Created
+ Container picturas-baseline-rabbitmq-1  Created
+ Container picturas-baseline-projects_mongoDB-1  Created
+ Container picturas-baseline-seaweedfs-1  Created
+ Container picturas-baseline-users-1  Creating
+ Container picturas-baseline-brightness_tool-1  Creating
+ Container picturas-baseline-ws_gateway-1  Creating
+ Container picturas-baseline-binarization_tool-1  Creating
+ Container picturas-baseline-contrast_tool-1  Creating
+ Container picturas-baseline-border_tool-1  Creating
+ Container picturas-baseline-cut_tool-1  Creating
+ Container picturas-baseline-img_storage-1  Creating
+ Container picturas-baseline-projects-1  Creating
+ Container picturas-baseline-resize_tool-1  Creating
+ Container picturas-baseline-saturation_tool-1  Creating
+ Container picturas-baseline-video_tool-1  Creating
+ Container picturas-baseline-rotate_tool-1  Creating
+ Container picturas-baseline-binarization_tool-1  Created
+ Container picturas-baseline-contrast_tool-1  Created
+ Container picturas-baseline-saturation_tool-1  Created
+ Container picturas-baseline-border_tool-1  Created
+ Container picturas-baseline-video_tool-1  Created
+ Container picturas-baseline-brightness_tool-1  Created
+ Container picturas-baseline-resize_tool-1  Created
+ Container picturas-baseline-projects-1  Created
+ Container picturas-baseline-cut_tool-1  Created
+ Container picturas-baseline-ws_gateway-1  Created
+ Container picturas-baseline-img_storage-1  Created
+ Container picturas-baseline-rotate_tool-1  Created
+ Container picturas-baseline-users-1  Created
+ Container picturas-baseline-api_gateway-1  Creating
+ Container picturas-baseline-api_gateway-1  Created
+ Container picturas-baseline-nginx-1  Creating
+ Container picturas-baseline-nginx-1  Created
+ Container picturas-baseline-seaweedfs-1  Starting
+ Container picturas-baseline-rabbitmq-1  Starting
+ Container picturas-baseline-projects_mongoDB-1  Starting
+ Container picturas-baseline-users_mongoDB-1  Starting
+ Container picturas-baseline-users_mongoDB-1  Started
+ Container picturas-baseline-users-1  Starting
+ Container picturas-baseline-seaweedfs-1  Started
+ Container picturas-baseline-img_storage-1  Starting
+ Container picturas-baseline-rabbitmq-1  Started
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-projects_mongoDB-1  Started
+ Container picturas-baseline-rabbitmq-1  Waiting
+ Container picturas-baseline-users-1  Started
+ Container picturas-baseline-img_storage-1  Started
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-cut_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-contrast_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-brightness_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-border_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-video_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-ws_gateway-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-saturation_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-binarization_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-resize_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-rotate_tool-1  Starting
+ Container picturas-baseline-rabbitmq-1  Healthy
+ Container picturas-baseline-projects-1  Starting
+ Container picturas-baseline-cut_tool-1  Started
+ Container picturas-baseline-brightness_tool-1  Started
+ Container picturas-baseline-saturation_tool-1  Started
+ Container picturas-baseline-binarization_tool-1  Started
+ Container picturas-baseline-rotate_tool-1  Started
+ Container picturas-baseline-video_tool-1  Started
+ Container picturas-baseline-ws_gateway-1  Started
+ Container picturas-baseline-resize_tool-1  Started
+ Container picturas-baseline-projects-1  Started
+ Container picturas-baseline-api_gateway-1  Starting
+ Container picturas-baseline-contrast_tool-1  Started
+ Container picturas-baseline-border_tool-1  Started
+ Container picturas-baseline-api_gateway-1  Started
+ Container picturas-baseline-nginx-1  Starting
+ Container picturas-baseline-nginx-1  Started
+EXIT=0

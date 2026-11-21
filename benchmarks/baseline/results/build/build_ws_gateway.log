@@ -1,0 +1,49 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.16kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 173B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:18
+#3 DONE 5.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 52B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#5 resolve docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 187B done
+#6 DONE 0.0s
+
+#7 [2/5] WORKDIR /usr/src/app
+#7 CACHED
+
+#8 [3/5] COPY package.json ./
+#8 CACHED
+
+#9 [4/5] COPY . .
+#9 CACHED
+
+#10 [5/5] RUN npm i
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 exporting manifest sha256:27c6065c15df8b769f0750e445fb6ca4255fcfc4f7b5a7b76509728529302c39 done
+#11 exporting config sha256:4e8744c92dcb769847499c9c2cf435778a502e9af99735855a6af325a96470f0 done
+#11 exporting attestation manifest sha256:e552b3588a231d523c051f67d11b0fb1900eff2b57e0349c282144d7270dfa36 0.0s done
+#11 exporting manifest list sha256:c6f0964418e291ac0acb5fd41e0256058e9d7a47b1eac24127ddf2937ef6d7b8
+#11 exporting manifest list sha256:c6f0964418e291ac0acb5fd41e0256058e9d7a47b1eac24127ddf2937ef6d7b8 0.0s done
+#11 naming to docker.io/library/picturas-baseline-ws_gateway:latest done
+#11 unpacking to docker.io/library/picturas-baseline-ws_gateway:latest 0.0s done
+#11 DONE 0.1s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ picturas-baseline-ws_gateway  Built

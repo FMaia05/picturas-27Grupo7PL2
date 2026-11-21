@@ -1,0 +1,7 @@
+[18:19:58] C2-A broker restart with 4 jobs waiting in video_queue
+[18:20:15]   heal after pre-c2a: ['restarted projects (0 consumers on project_queue)']
+[18:20:35]   queue before restart: {'messages': 4, 'messages_ready': 4, 'messages_unacknowledged': 0, 'consumers': 0, 'durable': True, 'arguments': {'x-queue-type': 'classic'}, 'policy': None}
+[18:21:02]   queue after restart: {'messages': 0, 'messages_ready': 0, 'messages_unacknowledged': 0, 'consumers': 0, 'durable': True, 'arguments': {'x-queue-type': 'classic'}, 'policy': None}
+[18:24:29]   heal after c2a: ['restarted projects (0 consumers on project_queue)']
+[18:24:29]   -> lost 4/4 (100.0 %), stuck runs 4, heal ['restarted projects (0 consumers on project_queue)']
+[18:24:29] saved benchmarks\baseline\results\c2a_broker_restart.json

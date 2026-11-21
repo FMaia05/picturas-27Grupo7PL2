@@ -1,0 +1,58 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.19kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 282B 0.0s done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 25.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#6 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.1s done
+#6 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 3.95kB 0.0s done
+#5 DONE 0.1s
+
+#7 [4/6] COPY ./utils ./utils
+#7 CACHED
+
+#8 [5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#8 CACHED
+
+#9 [2/6] WORKDIR /app
+#9 CACHED
+
+#10 [3/6] COPY ./binarization .
+#10 CACHED
+
+#11 [6/6] RUN pip install --no-cache-dir -r requirements.txt
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:854c02383a2b77997a4cfc5e42cebbd309336a6bc9720737a3303f7c33338580 0.0s done
+#12 exporting config sha256:8e3d878e8237f1547832a46b546565f7f5dadf77734032a91fb3eb0cca776fd6
+#12 exporting config sha256:8e3d878e8237f1547832a46b546565f7f5dadf77734032a91fb3eb0cca776fd6 done
+#12 exporting attestation manifest sha256:49e3bf3791eeef566cd2cd9c516258b6c3e7fe208338bd4009f716a29df0e17b
+#12 exporting attestation manifest sha256:49e3bf3791eeef566cd2cd9c516258b6c3e7fe208338bd4009f716a29df0e17b 0.3s done
+#12 exporting manifest list sha256:9ffe7e3a8e3d96ae0360b00145a23ad857d7f716e1eb2efceca1e7f81e8d83c0
+#12 exporting manifest list sha256:9ffe7e3a8e3d96ae0360b00145a23ad857d7f716e1eb2efceca1e7f81e8d83c0 0.1s done
+#12 naming to docker.io/library/picturas-baseline-binarization_tool:latest
+#12 naming to docker.io/library/picturas-baseline-binarization_tool:latest 0.0s done
+#12 unpacking to docker.io/library/picturas-baseline-binarization_tool:latest done
+#12 DONE 0.7s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ picturas-baseline-binarization_tool  Built

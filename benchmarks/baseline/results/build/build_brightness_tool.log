@@ -1,0 +1,57 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.18kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 278B 0.0s done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#6 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.1s done
+#6 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 4.57kB 0.0s done
+#5 DONE 0.1s
+
+#7 [4/6] COPY ./utils ./utils
+#7 CACHED
+
+#8 [5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#8 CACHED
+
+#9 [2/6] WORKDIR /app
+#9 CACHED
+
+#10 [3/6] COPY ./brightness .
+#10 CACHED
+
+#11 [6/6] RUN pip install --no-cache-dir -r requirements.txt
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:ddaf3b479fce71e3284d65a945a6706bb542786f88539b573c13922da65ce820 done
+#12 exporting config sha256:11646bd62005a82a2b92a964d97a9a0f38cec7551a8ed4880222257e82b9c7fe 0.0s done
+#12 exporting attestation manifest sha256:9c8dbaa3107dcd3df90110a1cdf2e8cbbbce50656d281e8797e77422a39441a4
+#12 exporting attestation manifest sha256:9c8dbaa3107dcd3df90110a1cdf2e8cbbbce50656d281e8797e77422a39441a4 0.3s done
+#12 exporting manifest list sha256:9bcf3326e9933251a0b5f098cf586a08778d4304dc4ab69ca2c35a3c88d3cf25
+#12 exporting manifest list sha256:9bcf3326e9933251a0b5f098cf586a08778d4304dc4ab69ca2c35a3c88d3cf25 0.1s done
+#12 naming to docker.io/library/picturas-baseline-brightness_tool:latest
+#12 naming to docker.io/library/picturas-baseline-brightness_tool:latest done
+#12 unpacking to docker.io/library/picturas-baseline-brightness_tool:latest 0.0s done
+#12 DONE 0.6s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ picturas-baseline-brightness_tool  Built

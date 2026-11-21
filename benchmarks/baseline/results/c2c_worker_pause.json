@@ -1,0 +1,175 @@
+{
+  "scenario": "C2-C",
+  "http_status": 201,
+  "paused_at_percent": 51,
+  "pause_window_s": 120,
+  "queue_samples": [
+    {
+      "t_s": 0.2,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 1
+    },
+    {
+      "t_s": 5.2,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 10.2,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 15.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 20.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 25.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 30.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 35.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 40.3,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 45.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 50.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 55.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 60.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 65.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 70.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 75.4,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 80.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 85.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 90.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 95.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 100.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 105.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 110.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    },
+    {
+      "t_s": 115.5,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1
+    }
+  ],
+  "broker_took_message_back_after_s": null,
+  "unacked_whole_window": false,
+  "user_events_during_pause": [
+    "video-progress"
+  ],
+  "completion_event_after_unpause": "process-update",
+  "completion_after_unpause_s": 4.873,
+  "worker_starts": 1,
+  "state": {
+    "pending_process_docs": 0,
+    "result_rows": [
+      {
+        "img_id": "6b01e3038f1b3c1713415fa7",
+        "type": "video",
+        "file_name": "sample_10s_720p.mp4",
+        "token": 1
+      }
+    ],
+    "tokens": {
+      "activeToken": 1,
+      "committedToken": 1
+    }
+  }
+}

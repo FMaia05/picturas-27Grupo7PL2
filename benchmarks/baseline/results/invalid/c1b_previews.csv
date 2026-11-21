@@ -1,0 +1,7 @@
+phase,k,project_id,http_status,sent_host,event,latency_s,msg_id,queue_wait_s,service_s,worker_starts,rep
+idle,1,6b01e4e88f1b3c171341618a,201,2026-11-21T18:37:35.174636+00:00,preview-ready,10.993,preview-a6351503-53ac-42f4-99b9-515c8709afd8,0.062,10.433,1,1
+idle,2,6b01e4e88f1b3c17134161a5,201,2026-11-21T18:37:46.167337+00:00,preview-ready,0.0,preview-1ba4bec4-bfa0-4d69-adce-c8788741dc27,0.052,2.722,1,1
+idle,3,6b01e4e98f1b3c17134161c0,201,2026-11-21T18:37:46.227386+00:00,preview-ready,2.882,preview-46182e7a-bbea-426d-bd57-333c42489a12,2.697,2.031,1,1
+under_subtitles,1,6b01e4e98f1b3c17134161db,201,2026-11-21T18:38:04.181480+00:00,preview-ready,212.967,preview-a71d2224-1835-4101-ac18-b0406d629eb8,210.326,1.458,1,1
+under_subtitles,2,6b01e4ea8f1b3c17134161f6,201,2026-11-21T18:41:37.148680+00:00,preview-ready,0.0,preview-79994e43-0a6e-4ce2-b7f2-2dc565fa8fd1,0.05,1.801,1,1
+under_subtitles,3,6b01e4ea8f1b3c1713416211,201,2026-11-21T18:41:37.239664+00:00,preview-ready,1.946,preview-736f24c1-18ea-4571-a0bb-f4f1ddf70aec,1.752,1.974,1,1

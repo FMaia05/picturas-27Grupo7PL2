@@ -1,0 +1,269 @@
+{
+  "scenario": "C2-B",
+  "reps": [
+    {
+      "rep": 1,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-21T18:25:47.385890+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-21T18:26:28.411098+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 1,
+        "durable": true,
+        "arguments": {
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "msg_id": "request-17306581-ed4f-4fac-b29a-5636c30c2ad8",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 53.163,
+      "first_attempt_to_kill_s": 7.622,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b01e2238f1b3c1713415e51",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3701716"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-21T18:26:29.945031+00:00"
+    },
+    {
+      "rep": 2,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-21T18:26:58.846104+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-21T18:27:38.380768+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 1,
+        "durable": true,
+        "arguments": {
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "msg_id": "request-66db3c48-e4fa-4712-bfc5-53b89972d386",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 58.889,
+      "first_attempt_to_kill_s": 6.338,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b01e26c8f1b3c1713415ec3",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3702714"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-21T18:27:40.561394+00:00"
+    },
+    {
+      "rep": 3,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-21T18:28:15.494723+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-21T18:28:54.949225+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 1,
+        "durable": true,
+        "arguments": {
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "msg_id": "request-b3cea38a-7247-4bf8-8b45-9efb7f7d2a4f",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 50.527,
+      "first_attempt_to_kill_s": 5.848,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b01e2b98f1b3c1713415f35",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3583333"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-21T18:28:56.065424+00:00"
+    }
+  ]
+}

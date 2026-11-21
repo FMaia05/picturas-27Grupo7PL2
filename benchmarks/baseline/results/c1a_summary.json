@@ -1,0 +1,327 @@
+{
+  "runs": [
+    {
+      "scenario": "C1-A",
+      "N": 1,
+      "rep": 1,
+      "completed": 1,
+      "makespan_s": 11.445,
+      "throughput_videos_per_min": 5.243,
+      "queue_wait_s_mean": 0.049,
+      "queue_wait_s_max": 0.049,
+      "service_s_mean": 11.248,
+      "e2e_s_mean": 11.445,
+      "e2e_s_max": 11.445,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 254.35,
+          "mem_mb_max": 551.7,
+          "samples": 8
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 2.93,
+          "mem_mb_max": 279.1,
+          "samples": 8
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 7.73,
+          "mem_mb_max": 162.0,
+          "samples": 8
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 2,
+      "rep": 1,
+      "completed": 2,
+      "makespan_s": 24.845,
+      "throughput_videos_per_min": 4.83,
+      "queue_wait_s_mean": 7.536,
+      "queue_wait_s_max": 15.017,
+      "service_s_mean": 12.75,
+      "e2e_s_mean": 19.437,
+      "e2e_s_max": 24.845,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 278.29,
+          "mem_mb_max": 598.3,
+          "samples": 14
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 4.08,
+          "mem_mb_max": 290.2,
+          "samples": 14
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 18.87,
+          "mem_mb_max": 186.4,
+          "samples": 14
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 4,
+      "rep": 1,
+      "completed": 4,
+      "makespan_s": 49.854,
+      "throughput_videos_per_min": 4.814,
+      "queue_wait_s_mean": 22.242,
+      "queue_wait_s_max": 38.96,
+      "service_s_mean": 12.237,
+      "e2e_s_mean": 34.39,
+      "e2e_s_max": 49.846,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 331.14,
+          "mem_mb_max": 600.4,
+          "samples": 26
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 28.85,
+          "mem_mb_max": 307.2,
+          "samples": 26
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 300.42,
+          "mem_mb_max": 151.8,
+          "samples": 26
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 1,
+      "rep": 2,
+      "completed": 1,
+      "makespan_s": 10.762,
+      "throughput_videos_per_min": 5.575,
+      "queue_wait_s_mean": 0.05,
+      "queue_wait_s_max": 0.05,
+      "service_s_mean": 11.501,
+      "e2e_s_mean": 10.762,
+      "e2e_s_max": 10.762,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 212.62,
+          "mem_mb_max": 577.0,
+          "samples": 8
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 3.2,
+          "mem_mb_max": 299.6,
+          "samples": 8
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 1.32,
+          "mem_mb_max": 149.5,
+          "samples": 8
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 2,
+      "rep": 2,
+      "completed": 2,
+      "makespan_s": 21.323,
+      "throughput_videos_per_min": 5.628,
+      "queue_wait_s_mean": 4.867,
+      "queue_wait_s_max": 9.679,
+      "service_s_mean": 10.111,
+      "e2e_s_mean": 15.895,
+      "e2e_s_max": 21.322,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 243.75,
+          "mem_mb_max": 581.0,
+          "samples": 13
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 8.49,
+          "mem_mb_max": 308.6,
+          "samples": 13
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 2.11,
+          "mem_mb_max": 150.9,
+          "samples": 13
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 4,
+      "rep": 2,
+      "completed": 4,
+      "makespan_s": 42.472,
+      "throughput_videos_per_min": 5.651,
+      "queue_wait_s_mean": 15.924,
+      "queue_wait_s_max": 32.108,
+      "service_s_mean": 10.453,
+      "e2e_s_mean": 26.794,
+      "e2e_s_max": 42.472,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 221.75,
+          "mem_mb_max": 597.7,
+          "samples": 24
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 2.84,
+          "mem_mb_max": 319.7,
+          "samples": 24
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 208.82,
+          "mem_mb_max": 226.5,
+          "samples": 24
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 1,
+      "rep": 3,
+      "completed": 1,
+      "makespan_s": 10.669,
+      "throughput_videos_per_min": 5.624,
+      "queue_wait_s_mean": 0.055,
+      "queue_wait_s_max": 0.055,
+      "service_s_mean": 10.592,
+      "e2e_s_mean": 10.669,
+      "e2e_s_max": 10.669,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 216.88,
+          "mem_mb_max": 602.7,
+          "samples": 8
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 2.64,
+          "mem_mb_max": 331.0,
+          "samples": 8
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 32.77,
+          "mem_mb_max": 198.9,
+          "samples": 8
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 2,
+      "rep": 3,
+      "completed": 2,
+      "makespan_s": 21.18,
+      "throughput_videos_per_min": 5.666,
+      "queue_wait_s_mean": 5.311,
+      "queue_wait_s_max": 10.574,
+      "service_s_mean": 10.411,
+      "e2e_s_mean": 15.918,
+      "e2e_s_max": 21.18,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 227.44,
+          "mem_mb_max": 613.7,
+          "samples": 13
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 0.5,
+          "mem_mb_max": 344.4,
+          "samples": 13
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 17.86,
+          "mem_mb_max": 153.3,
+          "samples": 13
+        }
+      }
+    },
+    {
+      "scenario": "C1-A",
+      "N": 4,
+      "rep": 3,
+      "completed": 4,
+      "makespan_s": 42.468,
+      "throughput_videos_per_min": 5.651,
+      "queue_wait_s_mean": 15.349,
+      "queue_wait_s_max": 30.121,
+      "service_s_mean": 10.005,
+      "e2e_s_mean": 26.677,
+      "e2e_s_max": 42.465,
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 248.45,
+          "mem_mb_max": 631.8,
+          "samples": 23
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 0.22,
+          "mem_mb_max": 362.9,
+          "samples": 23
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 332.79,
+          "mem_mb_max": 154.2,
+          "samples": 23
+        }
+      }
+    }
+  ],
+  "aggregate": [
+    {
+      "N": 1,
+      "reps": 3,
+      "throughput_mean": 5.481,
+      "throughput_min": 5.243,
+      "throughput_max": 5.624,
+      "makespan_mean_s": 10.959,
+      "queue_wait_mean_s": 0.051,
+      "queue_wait_max_s": 0.055,
+      "service_mean_s": 11.114,
+      "e2e_mean_s": 10.959,
+      "e2e_p95_s": 11.445,
+      "video_tool_cpu_pct_max": 254.35,
+      "video_tool_mem_mb_max": 602.7,
+      "completed": 3,
+      "submitted": 3
+    },
+    {
+      "N": 2,
+      "reps": 3,
+      "throughput_mean": 5.375,
+      "throughput_min": 4.83,
+      "throughput_max": 5.666,
+      "makespan_mean_s": 22.449,
+      "queue_wait_mean_s": 5.905,
+      "queue_wait_max_s": 15.017,
+      "service_mean_s": 11.091,
+      "e2e_mean_s": 17.083,
+      "e2e_p95_s": 24.845,
+      "video_tool_cpu_pct_max": 278.29,
+      "video_tool_mem_mb_max": 613.7,
+      "completed": 6,
+      "submitted": 6
+    },
+    {
+      "N": 4,
+      "reps": 3,
+      "throughput_mean": 5.372,
+      "throughput_min": 4.814,
+      "throughput_max": 5.651,
+      "makespan_mean_s": 44.931,
+      "queue_wait_mean_s": 17.838,
+      "queue_wait_max_s": 38.96,
+      "service_mean_s": 10.898,
+      "e2e_mean_s": 29.287,
+      "e2e_p95_s": 49.846,
+      "video_tool_cpu_pct_max": 331.14,
+      "video_tool_mem_mb_max": 631.8,
+      "completed": 12,
+      "submitted": 12
+    }
+  ]
+}

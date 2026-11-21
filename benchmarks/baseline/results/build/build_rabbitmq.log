@@ -1,0 +1,43 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 626B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 460B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rabbitmq:4.0.5-management
+#3 DONE 7.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 71B done
+#5 DONE 0.0s
+
+#6 [1/3] FROM docker.io/library/rabbitmq:4.0.5-management@sha256:697da87bf89699fda7c7da8067cc91b055353056d52a07e7f3c41bd67b0b5f71
+#6 resolve docker.io/library/rabbitmq:4.0.5-management@sha256:697da87bf89699fda7c7da8067cc91b055353056d52a07e7f3c41bd67b0b5f71 0.1s done
+#6 DONE 0.1s
+
+#7 [2/3] COPY definitions.json /etc/rabbitmq/definitions.json
+#7 CACHED
+
+#8 [3/3] COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:d01f9c93e63367713c6ba1d2ecf53bed64a57fd576e5de765d360c55f33507ad 0.0s done
+#9 exporting config sha256:ba6b9ed5f42dca1008bb59626236330af37b3b041887c9a9e1dcaf3aa1274952 done
+#9 exporting attestation manifest sha256:12799df6d87aba03a5083925370bb98dfbba04bd92579ecfd0056c5f0a32f002 0.1s done
+#9 exporting manifest list sha256:ed59664ad06f99912d000487067c0b1bdb56ab18074710e3cba0bf1c905b3576
+#9 exporting manifest list sha256:ed59664ad06f99912d000487067c0b1bdb56ab18074710e3cba0bf1c905b3576 0.1s done
+#9 naming to docker.io/library/picturas-baseline-rabbitmq:latest done
+#9 unpacking to docker.io/library/picturas-baseline-rabbitmq:latest 0.0s done
+#9 DONE 0.3s
+
+#10 resolving provenance for metadata file
+#10 DONE 0.0s
+ picturas-baseline-rabbitmq  Built

@@ -1,0 +1,55 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.16kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 270B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 3.66kB 0.0s done
+#6 DONE 0.0s
+
+#7 [4/6] COPY ./utils ./utils
+#7 CACHED
+
+#8 [5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#8 CACHED
+
+#9 [2/6] WORKDIR /app
+#9 CACHED
+
+#10 [3/6] COPY ./rotate .
+#10 CACHED
+
+#11 [6/6] RUN pip install --no-cache-dir -r requirements.txt
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:b0f34048cd98b8cf13b49408751f6e9731c313555e444f0d49fb6c128aebead0 done
+#12 exporting config sha256:ed2bc8be7565d6625879ee020554d8c90a0f4ca3d3d39f74299d78098b9d5991 done
+#12 exporting attestation manifest sha256:4e9dcf3c66f797ccaf7331cc13f1ab3c80d66b796c68bce626f06587a53a8be2 0.0s done
+#12 exporting manifest list sha256:b2f43a1c1e426916d0bc99e1fbfc58dc73436a08e9fe7b10a0fa51fb641bc636
+#12 exporting manifest list sha256:b2f43a1c1e426916d0bc99e1fbfc58dc73436a08e9fe7b10a0fa51fb641bc636 0.0s done
+#12 naming to docker.io/library/picturas-baseline-rotate_tool:latest done
+#12 unpacking to docker.io/library/picturas-baseline-rotate_tool:latest done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ picturas-baseline-rotate_tool  Built

@@ -1,0 +1,13 @@
+[18:25:33] C2-B worker kill rep=1
+[18:25:49]   killed video_tool at 51 %
+[18:26:28]   video_tool did not restart by itself in 30 s: starting it by hand
+[18:26:46]   -> redelivered=True completion=process-update recovery 53.163 s, auto restart None s, partial files []
+[18:26:46] C2-B worker kill rep=2
+[18:26:59]   killed video_tool at 51 %
+[18:27:38]   video_tool did not restart by itself in 30 s: starting it by hand
+[18:28:02]   -> redelivered=True completion=process-update recovery 58.889 s, auto restart None s, partial files []
+[18:28:02] C2-B worker kill rep=3
+[18:28:15]   killed video_tool at 51 %
+[18:28:54]   video_tool did not restart by itself in 30 s: starting it by hand
+[18:29:10]   -> redelivered=True completion=process-update recovery 50.527 s, auto restart None s, partial files []
+[18:29:16] saved benchmarks\baseline\results\c2b_worker_kill.json

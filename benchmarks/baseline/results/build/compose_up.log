@@ -1,0 +1,2881 @@
+2026-11-21T15:27:35Z
+#1 [internal] load local bake definitions
+#1 reading from stdin 14.04kB 0.1s done
+#1 DONE 0.1s
+
+#2 [border_tool internal] load build definition from Dockerfile
+#2 ...
+
+#3 [video_tool internal] load build definition from Dockerfile
+#3 transferring dockerfile: 481B done
+#3 DONE 0.3s
+
+#4 [resize_tool internal] load build definition from Dockerfile
+#4 transferring dockerfile: 270B 0.0s done
+#4 DONE 0.3s
+
+#5 [users internal] load build definition from Dockerfile
+#5 transferring dockerfile: 127B 0.0s done
+#5 DONE 0.3s
+
+#6 [cut_tool internal] load build definition from Dockerfile
+#6 transferring dockerfile: 264B 0.0s done
+#6 DONE 0.3s
+
+#7 [api_gateway internal] load build definition from Dockerfile
+#7 transferring dockerfile: 126B 0.0s done
+#7 DONE 0.4s
+
+#8 [generative-mock internal] load build definition from Dockerfile
+#8 transferring dockerfile: 214B 0.0s done
+#8 DONE 0.4s
+
+#2 [border_tool internal] load build definition from Dockerfile
+#2 ...
+
+#9 [people_ai_tool internal] load build definition from Dockerfile
+#9 transferring dockerfile: 767B 0.0s done
+#9 DONE 0.5s
+
+#10 [contrast_tool internal] load build definition from Dockerfile
+#10 transferring dockerfile: 274B 0.0s done
+#10 DONE 0.5s
+
+#11 [brightness_tool internal] load build definition from Dockerfile
+#11 transferring dockerfile: 278B 0.0s done
+#11 DONE 0.5s
+
+#12 [img_storage internal] load build definition from Dockerfile
+#12 transferring dockerfile: 127B 0.0s done
+#12 DONE 0.5s
+
+#13 [text_ai_tool internal] load build definition from Dockerfile
+#13 transferring dockerfile: 474B 0.0s done
+#13 DONE 0.5s
+
+#14 [bg_remove_ai_tool internal] load build definition from Dockerfile
+#14 transferring dockerfile: 283B 0.0s done
+#14 DONE 0.5s
+
+#15 [projects internal] load build definition from Dockerfile
+#15 transferring dockerfile: 272B done
+#15 DONE 0.5s
+
+#16 [subscriptions internal] load build definition from Dockerfile
+#16 transferring dockerfile: 127B 0.0s done
+#16 DONE 0.5s
+
+#2 [border_tool internal] load build definition from Dockerfile
+#2 transferring dockerfile: 270B 0.0s done
+#2 DONE 0.6s
+
+#17 [rabbitmq internal] load build definition from Dockerfile
+#17 transferring dockerfile: 460B 0.0s done
+#17 DONE 0.5s
+
+#18 [ws_gateway internal] load build definition from Dockerfile
+#18 transferring dockerfile: 173B 0.0s done
+#18 DONE 0.5s
+
+#19 [upgrade_ai_tool internal] load build definition from Dockerfile
+#19 transferring dockerfile: 384B 0.0s done
+#19 DONE 0.5s
+
+#20 [rotate_tool internal] load build definition from Dockerfile
+#20 transferring dockerfile: 270B 0.0s done
+#20 DONE 0.5s
+
+#21 [expand_ai_tool internal] load build definition from Dockerfile
+#21 transferring dockerfile: 421B 0.0s done
+#21 DONE 0.5s
+
+#22 [obj_ai_tool internal] load build definition from Dockerfile
+#22 transferring dockerfile: 756B 0.0s done
+#22 DONE 0.6s
+
+#23 [saturation_tool internal] load build definition from Dockerfile
+#23 transferring dockerfile: 278B 0.0s done
+#23 DONE 0.6s
+
+#24 [cut_ai_tool internal] load build definition from Dockerfile
+#24 transferring dockerfile: 910B 0.0s done
+#24 DONE 0.6s
+
+#25 [frontend internal] load build definition from Dockerfile
+#25 transferring dockerfile: 277B 0.0s done
+#25 DONE 0.6s
+
+#26 [binarization_tool internal] load build definition from Dockerfile
+#26 transferring dockerfile: 282B 0.0s done
+#26 DONE 0.6s
+
+#27 [binarization_tool internal] load metadata for docker.io/library/python:3.11-slim
+#27 ...
+
+#28 [ws_gateway internal] load metadata for docker.io/library/node:18
+#28 DONE 1.5s
+
+#29 [expand_ai_tool internal] load metadata for docker.io/library/python:3.10
+#29 DONE 1.5s
+
+#30 [rabbitmq internal] load metadata for docker.io/library/rabbitmq:4.0.5-management
+#30 DONE 1.5s
+
+#31 [expand_ai_tool internal] load .dockerignore
+#31 transferring context: 2B done
+#31 DONE 0.1s
+
+#32 [ws_gateway internal] load .dockerignore
+#32 transferring context: 52B 0.0s done
+#32 DONE 0.1s
+
+#33 [frontend internal] load .dockerignore
+#33 transferring context: 52B done
+#33 DONE 0.1s
+
+#34 [rabbitmq internal] load .dockerignore
+#34 transferring context: 2B done
+#34 DONE 0.1s
+
+#35 [ws_gateway internal] load build context
+#35 DONE 0.0s
+
+#36 [frontend internal] load build context
+#36 DONE 0.0s
+
+#37 [expand_ai_tool 1/8] FROM docker.io/library/python:3.10@sha256:c10791e6f69086d5216f7b5d3b839929c454e24305867ed9bc5152f0355b5423
+#37 resolve docker.io/library/python:3.10@sha256:c10791e6f69086d5216f7b5d3b839929c454e24305867ed9bc5152f0355b5423 0.1s done
+#37 DONE 0.1s
+
+#38 [ws_gateway 1/5] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#38 resolve docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783 0.1s done
+#38 DONE 0.1s
+
+#39 [rabbitmq internal] load build context
+#39 transferring context: 10.13kB 0.0s done
+#39 DONE 0.1s
+
+#40 [expand_ai_tool internal] load build context
+#40 transferring context: 17.59kB 0.0s done
+#40 DONE 0.1s
+
+#41 [rabbitmq 1/3] FROM docker.io/library/rabbitmq:4.0.5-management@sha256:697da87bf89699fda7c7da8067cc91b055353056d52a07e7f3c41bd67b0b5f71
+#41 resolve docker.io/library/rabbitmq:4.0.5-management@sha256:697da87bf89699fda7c7da8067cc91b055353056d52a07e7f3c41bd67b0b5f71 0.1s done
+#41 CACHED
+
+#42 [expand_ai_tool 3/8] COPY expand_ai/requirements.txt /app/requirements.txt
+#42 CACHED
+
+#43 [expand_ai_tool 2/8] WORKDIR /app
+#43 CACHED
+
+#44 [expand_ai_tool 4/8] COPY utils/requirements.txt /app/utils-requirements.txt
+#44 CACHED
+
+#35 [ws_gateway internal] load build context
+#35 transferring context: 7.78kB 0.0s done
+#35 DONE 0.1s
+
+#45 [ws_gateway 2/5] WORKDIR /usr/src/app
+#45 CACHED
+
+#46 [ws_gateway 3/5] COPY package.json ./
+#46 CACHED
+
+#47 [rabbitmq 2/3] COPY definitions.json /etc/rabbitmq/definitions.json
+#47 DONE 0.1s
+
+#48 [rabbitmq 3/3] COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+#48 DONE 0.1s
+
+#36 [frontend internal] load build context
+#36 ...
+
+#49 [ws_gateway 4/5] COPY . .
+#49 DONE 0.1s
+
+#36 [frontend internal] load build context
+#36 transferring context: 765.26kB 0.7s done
+#36 DONE 0.8s
+
+#50 [frontend 3/7] COPY package.json ./
+#50 CACHED
+
+#45 [frontend 2/5] WORKDIR /usr/src/app
+#45 CACHED
+
+#51 [frontend 4/7] RUN npm install -g bun
+#51 CACHED
+
+#52 [frontend 5/7] RUN bun i
+#52 CACHED
+
+#53 [rabbitmq] exporting to image
+#53 exporting layers 0.2s done
+#53 exporting manifest sha256:d01f9c93e63367713c6ba1d2ecf53bed64a57fd576e5de765d360c55f33507ad 0.0s done
+#53 exporting config sha256:ba6b9ed5f42dca1008bb59626236330af37b3b041887c9a9e1dcaf3aa1274952 0.0s done
+#53 exporting attestation manifest sha256:7b5f6d7c73e83657012bcf094a8d3f3c216a609d6ce0ca785cf5736669319399 0.1s done
+#53 exporting manifest list sha256:549bf8bd0f36be5d85234990ba80d01111fa6b385dc2c53fee591e65c3b73f83 0.0s done
+#53 naming to docker.io/library/picturas-baseline-rabbitmq:latest done
+#53 unpacking to docker.io/library/picturas-baseline-rabbitmq:latest 0.1s done
+#53 DONE 0.6s
+
+#54 [frontend 6/7] COPY . .
+#54 DONE 0.2s
+
+#55 [rabbitmq] resolving provenance for metadata file
+#55 DONE 0.0s
+
+#56 [frontend 7/7] RUN bun run build
+#56 ...
+
+#31 [brightness_tool internal] load .dockerignore
+#31 transferring context: 2B done
+#31 DONE 0.1s
+
+#57 [subscriptions internal] load metadata for docker.io/library/node:latest
+#57 DONE 3.2s
+
+#27 [video_tool internal] load metadata for docker.io/library/python:3.11-slim
+#27 DONE 3.3s
+
+#58 [contrast_tool internal] load build context
+#58 DONE 0.0s
+
+#59 [resize_tool internal] load build context
+#59 DONE 0.0s
+
+#60 [rotate_tool internal] load build context
+#60 DONE 0.0s
+
+#61 [bg_remove_ai_tool internal] load build context
+#61 DONE 0.0s
+
+#62 [saturation_tool internal] load build context
+#62 DONE 0.0s
+
+#63 [border_tool internal] load build context
+#63 DONE 0.0s
+
+#64 [brightness_tool internal] load build context
+#64 DONE 0.0s
+
+#65 [binarization_tool internal] load build context
+#65 DONE 0.0s
+
+#66 [cut_tool internal] load build context
+#66 DONE 0.0s
+
+#67 [video_tool internal] load build context
+#67 DONE 0.0s
+
+#56 [frontend 7/7] RUN bun run build
+#56 0.413 $ next build
+#56 ...
+
+#68 [subscriptions internal] load .dockerignore
+#68 transferring context: 2B done
+#68 DONE 0.1s
+
+#69 [subscriptions internal] load build context
+#69 DONE 0.0s
+
+#70 [projects internal] load .dockerignore
+#70 transferring context: 2B done
+#70 DONE 0.2s
+
+#71 [api_gateway internal] load .dockerignore
+#71 transferring context: 2B done
+#71 DONE 0.3s
+
+#72 [users internal] load .dockerignore
+#72 transferring context: 2B done
+#72 DONE 0.3s
+
+#73 [binarization_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.1s done
+#73 ...
+
+#74 [img_storage internal] load .dockerignore
+#74 transferring context: 2B done
+#74 DONE 0.5s
+
+#75 [generative-mock internal] load .dockerignore
+#75 transferring context: 2B done
+#75 DONE 0.5s
+
+#76 [upgrade_ai_tool internal] load build context
+#76 transferring context: 12.44kB 0.1s done
+#76 DONE 0.6s
+
+#73 [generative-mock 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.1s done
+#73 ...
+
+#77 [cut_ai_tool internal] load build context
+#77 transferring context: 15.35kB 0.1s done
+#77 DONE 0.6s
+
+#78 [text_ai_tool internal] load build context
+#78 transferring context: 75.46kB 0.1s done
+#78 DONE 0.6s
+
+#79 [img_storage 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 resolve docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac 0.1s done
+#79 ...
+
+#58 [contrast_tool internal] load build context
+#58 transferring context: 10.31kB 0.1s done
+#58 DONE 0.9s
+
+#59 [resize_tool internal] load build context
+#59 transferring context: 9.73kB 0.1s done
+#59 DONE 1.0s
+
+#60 [rotate_tool internal] load build context
+#60 transferring context: 9.53kB 0.1s done
+#60 DONE 1.1s
+
+#63 [border_tool internal] load build context
+#63 transferring context: 9.84kB 0.1s done
+#63 DONE 1.1s
+
+#80 [obj_ai_tool internal] load build context
+#80 ...
+
+#61 [bg_remove_ai_tool internal] load build context
+#61 transferring context: 9.64kB 0.1s done
+#61 DONE 1.1s
+
+#80 [obj_ai_tool internal] load build context
+#80 ...
+
+#66 [cut_tool internal] load build context
+#66 transferring context: 11.15kB 0.1s done
+#66 DONE 1.2s
+
+#65 [binarization_tool internal] load build context
+#65 transferring context: 9.82kB 0.1s done
+#65 DONE 1.3s
+
+#69 [subscriptions internal] load build context
+#69 transferring context: 23.30kB 0.0s done
+#69 DONE 1.2s
+
+#64 [brightness_tool internal] load build context
+#64 transferring context: 10.44kB 0.1s done
+#64 DONE 1.3s
+
+#62 [saturation_tool internal] load build context
+#62 transferring context: 10.76kB 0.2s done
+#62 DONE 1.4s
+
+#81 [users internal] load build context
+#81 transferring context: 37.23kB 0.1s done
+#81 DONE 1.2s
+
+#67 [video_tool internal] load build context
+#67 transferring context: 66.30kB 0.3s done
+#67 DONE 1.4s
+
+#80 [obj_ai_tool internal] load build context
+#80 ...
+
+#82 [projects internal] load build context
+#82 transferring context: 154.87kB 0.3s done
+#82 DONE 1.4s
+
+#83 [generative-mock internal] load build context
+#83 transferring context: 2.96kB 0.1s done
+#83 DONE 1.2s
+
+#80 [obj_ai_tool internal] load build context
+#80 transferring context: 18.74MB 2.4s done
+#80 DONE 2.6s
+
+#84 [people_ai_tool internal] load build context
+#84 transferring context: 19.71MB 2.5s done
+#84 DONE 2.7s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:bbe7053e6def9842d628414346e26f25e499463adb6ca48c0c8932e036e44000 0B / 249B 0.8s
+#73 sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc 0B / 1.29MB 0.8s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 0B / 14.46MB 0.6s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 0B / 29.86MB 0.6s
+#73 sha256:bbe7053e6def9842d628414346e26f25e499463adb6ca48c0c8932e036e44000 249B / 249B 1.9s done
+#73 sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc 1.05MB / 1.29MB 4.1s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 1.05MB / 14.46MB 4.5s
+#73 sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc 1.29MB / 1.29MB 5.0s done
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 1.05MB / 29.86MB 5.7s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 2.10MB / 14.46MB 6.0s
+#73 ...
+
+#85 [expand_ai_tool 5/8] RUN pip install --no-cache-dir -r /app/utils-requirements.txt
+#85 7.882 Collecting python-dotenv
+#85 8.803   Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#85 9.398 Collecting pika==1.3.2
+#85 9.545   Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#85 9.768      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 806.0 kB/s eta 0:00:00
+#85 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#86 [ws_gateway 5/5] RUN npm i
+#86 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 3.15MB / 14.46MB 7.5s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 3.15MB / 29.86MB 7.7s
+#73 ...
+
+#87 [api_gateway internal] load build context
+#87 transferring context: 7.44MB 9.4s
+#87 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#88 [img_storage internal] load build context
+#88 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 4.19MB / 14.46MB 9.5s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:eca6dde014d72e002e74c58c341232767b0469ad2707552620b2053d3ee3fd0b 447B / 447B 0.3s done
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 1.05MB / 64.79MB 8.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 1.05MB / 237.23MB 5.6s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 5.24MB / 14.46MB 11.1s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 5.24MB / 29.86MB 11.7s
+#73 ...
+
+#56 [frontend 7/7] RUN bun run build
+#56 4.204 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+#56 4.206 This information is used to shape Next.js' roadmap and prioritize features.
+#56 4.206 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+#56 4.207 https://nextjs.org/telemetry
+#56 4.207 
+#56 4.444    ▲ Next.js 15.1.3
+#56 4.444 
+#56 4.643    Creating an optimized production build ...
+#56 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 6.29MB / 14.46MB 13.4s
+#73 ...
+
+#87 [api_gateway internal] load build context
+#87 transferring context: 12.17MB 15.3s done
+#87 DONE 15.9s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 7.34MB / 14.46MB 15.9s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 6.29MB / 29.86MB 16.8s
+#73 ...
+
+#88 [img_storage internal] load build context
+#88 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 3.15MB / 64.79MB 18.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 4.19MB / 237.23MB 15.6s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#85 [expand_ai_tool 5/8] RUN pip install --no-cache-dir -r /app/utils-requirements.txt
+#85 14.27 Collecting pillow==11.0.0
+#85 14.37   Downloading pillow-11.0.0-cp310-cp310-manylinux_2_28_x86_64.whl (4.4 MB)
+#85 21.37      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 624.1 kB/s eta 0:00:00
+#85 23.68 Collecting pytz>=2023.3
+#85 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 7.34MB / 14.46MB 21.0s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 8.39MB / 14.46MB 21.6s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 7.34MB / 29.86MB 21.9s
+#73 ...
+
+#86 [ws_gateway 5/5] RUN npm i
+#86 26.26 
+#86 26.26 added 108 packages, and audited 109 packages in 26s
+#86 26.26 
+#86 26.26 19 packages are looking for funding
+#86 26.26   run `npm fund` for details
+#86 26.26 
+#86 26.26 found 0 vulnerabilities
+#86 26.26 npm notice
+#86 26.26 npm notice New major version of npm available! 10.8.2 -> 12.2.3
+#86 26.26 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+#86 26.26 npm notice To update run: npm install -g npm@12.2.3
+#86 26.26 npm notice
+#86 DONE 27.3s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 9.44MB / 14.46MB 25.5s
+#73 ...
+
+#85 [expand_ai_tool 5/8] RUN pip install --no-cache-dir -r /app/utils-requirements.txt
+#85 24.67   Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#85 25.84      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 426.2 kB/s eta 0:00:00
+#85 26.16 Installing collected packages: pytz, python-dotenv, pillow, pika
+#85 27.76 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#85 27.76 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#85 29.02 
+#85 29.02 [notice] A new release of pip is available: 23.0.1 -> 26.3
+#85 29.02 [notice] To update, run: pip install --upgrade pip
+#85 DONE 29.6s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#88 [img_storage internal] load build context
+#88 transferring context: 119.68MB 26.9s done
+#88 DONE 27.8s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 8.39MB / 29.86MB 27.0s
+#73 ...
+
+#89 [ws_gateway] exporting to image
+#89 exporting layers 1.7s done
+#89 exporting manifest sha256:27c6065c15df8b769f0750e445fb6ca4255fcfc4f7b5a7b76509728529302c39 0.0s done
+#89 exporting config sha256:4e8744c92dcb769847499c9c2cf435778a502e9af99735855a6af325a96470f0 0.0s done
+#89 exporting attestation manifest sha256:9f17c6e41419a99b3c163739d63f0c7736b2fce93c2072a8db7c103d1c2bcb46 0.0s done
+#89 exporting manifest list sha256:cb146901f405611e98f033af7ce50b3855c9c190f348c10bd657f9b9628f920a 0.0s done
+#89 naming to docker.io/library/picturas-baseline-ws_gateway:latest done
+#89 unpacking to docker.io/library/picturas-baseline-ws_gateway:latest 1.4s done
+#89 DONE 3.2s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#90 [ws_gateway] resolving provenance for metadata file
+#90 DONE 0.0s
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 10.49MB / 14.46MB 30.6s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 10.49MB / 29.86MB 30.6s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 4.19MB / 64.79MB 28.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 5.24MB / 237.23MB 25.9s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 10.49MB / 14.46MB 35.7s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 11.53MB / 29.86MB 35.7s
+#73 ...
+
+#91 [expand_ai_tool 6/8] RUN pip install --no-cache-dir -r /app/requirements.txt
+#91 5.362 Collecting Pillow==10.3.0
+#91 6.521   Downloading pillow-10.3.0-cp310-cp310-manylinux_2_28_x86_64.whl (4.5 MB)
+#91 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 13.63MB / 29.86MB 40.2s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 11.53MB / 14.46MB 40.8s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 5.24MB / 64.79MB 39.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 6.29MB / 237.23MB 36.3s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 13.63MB / 29.86MB 45.3s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 11.53MB / 14.46MB 45.9s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 14.68MB / 29.86MB 50.4s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 12.58MB / 14.46MB 50.8s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 5.24MB / 64.79MB 49.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 7.34MB / 237.23MB 46.3s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 ...
+
+#91 [expand_ai_tool 6/8] RUN pip install --no-cache-dir -r /app/requirements.txt
+#91 18.29      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 382.7 kB/s eta 0:00:00
+#91 19.09 Collecting requests==2.32.3
+#91 19.15   Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#91 19.24      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.9/64.9 kB 990.0 kB/s eta 0:00:00
+#91 20.19 Collecting charset-normalizer<4,>=2
+#91 20.39   Downloading charset_normalizer-3.5.2-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (271 kB)
+#91 20.63      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 271.1/271.1 kB 1.2 MB/s eta 0:00:00
+#91 20.80 Collecting idna<4,>=2.5
+#91 20.88   Downloading idna-3.20-py3-none-any.whl (69 kB)
+#91 20.93      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.6/69.6 kB 1.7 MB/s eta 0:00:00
+#91 21.26 Collecting urllib3<3,>=1.21.1
+#91 21.33   Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#91 21.42      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 1.5 MB/s eta 0:00:00
+#91 21.96 Collecting certifi>=2017.4.17
+#91 22.26   Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
+#91 22.39      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 127.9/127.9 kB 1.1 MB/s eta 0:00:00
+#91 22.67 Installing collected packages: urllib3, Pillow, idna, charset-normalizer, certifi, requests
+#91 22.96   Attempting uninstall: Pillow
+#91 22.96     Found existing installation: pillow 11.0.0
+#91 23.01     Uninstalling pillow-11.0.0:
+#91 23.10       Successfully uninstalled pillow-11.0.0
+#91 23.84 Successfully installed Pillow-10.3.0 certifi-2026.11.20 charset-normalizer-3.5.2 idna-3.20 requests-2.32.3 urllib3-2.8.0
+#91 23.84 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#91 24.43 
+#91 24.43 [notice] A new release of pip is available: 23.0.1 -> 26.3
+#91 24.43 [notice] To update, run: pip install --upgrade pip
+#91 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 13.63MB / 14.46MB 54.7s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 16.78MB / 29.86MB 55.3s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 56.2s
+#73 ...
+
+#56 [frontend 7/7] RUN bun run build
+#56 50.26  ✓ Compiled successfully
+#56 50.26    Linting and checking validity of types ...
+#56 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 18.87MB / 29.86MB 59.1s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 61.3s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 7.34MB / 64.79MB 59.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 10.49MB / 237.23MB 56.5s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 19.92MB / 29.86MB 64.2s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 22.02MB / 29.86MB 66.3s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 66.4s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 24.12MB / 29.86MB 69.1s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 71.5s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 11.53MB / 64.79MB 69.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 15.73MB / 237.23MB 66.9s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 25.17MB / 29.86MB 74.2s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 76.6s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 27.26MB / 29.86MB 77.6s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 29.36MB / 29.86MB 80.2s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 81.7s
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 15.73MB / 64.79MB 79.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 22.02MB / 237.23MB 77.0s
+#79 ...
+
+#73 [obj_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 29.86MB / 29.86MB 85.3s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 86.8s
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 29.86MB / 29.86MB 90.4s
+#73 sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.46MB / 14.46MB 90.5s done
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 29.86MB / 29.86MB 90.6s done
+#73 sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 29.86MB / 29.86MB 90.6s done
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 20.97MB / 64.79MB 90.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 32.51MB / 237.23MB 87.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 0B / 67.82MB 1.5s
+#79 sha256:14f1299dcbc9edbeebec06a33466b4fc8320ead9d8d9b7ef3ab01c87d068c66a 3.33kB / 3.33kB 1.5s
+#79 sha256:14f1299dcbc9edbeebec06a33466b4fc8320ead9d8d9b7ef3ab01c87d068c66a 3.33kB / 3.33kB 1.8s done
+#79 ...
+
+#91 [expand_ai_tool 6/8] RUN pip install --no-cache-dir -r /app/requirements.txt
+#91 DONE 66.6s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 0B / 49.41MB 0.2s
+#79 ...
+
+#73 [bg_remove_ai_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 extracting sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 23.07MB / 64.79MB 95.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 35.65MB / 237.23MB 93.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 1.05MB / 67.82MB 7.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 1.05MB / 49.41MB 5.4s
+#79 ...
+
+#92 [expand_ai_tool 7/8] COPY expand_ai/expand_ai.py /app/expand_ai.py
+#92 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 25.17MB / 64.79MB 101.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 37.75MB / 237.23MB 98.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 3.15MB / 67.82MB 12.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 3.15MB / 49.41MB 10.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 26.21MB / 64.79MB 106.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 39.85MB / 237.23MB 103.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 5.24MB / 67.82MB 17.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 4.19MB / 49.41MB 15.6s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 28.31MB / 64.79MB 111.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 42.99MB / 237.23MB 108.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 7.34MB / 67.82MB 22.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 6.29MB / 49.41MB 20.7s
+#79 ...
+
+#73 [brightness_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 extracting sha256:37fb86c2a767b88d500c6872195f88078f64765fe0d2f9cc375cc2efbd4c0a41 14.5s done
+#73 extracting sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc
+#73 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 30.41MB / 64.79MB 116.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 46.14MB / 237.23MB 113.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 10.49MB / 67.82MB 27.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 8.39MB / 49.41MB 25.8s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 31.46MB / 64.79MB 121.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 48.23MB / 237.23MB 118.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 11.53MB / 67.82MB 33.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 10.49MB / 49.41MB 30.9s
+#79 ...
+
+#73 [brightness_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 extracting sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc 16.7s done
+#73 extracting sha256:53daecf7856e9b7235583f1ec326387aae7d29af3d5cd2efc20246259ab817cc 16.7s done
+#73 extracting sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d
+#73 ...
+
+#92 [expand_ai_tool 7/8] COPY expand_ai/expand_ai.py /app/expand_ai.py
+#92 DONE 32.6s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 33.55MB / 64.79MB 126.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 50.33MB / 237.23MB 123.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 13.63MB / 67.82MB 38.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 12.58MB / 49.41MB 36.0s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 34.60MB / 64.79MB 131.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 52.43MB / 237.23MB 128.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 14.68MB / 67.82MB 43.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 14.68MB / 49.41MB 41.1s
+#79 ...
+
+#93 [expand_ai_tool 8/8] COPY utils /app/utils
+#93 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#73 [saturation_tool 1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#73 extracting sha256:7efbce397249e9202b070b8e638baff71160948c640b9a44f2226419a71f410d 14.3s done
+#73 extracting sha256:bbe7053e6def9842d628414346e26f25e499463adb6ca48c0c8932e036e44000 0.1s done
+#73 DONE 140.5s
+
+#93 [expand_ai_tool 8/8] COPY utils /app/utils
+#93 DONE 13.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#94 [people_ai_tool 2/6] WORKDIR /app
+#94 DONE 0.2s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 37.75MB / 64.79MB 136.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 55.57MB / 237.23MB 133.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 16.78MB / 67.82MB 48.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 16.78MB / 49.41MB 46.1s
+#79 ...
+
+#95 [border_tool 3/6] COPY ./border .
+#95 DONE 0.5s
+
+#96 [saturation_tool 3/6] COPY ./saturation .
+#96 DONE 0.6s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#97 [upgrade_ai_tool 3/8] COPY upgrade_ai/requirements.txt requirements.txt
+#97 DONE 0.6s
+
+#98 [cut_tool 3/6] COPY ./cut .
+#98 DONE 0.6s
+
+#99 [rotate_tool 3/6] COPY ./rotate .
+#99 DONE 0.6s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#100 [contrast_tool 3/6] COPY ./contrast .
+#100 DONE 0.7s
+
+#101 [bg_remove_ai_tool 3/6] COPY ./bg_remove_ai .
+#101 DONE 0.7s
+
+#102 [generative-mock 3/5] COPY requirements.txt .
+#102 DONE 0.7s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#103 [resize_tool 3/6] COPY ./resize .
+#103 DONE 0.8s
+
+#104 [brightness_tool 3/6] COPY ./brightness .
+#104 DONE 0.8s
+
+#105 [binarization_tool 3/6] COPY ./binarization .
+#105 DONE 0.8s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#106 [border_tool 4/6] COPY ./utils ./utils
+#106 DONE 0.5s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#107 [saturation_tool 4/6] COPY ./utils ./utils
+#107 DONE 0.5s
+
+#108 [cut_tool 4/6] COPY ./utils ./utils
+#108 DONE 0.5s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#109 [rotate_tool 4/6] COPY ./utils ./utils
+#109 DONE 0.5s
+
+#110 [bg_remove_ai_tool 4/6] COPY ./utils ./utils
+#110 DONE 0.5s
+
+#111 [contrast_tool 4/6] COPY ./utils ./utils
+#111 DONE 0.5s
+
+#112 [resize_tool 4/6] COPY ./utils ./utils
+#112 DONE 0.5s
+
+#113 [brightness_tool 4/6] COPY ./utils ./utils
+#113 DONE 0.4s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#114 [binarization_tool 4/6] COPY ./utils ./utils
+#114 DONE 0.4s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 39.85MB / 64.79MB 141.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 58.72MB / 237.23MB 138.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 17.83MB / 67.82MB 53.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 17.83MB / 49.41MB 51.2s
+#79 ...
+
+#115 [expand_ai_tool] exporting to image
+#115 exporting layers 3.5s done
+#115 exporting manifest sha256:6b9b6fa1820747674bb907b068123683058436c3b1c6acb26bdd95fd4855c39e 0.1s done
+#115 exporting config sha256:4b3fe11a410fb7b38812c7731496669de26ac87a2ce0dbb5fc76b3696b94d9f4 0.1s done
+#115 exporting attestation manifest sha256:e5ad4eee00488424d91b8fb45062e55bdf5642a7f3c976233bec8a8b20c3d48a 0.2s done
+#115 exporting manifest list sha256:c3913d53c9522eb02e28f1e3442f7f877488ad310fda1183d8ac41941c36dfb1 0.1s done
+#115 naming to docker.io/library/picturas-baseline-expand_ai_tool:latest 0.0s done
+#115 unpacking to docker.io/library/picturas-baseline-expand_ai_tool:latest 3.6s done
+#115 DONE 8.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 1.313 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#116 3.101 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#116 3.557 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#116 3.738 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9679 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#117 [expand_ai_tool] resolving provenance for metadata file
+#117 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 0.796 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#118 2.028 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#118 2.904 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#118 3.315 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9679 kB]
+#118 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 1.269 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#119 3.309 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#119 3.737 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#119 4.074 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9679 kB]
+#119 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 6.700 Looking in indexes: https://download.pytorch.org/whl/cpu
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 40.89MB / 64.79MB 146.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 59.77MB / 237.23MB 144.0s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 18.87MB / 67.82MB 58.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 18.87MB / 49.41MB 56.3s
+#79 ...
+
+#121 [upgrade_ai_tool 4/8] RUN pip install --no-cache-dir -r requirements.txt
+#121 8.305 Collecting opencv-python-headless==4.10.0.84 (from -r requirements.txt (line 1))
+#121 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 8.058 Collecting flask (from -r requirements.txt (line 1))
+#122 10.01   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#123 [saturation_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#123 8.801 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#123 10.04   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#123 ...
+
+#124 [resize_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#124 8.741 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#124 10.17   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#124 ...
+
+#125 [rotate_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#125 8.391 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#125 9.846   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#125 10.45 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#125 ...
+
+#126 [binarization_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#126 8.426 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#126 9.797   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#126 10.45 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#126 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 8.654 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#127 9.880   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#127 10.47 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#127 10.70   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#127 ...
+
+#128 [contrast_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#128 8.794 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#128 9.951   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#128 10.52 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#128 10.71   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#128 ...
+
+#129 [border_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#129 8.460 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#129 10.02   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#129 10.68 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#129 10.87   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#129 ...
+
+#130 [cut_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#130 8.382 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#130 9.904   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#130 10.77 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#130 11.26   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#130 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 8.574 Collecting python-dotenv (from -r ./utils/requirements.txt (line 1))
+#131 9.814   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+#131 10.39 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#131 10.63   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#131 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 41.94MB / 64.79MB 152.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 60.82MB / 237.23MB 149.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 18.87MB / 67.82MB 63.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 18.87MB / 49.41MB 61.4s
+#79 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 17.77 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#131 18.54   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#131 ...
+
+#56 [frontend 7/7] RUN bun run build
+#56 150.9 
+#56 150.9 ./app/dashboard/[pid]/page.tsx
+#56 150.9 451:4  Warning: React Hook useEffect has a missing dependency: 'searchParams'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+#56 150.9 
+#56 150.9 ./app/share/[linkId]/page.tsx
+#56 150.9 187:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+#56 150.9 
+#56 150.9 ./components/assistant/ai-assistant-dialog.tsx
+#56 150.9 192:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+#56 150.9 
+#56 150.9 ./components/project-page/project-image-list.tsx
+#56 150.9 145:6  Warning: React Hook useEffect has a missing dependency: 'preview'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+#56 150.9 
+#56 150.9 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+#56 156.6    Collecting page data ...
+#56 159.8    Generating static pages (0/13) ...
+#56 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 41.94MB / 64.79MB 157.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 61.87MB / 237.23MB 154.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 19.92MB / 67.82MB 68.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 18.87MB / 49.41MB 66.5s
+#79 ...
+
+#121 [upgrade_ai_tool 4/8] RUN pip install --no-cache-dir -r requirements.txt
+#121 10.39   Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+#121 15.63 Collecting numpy==2.2.1 (from -r requirements.txt (line 2))
+#121 16.62   Downloading numpy-2.2.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+#121 18.07      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 38.5 kB/s eta 0:00:00
+#121 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 11.29 Collecting torch
+#120 14.25   Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (35 kB)
+#120 17.07 Collecting torchvision
+#120 18.32   Downloading https://download-r2.pytorch.org/whl/cpu/torchvision-0.29.2%2Bcpu-py3-none-manylinux_2_28_x86_64.whl.metadata (5.7 kB)
+#120 20.39 Collecting filelock (from torch)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#123 [saturation_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#123 10.58 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#123 10.85   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#123 17.96 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#123 18.77   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#123 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#125 [rotate_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#125 10.73   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#125 18.13 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#125 18.79   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#125 ...
+
+#126 [binarization_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#126 10.63   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#126 17.79 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#126 18.53   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#126 ...
+
+#124 [resize_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#124 10.81 Collecting pika==1.3.2 (from -r ./utils/requirements.txt (line 2))
+#124 11.28   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#124 18.13 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#124 19.07   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#124 21.22 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#124 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 14.23 Collecting pillow (from -r requirements.txt (line 2))
+#122 14.83   Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#122 24.34 Collecting numpy (from -r requirements.txt (line 3))
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 42.99MB / 64.79MB 162.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 62.91MB / 237.23MB 159.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 19.92MB / 67.82MB 73.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 19.92MB / 49.41MB 71.6s
+#79 ...
+
+#128 [contrast_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#128 15.15 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#128 16.05   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#128 18.15 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#128 18.96   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#128 20.64 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#128 23.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 59.9 kB/s eta 0:00:00
+#128 23.91 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#128 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#129 [border_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#129 16.54 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#129 17.92   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#129 19.43 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#129 20.98   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#129 22.42 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#129 23.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 104.6 kB/s eta 0:00:00
+#129 25.55 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#129 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 17.02 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#127 18.03   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#127 19.41 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#127 21.17   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#127 22.29 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#127 24.08    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 89.9 kB/s eta 0:00:00
+#127 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 42.99MB / 64.79MB 167.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 63.96MB / 237.23MB 164.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 19.92MB / 49.41MB 76.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 20.97MB / 67.82MB 78.8s
+#79 ...
+
+#56 [frontend 7/7] RUN bun run build
+#56 161.6    Generating static pages (3/13) 
+#56 161.6    Generating static pages (6/13) 
+#56 161.6    Generating static pages (9/13) 
+#56 161.6  ✓ Generating static pages (13/13)
+#56 162.5    Finalizing page optimization ...
+#56 162.5    Collecting build traces ...
+#56 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#126 [binarization_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#126 21.92 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#126 22.57   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#126 23.49 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#126 27.48    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 37.3 kB/s eta 0:00:00
+#126 30.03 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#126 ...
+
+#130 [cut_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#130 22.11 Collecting pillow==11.0.0 (from -r ./utils/requirements.txt (line 3))
+#130 23.05   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#130 25.70 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#130 30.22   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#130 32.49 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#130 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 21.91 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#131 22.56   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#131 23.50 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#131 27.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 37.9 kB/s eta 0:00:00
+#131 30.03 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#131 ...
+
+#124 [resize_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#124 22.23   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#124 23.15 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#124 24.69    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 99.1 kB/s eta 0:00:00
+#124 26.83 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#124 ...
+
+#123 [saturation_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#123 22.17 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#123 22.80   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#123 23.73 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#123 27.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 37.9 kB/s eta 0:00:00
+#123 30.26 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#123 ...
+
+#125 [rotate_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#125 22.27 Collecting pytz>=2023.3 (from -r ./utils/requirements.txt (line 4))
+#125 23.08   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#125 23.91 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#125 28.32    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 34.1 kB/s eta 0:00:00
+#125 30.90 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#125 ...
+
+#121 [upgrade_ai_tool 4/8] RUN pip install --no-cache-dir -r requirements.txt
+#121 23.41 Collecting Pillow==11.0.0 (from -r requirements.txt (line 3))
+#121 24.13   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#121 26.20 Collecting pytz>=2024.2 (from -r requirements.txt (line 4))
+#121 28.23   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#121 31.34 Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (49.9 MB)
+#121 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 42.99MB / 64.79MB 172.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 65.01MB / 237.23MB 169.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 20.97MB / 67.82MB 83.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 19.92MB / 49.41MB 81.8s
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 26.10   Downloading filelock-4.2.4-py3-none-any.whl.metadata (2.0 kB)
+#120 28.16 Collecting typing-extensions>=4.13.0 (from torch)
+#120 30.66   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#120 30.77 Requirement already satisfied: setuptools>=77.0.3 in /usr/local/lib/python3.11/site-packages (from torch) (79.0.1)
+#120 33.01 Collecting sympy>=1.13.3 (from torch)
+#120 34.71   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 26.11   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#122 30.79 Collecting opencv-python-headless (from -r requirements.txt (line 4))
+#122 32.93   Downloading opencv_python_headless-5.1.0.95-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (20 kB)
+#122 34.45 Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+#122 35.87   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#56 [frontend 7/7] RUN bun run build
+#56 179.2 
+#56 179.2 Route (app)                              Size     First Load JS
+#56 179.2 ┌ ○ /                                    5.22 kB         221 kB
+#56 179.2 ├ ○ /_not-found                          986 B           107 kB
+#56 179.2 ├ ○ /dashboard                           1.72 kB         416 kB
+#56 179.2 ├ ƒ /dashboard/[pid]                     58.4 kB         516 kB
+#56 179.2 ├ ○ /dashboard/account                   6.59 kB         199 kB
+#56 179.2 ├ ○ /dashboard/account/billing           45.7 kB         266 kB
+#56 179.2 ├ ○ /dashboard/account/upgrade           7.51 kB         224 kB
+#56 179.2 ├ ○ /login                               4.6 kB          193 kB
+#56 179.2 ├ ○ /privacy-policy                      2.68 kB         150 kB
+#56 179.2 ├ ○ /register                            4.8 kB          193 kB
+#56 179.2 ├ ƒ /share/[linkId]                      1.34 kB         362 kB
+#56 179.2 └ ○ /terms-of-service                    2.68 kB         150 kB
+#56 179.2 + First Load JS shared by all            106 kB
+#56 179.2   ├ chunks/4bd1b696-6009e3f64d526505.js  53 kB
+#56 179.2   ├ chunks/517-67a593dbde3c6077.js       50.7 kB
+#56 179.2   └ other shared chunks (total)          1.92 kB
+#56 179.2 
+#56 179.2 
+#56 179.2 ○  (Static)   prerendered as static content
+#56 179.2 ƒ  (Dynamic)  server-rendered on demand
+#56 179.2 
+#56 DONE 179.5s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 28.22 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#127 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 44.04MB / 64.79MB 177.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 66.06MB / 237.23MB 174.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 20.97MB / 67.82MB 89.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 20.97MB / 49.41MB 86.9s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 44.04MB / 64.79MB 182.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 67.11MB / 237.23MB 179.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 22.02MB / 67.82MB 94.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 20.97MB / 49.41MB 92.0s
+#79 ...
+
+#132 [frontend] exporting to image
+#132 exporting layers 6.4s done
+#132 exporting manifest sha256:f79250a084ceedbcfb718e009341c8632850a98f69d52e67a74925b9153b02ca 0.0s done
+#132 exporting config sha256:29f64c2b3e53160b57e25a3bc117d657ff6c84288038e7604758931b42c85f35 0.0s done
+#132 exporting attestation manifest sha256:d51ac546f6bc002beda2c46e19221637f23b015fe5f1257839f37b79abdfb752 0.0s done
+#132 exporting manifest list sha256:5a581e49bf0ebac43498efc11b89cfc7a5a61e5361cc1be30ac48b4f6fe3f6db 0.0s done
+#132 naming to docker.io/library/picturas-baseline-frontend:latest done
+#132 unpacking to docker.io/library/picturas-baseline-frontend:latest 1.6s done
+#132 DONE 8.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 38.17 Collecting networkx>=2.5.1 (from torch)
+#120 40.57   Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+#120 42.37 Collecting jinja2 (from torch)
+#120 44.49   Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#120 45.75 Collecting fsspec>=0.8.5 (from torch)
+#120 ...
+
+#133 [frontend] resolving provenance for metadata file
+#133 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#130 [cut_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#130 37.22    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 33.6 kB/s eta 0:00:00
+#130 39.54 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#130 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 38.25 Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+#122 40.38   Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+#122 42.17 Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+#122 43.86   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#122 46.59 Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 45.09MB / 64.79MB 187.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 68.16MB / 237.23MB 184.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 23.07MB / 67.82MB 99.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 22.02MB / 49.41MB 97.1s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 45.09MB / 64.79MB 192.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 69.21MB / 237.23MB 189.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 23.07MB / 67.82MB 104.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 22.02MB / 49.41MB 102.2s
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 47.41   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 48.46   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#122 53.04 Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+#122 54.34   Downloading markupsafe-3.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#122 56.57 Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+#122 57.41   Downloading werkzeug-3.1.9-py3-none-any.whl.metadata (4.1 kB)
+#122 58.54 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 45.09MB / 64.79MB 197.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 69.21MB / 237.23MB 194.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 23.07MB / 67.82MB 109.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 107.3s
+#79 ...
+
+#124 [resize_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#124 54.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 164.1 kB/s eta 0:00:00
+#124 56.16 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#124 56.88 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#124 58.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 251.4 kB/s eta 0:00:00
+#124 59.02 Installing collected packages: pytz, python-dotenv, pillow, pika
+#124 59.81 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#124 59.81 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#124 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 202.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 69.21MB / 237.23MB 200.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 112.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 23.07MB / 67.82MB 114.6s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 60.44 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [1108 B]
+#118 61.52 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [308 kB]
+#118 64.17 Fetched 10.2 MB in 1min 3s (162 kB/s)
+#118 64.17 Reading package lists...
+#118 64.86 Reading package lists...
+#118 65.57 Building dependency tree...
+#118 65.79 Reading state information...
+#118 66.13 The following additional packages will be installed:
+#118 66.13   fontconfig fontconfig-config fonts-dejavu-mono fonts-noto-mono libaom3
+#118 66.13   libasound2-data libasound2t64 libass9 libasyncns0 libatomic1 libavc1394-0
+#118 66.13   libavcodec61 libavdevice61 libavfilter10 libavformat61 libavutil59 libblas3
+#118 66.13   libbluray2 libbrotli1 libbs2b0 libcaca0 libcairo-gobject2 libcairo2
+#118 66.13   libcdio-cdda2t64 libcdio-paranoia2t64 libcdio19t64 libchromaprint1 libcjson1
+#118 66.13   libcodec2-1.2 libcom-err2 libdatrie1 libdav1d7 libdbus-1-3 libdc1394-25
+#118 66.13   libdecor-0-0 libdeflate0 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm2
+#118 66.13   libdvdnav4 libdvdread8t64 libedit2 libelf1t64 libexpat1 libfftw3-double3
+#118 66.13   libflac14 libflite1 libfontconfig1 libfreetype6 libfribidi0 libgbm1
+#118 66.13   libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgfortran5 libgl1
+#118 66.13   libgl1-mesa-dri libglib2.0-0t64 libglvnd0 libglx-mesa0 libglx0 libgme0
+#118 66.13   libgnutls30t64 libgomp1 libgraphite2-3 libgsm1 libgssapi-krb5-2
+#118 66.13   libharfbuzz0b libhwy1t64 libidn2-0 libiec61883-0 libjack-jackd2-0 libjbig0
+#118 66.13   libjpeg62-turbo libjxl0.11 libk5crypto3 libkeyutils1 libkrb5-3
+#118 66.13   libkrb5support0 liblapack3 liblcms2-2 liblerc4 liblilv-0-0 libllvm19
+#118 66.13   libmbedcrypto16 libmp3lame0 libmpg123-0t64 libmysofa1 libnorm1t64 libnuma1
+#118 66.13   libogg0 libopenal-data libopenal1 libopenjp2-7 libopenmpt0t64 libopus0
+#118 66.13   libp11-kit0 libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0
+#118 66.13   libpciaccess0 libpgm-5.3-0t64 libpixman-1-0 libplacebo349 libpng16-16t64
+#118 66.13   libpocketsphinx3 libpostproc58 libpulse0 librabbitmq4 librav1e0.7
+#118 66.13   libraw1394-11 librist4 librsvg2-2 librubberband2 libsamplerate0
+#118 66.13   libsdl2-2.0-0 libsensors-config libsensors5 libserd-0-0 libsharpyuv0
+#118 66.13   libshine3 libslang2 libsnappy1v5 libsndfile1 libsodium23 libsord-0-0
+#118 66.13   libsoxr0 libspeex1 libsphinxbase3t64 libsratom-0-0 libsrt1.5-gnutls libssh-4
+#118 66.13   libsvtav1enc2 libswresample5 libswscale8 libtasn1-6 libthai-data libthai0
+#118 66.13   libtheoradec1 libtheoraenc1 libtiff6 libtwolame0 libudfread0 libunibreak6
+#118 66.13   libunistring5 libusb-1.0-0 libva-drm2 libva-x11-2 libva2 libvdpau1
+#118 66.13   libvidstab1.1 libvorbis0a libvorbisenc2 libvorbisfile3 libvpl2 libvpx9
+#118 66.13   libvulkan1 libwayland-client0 libwayland-cursor0 libwayland-egl1
+#118 66.13   libwayland-server0 libwebp7 libwebpmux3 libx11-6 libx11-data libx11-xcb1
+#118 66.13   libx264-164 libx265-215 libxau6 libxcb-dri3-0 libxcb-glx0 libxcb-present0
+#118 66.13   libxcb-randr0 libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1
+#118 66.13   libxcb-xfixes0 libxcb1 libxcursor1 libxdmcp6 libxext6 libxfixes3 libxi6
+#118 66.13   libxkbcommon0 libxml2 libxrandr2 libxrender1 libxshmfence1 libxss1 libxv1
+#118 66.13   libxvidcore4 libxxf86vm1 libz3-4 libzimg2 libzix-0-0 libzmq5 libzvbi-common
+#118 66.14   libzvbi0t64 mesa-libgallium ocl-icd-libopencl1 shared-mime-info x11-common
+#118 66.14   xkb-data
+#118 66.14 Suggested packages:
+#118 66.14   ffmpeg-doc fonts-noto-cjk-extra alsa-utils libasound2-plugins libcuda1
+#118 66.14   libnvcuvid1 libnvidia-encode1 libbluray-bdj libdvdcss2 libfftw3-bin
+#118 66.14   libfftw3-dev low-memory-monitor gnutls-bin krb5-doc krb5-user jackd2
+#118 66.14   liblcms2-utils libportaudio2 libsndio7.0 opus-tools pciutils pulseaudio
+#118 66.14   libraw1394-doc librsvg2-bin xdg-utils lm-sensors serdi sordi speex
+#118 66.14   opencl-icd
+#118 66.14 Recommended packages:
+#118 66.14   alsa-ucm-conf alsa-topology-conf libaacs0 dbus default-libdecor-0-plugin-1
+#118 66.14   | libdecor-0-plugin-1 libgdk-pixbuf2.0-bin libglib2.0-data xdg-user-dirs
+#118 66.14   krb5-locales pocketsphinx-en-us librsvg2-common va-driver-all | va-driver
+#118 66.14   vdpau-driver-all | vdpau-driver mesa-vulkan-drivers | vulkan-icd
+#118 67.06 The following NEW packages will be installed:
+#118 67.06   ffmpeg fontconfig fontconfig-config fonts-dejavu-core fonts-dejavu-mono
+#118 67.06   fonts-noto-cjk fonts-noto-core fonts-noto-mono libaom3 libasound2-data
+#118 67.06   libasound2t64 libass9 libasyncns0 libatomic1 libavc1394-0 libavcodec61
+#118 67.06   libavdevice61 libavfilter10 libavformat61 libavutil59 libblas3 libbluray2
+#118 67.06   libbrotli1 libbs2b0 libcaca0 libcairo-gobject2 libcairo2 libcdio-cdda2t64
+#118 67.06   libcdio-paranoia2t64 libcdio19t64 libchromaprint1 libcjson1 libcodec2-1.2
+#118 67.06   libcom-err2 libdatrie1 libdav1d7 libdbus-1-3 libdc1394-25 libdecor-0-0
+#118 67.06   libdeflate0 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm2 libdvdnav4
+#118 67.06   libdvdread8t64 libedit2 libelf1t64 libexpat1 libfftw3-double3 libflac14
+#118 67.06   libflite1 libfontconfig1 libfreetype6 libfribidi0 libgbm1
+#118 67.06   libgdk-pixbuf-2.0-0 libgdk-pixbuf2.0-common libgfortran5 libgl1
+#118 67.06   libgl1-mesa-dri libglib2.0-0t64 libglvnd0 libglx-mesa0 libglx0 libgme0
+#118 67.06   libgnutls30t64 libgomp1 libgraphite2-3 libgsm1 libgssapi-krb5-2
+#118 67.06   libharfbuzz0b libhwy1t64 libidn2-0 libiec61883-0 libjack-jackd2-0 libjbig0
+#118 67.06   libjpeg62-turbo libjxl0.11 libk5crypto3 libkeyutils1 libkrb5-3
+#118 67.06   libkrb5support0 liblapack3 liblcms2-2 liblerc4 liblilv-0-0 libllvm19
+#118 67.06   libmbedcrypto16 libmp3lame0 libmpg123-0t64 libmysofa1 libnorm1t64 libnuma1
+#118 67.06   libogg0 libopenal-data libopenal1 libopenjp2-7 libopenmpt0t64 libopus0
+#118 67.06   libp11-kit0 libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0
+#118 67.06   libpciaccess0 libpgm-5.3-0t64 libpixman-1-0 libplacebo349 libpng16-16t64
+#118 67.06   libpocketsphinx3 libpostproc58 libpulse0 librabbitmq4 librav1e0.7
+#118 67.06   libraw1394-11 librist4 librsvg2-2 librubberband2 libsamplerate0
+#118 67.06   libsdl2-2.0-0 libsensors-config libsensors5 libserd-0-0 libsharpyuv0
+#118 67.06   libshine3 libslang2 libsnappy1v5 libsndfile1 libsodium23 libsord-0-0
+#118 67.06   libsoxr0 libspeex1 libsphinxbase3t64 libsratom-0-0 libsrt1.5-gnutls libssh-4
+#118 67.06   libsvtav1enc2 libswresample5 libswscale8 libtasn1-6 libthai-data libthai0
+#118 67.06   libtheoradec1 libtheoraenc1 libtiff6 libtwolame0 libudfread0 libunibreak6
+#118 67.06   libunistring5 libusb-1.0-0 libva-drm2 libva-x11-2 libva2 libvdpau1
+#118 67.06   libvidstab1.1 libvorbis0a libvorbisenc2 libvorbisfile3 libvpl2 libvpx9
+#118 67.06   libvulkan1 libwayland-client0 libwayland-cursor0 libwayland-egl1
+#118 67.06   libwayland-server0 libwebp7 libwebpmux3 libx11-6 libx11-data libx11-xcb1
+#118 67.06   libx264-164 libx265-215 libxau6 libxcb-dri3-0 libxcb-glx0 libxcb-present0
+#118 67.06   libxcb-randr0 libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1
+#118 67.06   libxcb-xfixes0 libxcb1 libxcursor1 libxdmcp6 libxext6 libxfixes3 libxi6
+#118 67.06   libxkbcommon0 libxml2 libxrandr2 libxrender1 libxshmfence1 libxss1 libxv1
+#118 67.06   libxvidcore4 libxxf86vm1 libz3-4 libzimg2 libzix-0-0 libzmq5 libzvbi-common
+#118 67.06   libzvbi0t64 mesa-libgallium ocl-icd-libopencl1 shared-mime-info x11-common
+#118 67.06   xkb-data
+#118 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 60.23 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [1108 B]
+#116 61.30 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [308 kB]
+#116 63.96 Fetched 10.2 MB in 1min 2s (164 kB/s)
+#116 63.96 Reading package lists...
+#116 64.68 Reading package lists...
+#116 65.44 Building dependency tree...
+#116 65.66 Reading state information...
+#116 65.98 The following additional packages will be installed:
+#116 65.98   fontconfig fontconfig-config fonts-dejavu-core fonts-dejavu-mono
+#116 65.98   krb5-locales libarchive13t64 libatomic1 libbrotli1 libcairo2 libcom-err2
+#116 65.98   libcurl4t64 libdatrie1 libdeflate0 libexpat1 libfontconfig1 libfreetype6
+#116 65.98   libfribidi0 libgif7 libglib2.0-0t64 libglib2.0-data libgnutls30t64 libgomp1
+#116 65.98   libgraphite2-3 libgssapi-krb5-2 libharfbuzz0b libicu76 libidn2-0 libjbig0
+#116 65.98   libjpeg62-turbo libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0
+#116 65.99   libldap-common libldap2 libleptonica6 liblerc4 libnghttp2-14 libnghttp3-9
+#116 65.99   libopenjp2-7 libp11-kit0 libpango-1.0-0 libpangocairo-1.0-0
+#116 65.99   libpangoft2-1.0-0 libpixman-1-0 libpng16-16t64 libpsl5t64 librtmp1
+#116 65.99   libsasl2-2 libsasl2-modules libsasl2-modules-db libsharpyuv0 libssh2-1t64
+#116 65.99   libtasn1-6 libtesseract5 libthai-data libthai0 libtiff6 libunistring5
+#116 65.99   libwebp7 libwebpmux3 libx11-6 libx11-data libxau6 libxcb-render0 libxcb-shm0
+#116 65.99   libxcb1 libxdmcp6 libxext6 libxml2 libxrender1 publicsuffix shared-mime-info
+#116 65.99   tesseract-ocr-eng tesseract-ocr-osd xdg-user-dirs
+#116 65.99 Suggested packages:
+#116 65.99   lrzip low-memory-monitor gnutls-bin krb5-doc krb5-user
+#116 65.99   libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal
+#116 65.99   libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql
+#116 66.33 The following NEW packages will be installed:
+#116 66.33   fontconfig fontconfig-config fonts-dejavu-core fonts-dejavu-mono
+#116 66.33   krb5-locales libarchive13t64 libatomic1 libbrotli1 libcairo2 libcom-err2
+#116 66.33   libcurl4t64 libdatrie1 libdeflate0 libexpat1 libfontconfig1 libfreetype6
+#116 66.33   libfribidi0 libgif7 libglib2.0-0t64 libglib2.0-data libgnutls30t64 libgomp1
+#116 66.33   libgraphite2-3 libgssapi-krb5-2 libharfbuzz0b libicu76 libidn2-0 libjbig0
+#116 66.33   libjpeg62-turbo libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0
+#116 66.33   libldap-common libldap2 libleptonica6 liblerc4 libnghttp2-14 libnghttp3-9
+#116 66.33   libopenjp2-7 libp11-kit0 libpango-1.0-0 libpangocairo-1.0-0
+#116 66.34   libpangoft2-1.0-0 libpixman-1-0 libpng16-16t64 libpsl5t64 librtmp1
+#116 66.34   libsasl2-2 libsasl2-modules libsasl2-modules-db libsharpyuv0 libssh2-1t64
+#116 66.34   libtasn1-6 libtesseract5 libthai-data libthai0 libtiff6 libunistring5
+#116 66.34   libwebp7 libwebpmux3 libx11-6 libx11-data libxau6 libxcb-render0 libxcb-shm0
+#116 66.34   libxcb1 libxdmcp6 libxext6 libxml2 libxrender1 publicsuffix shared-mime-info
+#116 66.34   tesseract-ocr tesseract-ocr-eng tesseract-ocr-osd xdg-user-dirs
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 60.90 Collecting numpy (from torchvision)
+#120 62.30   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 208.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 69.21MB / 237.23MB 205.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 117.5s
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 60.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.4/103.4 kB 46.6 kB/s eta 0:00:00
+#122 62.20 Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 23.07MB / 67.82MB 119.9s
+#79 ...
+
+#123 [saturation_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#123 62.75    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 142.6 kB/s eta 0:00:00
+#123 63.64 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#123 65.36 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#123 66.32    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 541.8 kB/s eta 0:00:00
+#123 66.42 Installing collected packages: pytz, python-dotenv, pillow, pika
+#123 67.07 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#123 67.07 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#123 70.46 
+#123 70.46 [notice] A new release of pip is available: 24.0 -> 26.3
+#123 70.46 [notice] To update, run: pip install --upgrade pip
+#123 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#123 [saturation_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#123 DONE 75.2s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#124 [resize_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#124 72.08 
+#124 72.08 [notice] A new release of pip is available: 24.0 -> 26.3
+#124 72.08 [notice] To update, run: pip install --upgrade pip
+#124 DONE 75.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 213.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 210.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 122.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 125.1s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 70.72 0 upgraded, 77 newly installed, 0 to remove and 7 not upgraded.
+#116 70.72 Need to get 35.7 MB of archives.
+#116 70.72 After this operation, 123 MB of additional disk space will be used.
+#116 70.72 Get:1 http://deb.debian.org/debian trixie/main amd64 libexpat1 amd64 2.9.0-1~deb13u1 [126 kB]
+#116 71.45 Get:2 http://deb.debian.org/debian trixie/main amd64 krb5-locales all 1.21.3-5+deb13u1 [101 kB]
+#116 72.63 Get:3 http://deb.debian.org/debian trixie/main amd64 libbrotli1 amd64 1.1.0-2+deb13u1 [304 kB]
+#116 76.55 Get:4 http://deb.debian.org/debian trixie/main amd64 libpng16-16t64 amd64 1.6.48-1+deb13u6 [283 kB]
+#116 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 71.03 0 upgraded, 208 newly installed, 0 to remove and 7 not upgraded.
+#118 71.03 Need to get 202 MB of archives.
+#118 71.03 After this operation, 605 MB of additional disk space will be used.
+#118 71.03 Get:1 http://deb.debian.org/debian trixie/main amd64 libexpat1 amd64 2.9.0-1~deb13u1 [126 kB]
+#118 71.78 Get:2 http://deb.debian.org/debian trixie/main amd64 libaom3 amd64 3.12.1-1+deb13u1 [1872 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 218.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 215.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 127.7s
+#79 ...
+
+#134 [resize_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#134 1.313 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#134 1.314 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#134 1.316 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#134 1.385 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#134 3.696 
+#134 3.696 [notice] A new release of pip is available: 24.0 -> 26.3
+#134 3.696 [notice] To update, run: pip install --upgrade pip
+#134 DONE 5.8s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#135 [saturation_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#135 1.344 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#135 1.346 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#135 1.347 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#135 1.413 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#135 5.297 
+#135 5.297 [notice] A new release of pip is available: 24.0 -> 26.3
+#135 5.297 [notice] To update, run: pip install --upgrade pip
+#135 DONE 5.9s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 130.4s
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 76.48 Collecting pillow!=8.3.*,>=5.3.0 (from torchvision)
+#120 77.13   Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#120 78.86 Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch)
+#120 81.18   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+#120 83.35 Collecting MarkupSafe>=2.0 (from jinja2->torch)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 223.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 220.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 132.8s
+#79 ...
+
+#129 [border_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#129 75.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 101.4 kB/s eta 0:00:00
+#129 77.15 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#129 77.56 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#129 81.85    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 116.8 kB/s eta 0:00:00
+#129 82.07 Installing collected packages: pytz, python-dotenv, pillow, pika
+#129 83.35 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#129 83.35 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#129 ...
+
+#128 [contrast_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#128 75.85    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 96.9 kB/s eta 0:00:00
+#128 77.32 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#128 78.67 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#128 80.85    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 565.2 kB/s eta 0:00:00
+#128 80.97 Installing collected packages: pytz, python-dotenv, pillow, pika
+#128 81.96 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#128 81.96 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#128 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 135.5s
+#79 ...
+
+#136 [resize_tool] exporting to image
+#136 exporting layers 5.0s done
+#136 exporting manifest sha256:c6861c6f958f14fc3bb8537c330ae2b8a9b0dfc5e827fa812c496d30ddd7e76f 0.1s done
+#136 exporting config sha256:28aa73595790bb41cd91ea43128ac69140bd1c2e649610bea597c4288c5c842a 0.1s done
+#136 exporting attestation manifest sha256:87d4d2de9635a5e69f462a911ff58bbca7cb340446204d5ebc298c04fb0fbca1 0.2s done
+#136 exporting manifest list sha256:7008753ec0ec50c854d51531203e8e00a4cf23beeb9a71c363cb6148f81e180d 0.1s done
+#136 naming to docker.io/library/picturas-baseline-resize_tool:latest 0.0s done
+#136 unpacking to docker.io/library/picturas-baseline-resize_tool:latest 1.4s done
+#136 DONE 7.3s
+
+#137 [saturation_tool] exporting to image
+#137 exporting layers 5.0s done
+#137 exporting manifest sha256:fccf90acb79910c6ce54ae535a986436d210800f28dbeb5b891fe61e91a3663c 0.1s done
+#137 exporting config sha256:a5b2e629c8294d2a95dc75b33a215423a087585d95930a051b88605020a92407 0.1s done
+#137 exporting attestation manifest sha256:3a289cdfa779fcb56543109916954f133255b48457fd4a4b2c46cec5abafd261 0.2s done
+#137 exporting manifest list sha256:705c28a622566c57380e1ab3f675ebf0ef721cf688e45b1e17616a8481697790 0.1s done
+#137 naming to docker.io/library/picturas-baseline-saturation_tool:latest 0.0s done
+#137 unpacking to docker.io/library/picturas-baseline-saturation_tool:latest 1.4s done
+#137 DONE 7.3s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#138 [resize_tool] resolving provenance for metadata file
+#138 DONE 0.2s
+
+#139 [saturation_tool] resolving provenance for metadata file
+#139 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 81.18 Get:5 http://deb.debian.org/debian trixie/main amd64 libfreetype6 amd64 2.13.3+dfsg-1+deb13u2 [452 kB]
+#116 90.61 Get:6 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-mono all 2.37-8 [489 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 225.4s
+#79 ...
+
+#126 [binarization_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#126 80.48    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 102.8 kB/s eta 0:00:00
+#126 80.89 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#126 81.61 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#126 89.46    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 65.1 kB/s eta 0:00:00
+#126 89.56 Installing collected packages: pytz, python-dotenv, pillow, pika
+#126 ...
+
+#125 [rotate_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#125 80.59    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 101.1 kB/s eta 0:00:00
+#125 81.00 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#125 81.72 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#125 89.62    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 64.1 kB/s eta 0:00:00
+#125 89.74 Installing collected packages: pytz, python-dotenv, pillow, pika
+#125 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 228.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 138.1s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 82.36 Get:3 http://deb.debian.org/debian trixie/main amd64 libdrm-common all 2.4.124-2 [8288 B]
+#118 82.36 Get:4 http://deb.debian.org/debian trixie/main amd64 libdrm2 amd64 2.4.124-2 [39.0 kB]
+#118 82.63 Get:5 http://deb.debian.org/debian trixie/main amd64 libva2 amd64 2.22.0-3 [79.4 kB]
+#118 82.80 Get:6 http://deb.debian.org/debian trixie/main amd64 libva-drm2 amd64 2.22.0-3 [18.3 kB]
+#118 82.82 Get:7 http://deb.debian.org/debian trixie/main amd64 libxau6 amd64 1:1.0.11-1 [20.4 kB]
+#118 82.82 Get:8 http://deb.debian.org/debian trixie/main amd64 libxdmcp6 amd64 1:1.1.5-1 [27.8 kB]
+#118 83.18 Get:9 http://deb.debian.org/debian trixie/main amd64 libxcb1 amd64 1.17.0-2+b1 [144 kB]
+#118 88.63 Get:10 http://deb.debian.org/debian trixie/main amd64 libx11-data all 2:1.8.12-1 [343 kB]
+#118 90.41 Get:11 http://deb.debian.org/debian trixie/main amd64 libx11-6 amd64 2:1.8.12-1 [815 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 140.6s
+#79 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 82.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 100.2 kB/s eta 0:00:00
+#127 87.24 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#127 89.01 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#127 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 82.30    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 96.6 kB/s eta 0:00:00
+#131 88.45 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#131 89.74 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#131 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 230.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 233.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 143.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 145.7s
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 88.39   Downloading https://download.pytorch.org/whl/markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#120 88.52 Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl (209.5 MB)
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#128 [contrast_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#128 89.44 
+#128 89.44 [notice] A new release of pip is available: 24.0 -> 26.3
+#128 89.44 [notice] To update, run: pip install --upgrade pip
+#128 DONE 98.6s
+
+#129 [border_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#129 92.87 
+#129 92.87 [notice] A new release of pip is available: 24.0 -> 26.3
+#129 92.87 [notice] To update, run: pip install --upgrade pip
+#129 DONE 98.8s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 235.6s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 238.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 148.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 150.8s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 95.24 Get:12 http://deb.debian.org/debian trixie/main amd64 libx11-xcb1 amd64 2:1.8.12-1 [247 kB]
+#118 97.81 Get:13 http://deb.debian.org/debian trixie/main amd64 libxcb-dri3-0 amd64 1.17.0-2+b1 [107 kB]
+#118 97.82 Get:14 http://deb.debian.org/debian trixie/main amd64 libxext6 amd64 2:1.3.4-1+b3 [50.4 kB]
+#118 97.82 Get:15 http://deb.debian.org/debian trixie/main amd64 libxfixes3 amd64 1:6.0.0-2+b4 [20.2 kB]
+#118 97.82 Get:16 http://deb.debian.org/debian trixie/main amd64 libva-x11-2 amd64 2.22.0-3 [23.1 kB]
+#118 97.82 Get:17 http://deb.debian.org/debian trixie/main amd64 libvdpau1 amd64 1.5-3+b1 [27.2 kB]
+#118 97.82 Get:18 http://deb.debian.org/debian trixie/main amd64 libvpl2 amd64 1:2.14.0-1+b1 [129 kB]
+#118 97.82 Get:19 http://deb.debian.org/debian trixie/main amd64 ocl-icd-libopencl1 amd64 2.3.3-1 [42.9 kB]
+#118 97.82 Get:20 http://deb.debian.org/debian trixie/main amd64 libavutil59 amd64 7:7.1.5-0+deb13u1 [425 kB]
+#118 103.5 Get:21 http://deb.debian.org/debian trixie/main amd64 libbrotli1 amd64 1.1.0-2+deb13u1 [304 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 94.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 92.7 kB/s eta 0:00:00
+#127 94.68 Installing collected packages: pytz, python-dotenv, pillow, pika
+#127 99.34 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#127 99.34 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#127 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#126 [binarization_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#126 99.25 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#126 99.25 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#126 104.9 
+#126 104.9 [notice] A new release of pip is available: 24.0 -> 26.3
+#126 104.9 [notice] To update, run: pip install --upgrade pip
+#126 DONE 105.2s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 240.7s
+#79 ...
+
+#127 [bg_remove_ai_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#127 105.7 
+#127 105.7 [notice] A new release of pip is available: 24.0 -> 26.3
+#127 105.7 [notice] To update, run: pip install --upgrade pip
+#127 DONE 106.0s
+
+#125 [rotate_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#125 99.35 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#125 99.35 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#125 105.8 
+#125 105.8 [notice] A new release of pip is available: 24.0 -> 26.3
+#125 105.8 [notice] To update, run: pip install --upgrade pip
+#125 DONE 106.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 243.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 153.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 155.9s
+#79 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 96.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 105.4 kB/s eta 0:00:00
+#131 96.45 Installing collected packages: pytz, python-dotenv, pillow, pika
+#131 99.28 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#131 99.28 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#131 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#131 [brightness_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#131 DONE 107.3s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#140 [contrast_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#140 1.024 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#140 1.026 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#140 1.029 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#140 1.099 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#140 DONE 8.9s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 98.79 Get:7 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-core all 2.37-8 [840 kB]
+#116 108.4 Get:8 http://deb.debian.org/debian trixie/main amd64 fontconfig-config amd64 2.15.0-2.3 [318 kB]
+#116 ...
+
+#141 [border_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#141 1.056 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#141 1.058 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#141 1.060 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#141 1.124 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#141 DONE 9.3s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 245.8s
+#79 ...
+
+#142 [contrast_tool] exporting to image
+#142 exporting layers 2.2s done
+#142 exporting manifest sha256:ed12b8ec858b0ab50e1644815b12dd2ef635065c5daa90d0809c21b648b1707e 0.0s done
+#142 exporting config sha256:c9140f01056d6a96fe9a8a38cdbd4d9ca30095069ad311e8b92a05cf0134e887 0.0s done
+#142 exporting attestation manifest sha256:ba1f8d68569457c5512fd8171d3503b8815ec78d187a1ecc90fc20b1ea22dd4e 0.0s done
+#142 exporting manifest list sha256:261a1862a6d8e94aaa90d83be7c77affd5b0ca2b208ee67fd269d3b4a0026f4c 0.0s done
+#142 naming to docker.io/library/picturas-baseline-contrast_tool:latest done
+#142 unpacking to docker.io/library/picturas-baseline-contrast_tool:latest 1.0s done
+#142 DONE 3.5s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 249.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 23.07MB / 49.41MB 158.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 161.0s
+#79 ...
+
+#143 [contrast_tool] resolving provenance for metadata file
+#143 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#144 [border_tool] exporting to image
+#144 exporting layers 2.3s done
+#144 exporting manifest sha256:8f02c71fb4d8e18dc06c2beb0233c44669e55cd8a5536859045b94ca8e93047e 0.0s done
+#144 exporting config sha256:f69a817cd9aa8ed168a6c755311ec80290ad6ae664056569e68f119b4a5eee8a 0.0s done
+#144 exporting attestation manifest sha256:2026658448ddb18bac90440fbf5aed0fd4466c153ec003e6e851e4bcb7daef63 0.1s done
+#144 exporting manifest list sha256:2e09708ff792735b1aec834e52668f243270883c9114def08626ee925c246a4f 0.0s done
+#144 naming to docker.io/library/picturas-baseline-border_tool:latest 0.0s done
+#144 unpacking to docker.io/library/picturas-baseline-border_tool:latest 1.5s done
+#144 DONE 4.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#145 [border_tool] resolving provenance for metadata file
+#145 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#146 [binarization_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#146 0.741 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#146 0.742 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#146 0.744 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#146 0.827 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#146 DONE 9.3s
+
+#147 [rotate_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#147 0.859 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#147 0.860 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#147 0.862 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#147 0.926 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#147 DONE 8.6s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#130 [cut_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#130 104.7    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 94.6 kB/s eta 0:00:00
+#130 107.2 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#130 109.6 Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+#130 113.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 506.3/506.3 kB 138.4 kB/s eta 0:00:00
+#130 113.5 Installing collected packages: pytz, python-dotenv, pillow, pika
+#130 114.0 Successfully installed pika-1.3.2 pillow-11.0.0 python-dotenv-1.2.4 pytz-2026.6
+#130 114.0 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#130 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 106.2 Get:22 http://deb.debian.org/debian trixie/main amd64 libpng16-16t64 amd64 1.6.48-1+deb13u6 [283 kB]
+#118 106.2 Get:23 http://deb.debian.org/debian trixie/main amd64 libfreetype6 amd64 2.13.3+dfsg-1+deb13u2 [452 kB]
+#118 111.3 Get:24 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-mono all 2.37-8 [489 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 250.9s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 0.850 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#148 0.852 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 254.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 163.6s
+#79 ...
+
+#149 [brightness_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#149 1.625 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#149 1.629 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#149 1.633 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#149 1.737 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#149 DONE 9.2s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 166.1s
+#79 ...
+
+#150 [binarization_tool] exporting to image
+#150 exporting layers 2.1s done
+#150 exporting manifest sha256:854c02383a2b77997a4cfc5e42cebbd309336a6bc9720737a3303f7c33338580 0.1s done
+#150 exporting config sha256:8e3d878e8237f1547832a46b546565f7f5dadf77734032a91fb3eb0cca776fd6 0.0s done
+#150 exporting attestation manifest sha256:96cb08ffd9fc07dd391baa1570bc46e7a81bda165ca79144b6bcba711159a040 0.1s done
+#150 exporting manifest list sha256:39ea28389fc68321179ea93c35c5d613eb4b9019fc14d09004aee7658ec81e7e 0.0s done
+#150 naming to docker.io/library/picturas-baseline-binarization_tool:latest 0.0s done
+#150 unpacking to docker.io/library/picturas-baseline-binarization_tool:latest 0.7s done
+#150 DONE 3.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#151 [rotate_tool] exporting to image
+#151 exporting layers 2.1s done
+#151 exporting manifest sha256:b0f34048cd98b8cf13b49408751f6e9731c313555e444f0d49fb6c128aebead0 0.0s done
+#151 exporting config sha256:ed2bc8be7565d6625879ee020554d8c90a0f4ca3d3d39f74299d78098b9d5991 0.0s done
+#151 exporting attestation manifest sha256:f0b3c087fdfa3531e2abf40f5155f815998fbf11c55cf60fce58317f1956f653 0.1s done
+#151 exporting manifest list sha256:163d4c653f7150c8c0fb8478402b53360521a954cf33dc42d60d9bc2318d78fe 0.0s done
+#151 naming to docker.io/library/picturas-baseline-rotate_tool:latest done
+#151 unpacking to docker.io/library/picturas-baseline-rotate_tool:latest 0.6s done
+#151 DONE 3.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#152 [binarization_tool] resolving provenance for metadata file
+#152 DONE 0.1s
+
+#153 [rotate_tool] resolving provenance for metadata file
+#153 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#154 [brightness_tool] exporting to image
+#154 exporting layers 1.7s done
+#154 exporting manifest sha256:ddaf3b479fce71e3284d65a945a6706bb542786f88539b573c13922da65ce820 0.0s done
+#154 exporting config sha256:11646bd62005a82a2b92a964d97a9a0f38cec7551a8ed4880222257e82b9c7fe 0.0s done
+#154 exporting attestation manifest sha256:83586e8d7f72f1683855c0ac894585525cdfca353b3a1a61509ae25191337ed2 0.0s done
+#154 exporting manifest list sha256:560d4520ee58b4fde2e7dbf5c6a1c5d9deedf414f23309a5ef5a36419cb79c08 0.0s done
+#154 naming to docker.io/library/picturas-baseline-brightness_tool:latest done
+#154 unpacking to docker.io/library/picturas-baseline-brightness_tool:latest 0.7s done
+#154 DONE 2.5s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#155 [brightness_tool] resolving provenance for metadata file
+#155 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 70.25MB / 237.23MB 256.1s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 259.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 168.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 171.2s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 112.2 Get:9 http://deb.debian.org/debian trixie/main amd64 libfontconfig1 amd64 2.15.0-2.3 [392 kB]
+#116 120.9 Get:10 http://deb.debian.org/debian trixie/main amd64 fontconfig amd64 2.15.0-2.3 [463 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 261.2s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 264.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 173.8s
+#79 ...
+
+#130 [cut_tool 5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#130 126.2 
+#130 126.2 [notice] A new release of pip is available: 24.0 -> 26.3
+#130 126.2 [notice] To update, run: pip install --upgrade pip
+#130 DONE 126.7s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 176.3s
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 117.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 177.0 kB/s eta 0:00:00
+#122 120.2 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 122.3 Get:25 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-core all 2.37-8 [840 kB]
+#118 130.6 Get:26 http://deb.debian.org/debian trixie/main amd64 fonts-noto-mono all 20201225-2 [398 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 266.3s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 46.14MB / 64.79MB 269.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 178.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 181.4s
+#79 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 124.1 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [1108 B]
+#119 125.7 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [308 kB]
+#119 128.8 Fetched 10.2 MB in 2min 6s (81.0 kB/s)
+#119 128.8 Reading package lists...
+#119 129.4 Reading package lists...
+#119 130.0 Building dependency tree...
+#119 130.2 Reading state information...
+#119 130.5 The following additional packages will be installed:
+#119 130.5   libatomic1 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm2 libedit2
+#119 130.5   libelf1t64 libexpat1 libgbm1 libgl1-mesa-dri libglvnd0 libglx-mesa0 libglx0
+#119 130.5   libllvm19 libpciaccess0 libsensors-config libsensors5 libvulkan1
+#119 130.5   libwayland-server0 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri3-0
+#119 130.5   libxcb-glx0 libxcb-present0 libxcb-randr0 libxcb-shm0 libxcb-sync1
+#119 130.5   libxcb-xfixes0 libxcb1 libxdmcp6 libxext6 libxml2 libxshmfence1 libxxf86vm1
+#119 130.5   libz3-4 mesa-libgallium
+#119 130.5 Suggested packages:
+#119 130.5   low-memory-monitor pciutils lm-sensors
+#119 130.5 Recommended packages:
+#119 130.5   libglib2.0-data shared-mime-info xdg-user-dirs mesa-vulkan-drivers
+#119 130.5   | vulkan-icd
+#119 130.7 The following NEW packages will be installed:
+#119 130.7   libatomic1 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm2 libedit2
+#119 130.7   libelf1t64 libexpat1 libgbm1 libgl1 libgl1-mesa-dri libglib2.0-0t64
+#119 130.7   libglvnd0 libglx-mesa0 libglx0 libllvm19 libpciaccess0 libsensors-config
+#119 130.7   libsensors5 libvulkan1 libwayland-server0 libx11-6 libx11-data libx11-xcb1
+#119 130.7   libxau6 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0 libxcb-shm0
+#119 130.7   libxcb-sync1 libxcb-xfixes0 libxcb1 libxdmcp6 libxext6 libxml2 libxshmfence1
+#119 130.7   libxxf86vm1 libz3-4 mesa-libgallium
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#156 [cut_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#156 0.683 Requirement already satisfied: pika==1.3.2 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 1)) (1.3.2)
+#156 0.684 Requirement already satisfied: pillow==11.0.0 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 2)) (11.0.0)
+#156 0.686 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 3)) (2026.6)
+#156 0.753 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#156 6.810 
+#156 6.810 [notice] A new release of pip is available: 24.0 -> 26.3
+#156 6.810 [notice] To update, run: pip install --upgrade pip
+#156 DONE 7.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 17.76 Collecting rembg==2.0.61 (from -r requirements.txt (line 3))
+#148 24.86   Downloading rembg-2.0.61-py3-none-any.whl.metadata (18 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#157 [cut_tool] exporting to image
+#157 exporting layers 1.4s done
+#157 exporting manifest sha256:7e1a082d864b5c36755987566ef2dad5f5c881e861ac77799feaa44d077a6ec5 0.0s done
+#157 exporting config sha256:f667aa7b3855dd3e6f087c15b684dddc7c594a1cdd312e4f7df6acc7c666a575 0.0s done
+#157 exporting attestation manifest sha256:3b3cd954f2a5e35a1438552f86d953cb3c2c9876a10f7d4c1a25a2ecf46ee137 0.0s done
+#157 exporting manifest list sha256:8135a6d7a7bb455e9393fb68ad5628fdccd8f1057b0b6c8aeb96002189e5e3f5 0.0s done
+#157 naming to docker.io/library/picturas-baseline-cut_tool:latest done
+#157 unpacking to docker.io/library/picturas-baseline-cut_tool:latest 0.6s done
+#157 DONE 2.1s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#158 [cut_tool] resolving provenance for metadata file
+#158 DONE 0.0s
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 127.2 Get:11 http://deb.debian.org/debian trixie/main amd64 libxml2 amd64 2.12.7+dfsg+really2.9.14-2.1+deb13u3 [700 kB]
+#116 134.1 Get:12 http://deb.debian.org/debian trixie/main amd64 libarchive13t64 amd64 3.7.4-4+deb13u1 [350 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 271.4s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 274.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 184.0s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 186.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 276.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 279.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 189.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 24.12MB / 67.82MB 191.6s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 135.7 Get:27 http://deb.debian.org/debian trixie/main amd64 fonts-noto-core all 20201225-2 [12.2 MB]
+#118 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 135.6 0 upgraded, 40 newly installed, 0 to remove and 7 not upgraded.
+#119 135.6 Need to get 50.1 MB of archives.
+#119 135.6 After this operation, 218 MB of additional disk space will be used.
+#119 135.6 Get:1 http://deb.debian.org/debian trixie/main amd64 libexpat1 amd64 2.9.0-1~deb13u1 [126 kB]
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 281.6s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 137.9 Get:13 http://deb.debian.org/debian trixie/main amd64 libatomic1 amd64 14.2.0-19 [9308 B]
+#116 137.9 Get:14 http://deb.debian.org/debian trixie/main amd64 libpixman-1-0 amd64 0.44.0-3 [248 kB]
+#116 141.2 Get:15 http://deb.debian.org/debian trixie/main amd64 libxau6 amd64 1:1.0.11-1 [20.4 kB]
+#116 141.7 Get:16 http://deb.debian.org/debian trixie/main amd64 libxdmcp6 amd64 1:1.1.5-1 [27.8 kB]
+#116 142.0 Get:17 http://deb.debian.org/debian trixie/main amd64 libxcb1 amd64 1.17.0-2+b1 [144 kB]
+#116 145.5 Get:18 http://deb.debian.org/debian trixie/main amd64 libx11-data all 2:1.8.12-1 [343 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 284.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 194.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 196.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 286.7s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 289.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 199.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 201.9s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 154.8 Get:19 http://deb.debian.org/debian trixie/main amd64 libx11-6 amd64 2:1.8.12-1 [815 kB]
+#116 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 40.98 Collecting onnxruntime==1.20.1 (from -r requirements.txt (line 4))
+#148 43.92   Downloading onnxruntime-1.20.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.5 kB)
+#148 44.00 Requirement already satisfied: pytz>=2023.3 in /usr/local/lib/python3.11/site-packages (from -r requirements.txt (line 5)) (2026.6)
+#148 47.51 Collecting jsonschema (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 49.16   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 295.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 292.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 204.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 207.0s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 300.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 297.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 209.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 212.1s
+#79 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 156.5 Get:2 http://deb.debian.org/debian trixie/main amd64 libatomic1 amd64 14.2.0-19 [9308 B]
+#119 157.0 Get:3 http://deb.debian.org/debian trixie/main amd64 libdrm-common all 2.4.124-2 [8288 B]
+#119 161.8 Get:4 http://deb.debian.org/debian trixie/main amd64 libdrm2 amd64 2.4.124-2 [39.0 kB]
+#119 161.8 Get:5 http://deb.debian.org/debian trixie/main amd64 libdrm-amdgpu1 amd64 2.4.124-2 [22.6 kB]
+#119 163.7 Get:6 http://deb.debian.org/debian trixie/main amd64 libpciaccess0 amd64 0.17-3+b3 [51.9 kB]
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 305.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 302.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 214.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 217.2s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 161.0 Get:20 http://deb.debian.org/debian trixie/main amd64 libxcb-render0 amd64 1.17.0-2+b1 [115 kB]
+#116 161.5 Get:21 http://deb.debian.org/debian trixie/main amd64 libxcb-shm0 amd64 1.17.0-2+b1 [105 kB]
+#116 163.3 Get:22 http://deb.debian.org/debian trixie/main amd64 libxext6 amd64 2:1.3.4-1+b3 [50.4 kB]
+#116 163.5 Get:23 http://deb.debian.org/debian trixie/main amd64 libxrender1 amd64 1:0.9.12-1 [27.9 kB]
+#116 164.0 Get:24 http://deb.debian.org/debian trixie/main amd64 libcairo2 amd64 1.18.4-1+b1 [538 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 310.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 71.30MB / 237.23MB 307.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 219.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 222.3s
+#79 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 167.4 Get:7 http://deb.debian.org/debian trixie/main amd64 libdrm-intel1 amd64 2.4.124-2 [64.1 kB]
+#119 170.6 Get:8 http://deb.debian.org/debian trixie/main amd64 libedit2 amd64 3.1-20250104-1 [93.8 kB]
+#119 174.4 Get:9 http://deb.debian.org/debian trixie/main amd64 libelf1t64 amd64 0.192-4 [189 kB]
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 315.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 312.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 224.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 227.3s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 172.3 Get:25 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b12 [25.0 kB]
+#116 172.5 Get:26 http://deb.debian.org/debian trixie/main amd64 libkrb5support0 amd64 1.21.3-5+deb13u1 [33.1 kB]
+#116 172.8 Get:27 http://deb.debian.org/debian trixie/main amd64 libk5crypto3 amd64 1.21.3-5+deb13u1 [81.2 kB]
+#116 173.3 Get:28 http://deb.debian.org/debian trixie/main amd64 libkeyutils1 amd64 1.6.3-6 [9456 B]
+#116 173.4 Get:29 http://deb.debian.org/debian trixie/main amd64 libkrb5-3 amd64 1.21.3-5+deb13u1 [326 kB]
+#116 177.9 Get:30 http://deb.debian.org/debian trixie/main amd64 libgssapi-krb5-2 amd64 1.21.3-5+deb13u1 [138 kB]
+#116 179.2 Get:31 http://deb.debian.org/debian trixie/main amd64 libunistring5 amd64 1.3-2 [477 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 320.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 317.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 230.0s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 232.4s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 69.21 Collecting numpy (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 70.49   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#148 75.34 Collecting opencv-python-headless (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 177.1    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 362.0 kB/s eta 0:00:00
+#122 178.1 Downloading opencv_python_headless-5.1.0.95-cp37-abi3-manylinux_2_28_x86_64.whl (63.7 MB)
+#122 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 178.3 Get:10 http://deb.debian.org/debian trixie/main amd64 libwayland-server0 amd64 1.23.1-3 [34.4 kB]
+#119 179.6 Get:11 http://deb.debian.org/debian trixie/main amd64 libxml2 amd64 2.12.7+dfsg+really2.9.14-2.1+deb13u3 [700 kB]
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 325.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 322.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 235.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 237.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 330.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 327.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 240.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 242.6s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 186.6 Get:32 http://deb.debian.org/debian trixie/main amd64 libidn2-0 amd64 2.3.8-2 [109 kB]
+#116 188.1 Get:33 http://deb.debian.org/debian trixie/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-9 [19.8 kB]
+#116 188.4 Get:34 http://deb.debian.org/debian trixie/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-9 [57.5 kB]
+#116 188.9 Get:35 http://deb.debian.org/debian trixie/main amd64 libldap2 amd64 2.6.10+dfsg-1 [194 kB]
+#116 190.2 Get:36 http://deb.debian.org/debian trixie/main amd64 libnghttp2-14 amd64 1.64.0-1.1+deb13u2 [75.4 kB]
+#116 190.6 Get:37 http://deb.debian.org/debian trixie/main amd64 libnghttp3-9 amd64 1.8.0-1 [67.7 kB]
+#116 190.9 Get:38 http://deb.debian.org/debian trixie/main amd64 libpsl5t64 amd64 0.21.2-1.1+b1 [57.2 kB]
+#116 191.3 Get:39 http://deb.debian.org/debian trixie/main amd64 libp11-kit0 amd64 0.25.5-3 [425 kB]
+#116 195.1 Get:40 http://deb.debian.org/debian trixie/main amd64 libtasn1-6 amd64 4.20.0-2+deb13u1 [50.1 kB]
+#116 195.1 Get:41 http://deb.debian.org/debian trixie/main amd64 libgnutls30t64 amd64 3.8.9-3+deb13u4 [1469 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 80.14   Downloading opencv_python_headless-5.1.0.95-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (20 kB)
+#148 81.61 Collecting pooch (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 82.70   Downloading pooch-1.9.0-py3-none-any.whl.metadata (10 kB)
+#148 86.58 Collecting pymatting (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 87.89   Downloading pymatting-1.1.16-py3-none-any.whl.metadata (9.1 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 335.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 333.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 245.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 247.7s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 47.19MB / 64.79MB 340.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 338.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 24.12MB / 49.41MB 250.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 252.8s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 204.8 Get:42 http://deb.debian.org/debian trixie/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b5 [58.8 kB]
+#116 204.8 Get:43 http://deb.debian.org/debian trixie/main amd64 libssh2-1t64 amd64 1.11.1-1+deb13u2 [245 kB]
+#116 206.3 Get:44 http://deb.debian.org/debian trixie/main amd64 libcurl4t64 amd64 8.14.1-2+deb13u7 [392 kB]
+#116 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 91.23 Collecting scikit-image (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 92.82   Downloading scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+#148 97.89 Collecting scipy (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 98.98   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+#148 101.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 kB 30.3 kB/s eta 0:00:00
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 346.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 343.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 255.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 25.17MB / 67.82MB 257.9s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 210.3 Get:45 http://deb.debian.org/debian trixie/main amd64 libdatrie1 amd64 0.2.13-3+b1 [38.1 kB]
+#116 210.3 Get:46 http://deb.debian.org/debian trixie/main amd64 libdeflate0 amd64 1.23-2 [47.3 kB]
+#116 210.3 Get:47 http://deb.debian.org/debian trixie/main amd64 libfribidi0 amd64 1.0.16-1 [26.5 kB]
+#116 210.3 Get:48 http://deb.debian.org/debian trixie/main amd64 libgif7 amd64 5.2.2-1+deb13u1 [44.1 kB]
+#116 210.3 Get:49 http://deb.debian.org/debian trixie/main amd64 libglib2.0-0t64 amd64 2.84.4-3~deb13u5 [1521 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 352.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 72.35MB / 237.23MB 349.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 263.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 261.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 357.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 354.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 268.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 266.5s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 103.8 Collecting tqdm (from rembg==2.0.61->-r requirements.txt (line 3))
+#148 105.1   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+#148 107.6      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.4/57.4 kB 22.6 kB/s eta 0:00:00
+#148 108.9 Collecting coloredlogs (from onnxruntime==1.20.1->-r requirements.txt (line 4))
+#148 110.5   Downloading coloredlogs-15.0.1-py2.py3-none-any.whl.metadata (12 kB)
+#148 112.5 Collecting flatbuffers (from onnxruntime==1.20.1->-r requirements.txt (line 4))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 212.8 Get:12 http://deb.debian.org/debian trixie/main amd64 libz3-4 amd64 4.13.3-1 [8560 kB]
+#119 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 362.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 359.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 273.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 271.7s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 367.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 364.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 278.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 276.7s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 114.4   Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+#148 114.4 Requirement already satisfied: packaging in /usr/local/lib/python3.11/site-packages (from onnxruntime==1.20.1->-r requirements.txt (line 4)) (26.3)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 372.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 369.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 284.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 281.9s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 227.4 Get:50 http://deb.debian.org/debian trixie/main amd64 libglib2.0-data all 2.84.4-3~deb13u5 [1287 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 377.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 374.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 289.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 286.9s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 127.8 Collecting protobuf (from onnxruntime==1.20.1->-r requirements.txt (line 4))
+#148 133.0   Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+#148 136.1 Collecting sympy (from onnxruntime==1.20.1->-r requirements.txt (line 4))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 382.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 379.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 294.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 292.0s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 387.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 73.40MB / 237.23MB 384.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 299.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 297.1s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 244.0 Get:51 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19 [137 kB]
+#116 244.9 Get:52 http://deb.debian.org/debian trixie/main amd64 libgraphite2-3 amd64 1.3.14-2+deb13u1 [75.2 kB]
+#116 245.6 Get:53 http://deb.debian.org/debian trixie/main amd64 libharfbuzz0b amd64 10.2.0-1+deb13u1 [479 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 392.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 389.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 304.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 302.2s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 138.9   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+#148 141.9 Collecting humanfriendly>=9.1 (from coloredlogs->onnxruntime==1.20.1->-r requirements.txt (line 4))
+#148 143.3   Downloading humanfriendly-10.0-py2.py3-none-any.whl.metadata (9.2 kB)
+#148 147.9 Collecting attrs>=22.2.0 (from jsonschema->rembg==2.0.61->-r requirements.txt (line 3))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 397.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 395.0s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 309.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 307.3s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 403.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 400.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 314.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 312.4s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 152.3   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#148 156.6 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema->rembg==2.0.61->-r requirements.txt (line 3))
+#148 159.0   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 408.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 405.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 319.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 317.5s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 263.5 Get:54 http://deb.debian.org/debian trixie/main amd64 libicu76 amd64 76.1-4 [9722 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 413.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 410.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 26.21MB / 67.82MB 324.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 25.17MB / 49.41MB 322.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 418.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 415.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 329.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 327.6s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 166.3 Collecting referencing>=0.28.4 (from jsonschema->rembg==2.0.61->-r requirements.txt (line 3))
+#148 174.5   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 423.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 420.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 334.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 332.7s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 279.3 Get:28 http://deb.debian.org/debian trixie/main amd64 fontconfig-config amd64 2.15.0-2.3 [318 kB]
+#118 281.0 Get:29 http://deb.debian.org/debian trixie/main amd64 libfontconfig1 amd64 2.15.0-2.3 [392 kB]
+#118 283.3 Get:30 http://deb.debian.org/debian trixie/main amd64 libpixman-1-0 amd64 0.44.0-3 [248 kB]
+#118 286.2 Get:31 http://deb.debian.org/debian trixie/main amd64 libxcb-render0 amd64 1.17.0-2+b1 [115 kB]
+#118 287.1 Get:32 http://deb.debian.org/debian trixie/main amd64 libxcb-shm0 amd64 1.17.0-2+b1 [105 kB]
+#118 287.9 Get:33 http://deb.debian.org/debian trixie/main amd64 libxrender1 amd64 1:0.9.12-1 [27.9 kB]
+#118 288.1 Get:34 http://deb.debian.org/debian trixie/main amd64 libcairo2 amd64 1.18.4-1+b1 [538 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 428.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 74.45MB / 237.23MB 425.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 339.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 337.8s
+#79 ...
+
+#121 [upgrade_ai_tool 4/8] RUN pip install --no-cache-dir -r requirements.txt
+#121 285.8    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.9/49.9 MB 263.6 kB/s eta 0:00:00
+#121 287.0 Downloading numpy-2.2.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.4 MB)
+#121 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 433.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 430.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 345.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 342.9s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 289.7 Get:35 http://deb.debian.org/debian trixie/main amd64 libcodec2-1.2 amd64 1.2.0-3 [8170 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 438.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 435.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 350.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 348.0s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 188.1 Collecting rpds-py>=0.25.0 (from jsonschema->rembg==2.0.61->-r requirements.txt (line 3))
+#148 190.0   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+#148 197.9 Collecting platformdirs>=2.5.0 (from pooch->rembg==2.0.61->-r requirements.txt (line 3))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 443.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 440.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 355.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 353.0s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 448.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 445.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 360.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 358.1s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 453.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 450.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 365.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 363.2s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 202.8   Downloading platformdirs-4.14.8-py3-none-any.whl.metadata (5.7 kB)
+#148 206.8 Collecting requests>=2.19.0 (from pooch->rembg==2.0.61->-r requirements.txt (line 3))
+#148 210.1   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 458.9s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 456.0s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 370.4s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 368.3s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 464.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 461.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 375.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 373.4s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 48.23MB / 64.79MB 469.0s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 466.1s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 380.5s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 378.4s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 474.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 471.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 385.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 383.5s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 479.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 476.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 390.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 388.6s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 484.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 481.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 395.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 393.7s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 489.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 486.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 400.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 398.8s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 494.4s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 491.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 406.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 403.9s
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 360.5 Get:55 http://deb.debian.org/debian trixie/main amd64 libjbig0 amd64 2.1-6.1+b2 [32.1 kB]
+#116 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 244.0 Collecting numba>=0.60.0 (from pymatting->rembg==2.0.61->-r requirements.txt (line 3))
+#148 250.4   Downloading numba-0.68.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.8 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 499.5s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 496.6s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 411.0s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 408.9s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 504.6s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 501.7s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 416.1s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 414.0s
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 509.7s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 506.8s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 421.2s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 419.1s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 256.6 Collecting networkx>=3.0 (from scikit-image->rembg==2.0.61->-r requirements.txt (line 3))
+#148 258.5   Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+#148 261.4 Collecting imageio!=2.35.0,>=2.33 (from scikit-image->rembg==2.0.61->-r requirements.txt (line 3))
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 365.1 Get:56 http://deb.debian.org/debian trixie/main amd64 libjpeg62-turbo amd64 1:2.1.5-4 [168 kB]
+#116 369.0 Get:57 http://deb.debian.org/debian trixie/main amd64 libldap-common all 2.6.10+dfsg-1 [35.1 kB]
+#116 369.0 Get:58 http://deb.debian.org/debian trixie/main amd64 libopenjp2-7 amd64 2.5.3-2.1~deb13u2 [205 kB]
+#116 369.1 Get:59 http://deb.debian.org/debian trixie/main amd64 liblerc4 amd64 4.0.0+ds-5 [183 kB]
+#116 369.1 Get:60 http://deb.debian.org/debian trixie/main amd64 libsharpyuv0 amd64 1.5.0-0.1 [116 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 514.8s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 511.9s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 426.3s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 424.2s
+#79 ...
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 275.2   Downloading imageio-2.38.2-py3-none-any.whl.metadata (9.7 kB)
+#148 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 524.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 521.2s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 435.6s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 433.5s
+#79 ...
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 378.3 Get:36 http://deb.debian.org/debian trixie/main amd64 libdav1d7 amd64 1.5.1-1 [559 kB]
+#118 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 378.6 Get:61 http://deb.debian.org/debian trixie/main amd64 libwebp7 amd64 1.5.0-0.1 [318 kB]
+#116 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 529.1s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 526.3s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 440.7s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 438.6s
+#79 ...
+
+#120 [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 383.1    ━╸                                       9.0/209.5 MB 16.1 kB/s eta 3:27:58
+#120 383.1 ERROR: Exception:
+#120 383.1 Traceback (most recent call last):
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 438, in _error_catcher
+#120 383.1     yield
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 561, in read
+#120 383.1     data = self._fp_read(amt) if not fp_closed else b""
+#120 383.1            ^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 527, in _fp_read
+#120 383.1     return self._fp.read(amt) if amt is not None else self._fp.read()
+#120 383.1            ^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/cachecontrol/filewrapper.py", line 98, in read
+#120 383.1     data: bytes = self.__fp.read(amt)
+#120 383.1                   ^^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/http/client.py", line 488, in read
+#120 383.1     s = self.fp.read(amt)
+#120 383.1         ^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/socket.py", line 718, in readinto
+#120 383.1     return self._sock.recv_into(b)
+#120 383.1            ^^^^^^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/ssl.py", line 1327, in recv_into
+#120 383.1     return self.read(nbytes, buffer)
+#120 383.1            ^^^^^^^^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/ssl.py", line 1179, in read
+#120 383.1     return self._sslobj.read(len, buffer)
+#120 383.1            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#120 383.1 TimeoutError: The read operation timed out
+#120 383.1 
+#120 383.1 During handling of the above exception, another exception occurred:
+#120 383.1 
+#120 383.1 Traceback (most recent call last):
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/cli/base_command.py", line 180, in exc_logging_wrapper
+#120 383.1     status = run_func(*args)
+#120 383.1              ^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/cli/req_command.py", line 245, in wrapper
+#120 383.1     return func(self, options, args)
+#120 383.1            ^^^^^^^^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/commands/install.py", line 377, in run
+#120 383.1     requirement_set = resolver.resolve(
+#120 383.1                       ^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/resolution/resolvelib/resolver.py", line 179, in resolve
+#120 383.1     self.factory.preparer.prepare_linked_requirements_more(reqs)
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/operations/prepare.py", line 552, in prepare_linked_requirements_more
+#120 383.1     self._complete_partial_requirements(
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/operations/prepare.py", line 467, in _complete_partial_requirements
+#120 383.1     for link, (filepath, _) in batch_download:
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/network/download.py", line 183, in __call__
+#120 383.1     for chunk in chunks:
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/cli/progress_bars.py", line 53, in _rich_progress_bar
+#120 383.1     for chunk in iterable:
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_internal/network/utils.py", line 63, in response_chunks
+#120 383.1     for chunk in response.raw.stream(
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 622, in stream
+#120 383.1     data = self.read(amt=amt, decode_content=decode_content)
+#120 383.1            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 560, in read
+#120 383.1     with self._error_catcher():
+#120 383.1   File "/usr/local/lib/python3.11/contextlib.py", line 158, in __exit__
+#120 383.1     self.gen.throw(typ, value, traceback)
+#120 383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 443, in _error_catcher
+#120 383.1     raise ReadTimeoutError(self._pool, None, "Read timed out.")
+#120 383.1 pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='download-r2.pytorch.org', port=443): Read timed out.
+#120 ...
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 534.2s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 531.4s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 445.8s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 443.7s
+#79 ...
+
+#120 [people_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#120 ERROR: process "/bin/sh -c pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu" did not complete successfully: exit code: 2
+
+#79 [api_gateway 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 sha256:4266ea1582911c18c0ac8ae08132bc27e0853299344762137649beeef762e40e 49.28MB / 64.79MB 539.3s
+#79 sha256:696c1fe91c64662be9b13aa92628d62d6685ab94c0b55d185258a8f762133deb 75.50MB / 237.23MB 536.5s
+#79 sha256:411d2dc8717dbb4bb0d3cfa27e6e0275fca455c5220029d7a14dc7a75fbe8665 27.26MB / 67.82MB 450.9s
+#79 sha256:a6dd1c05fbba4f9028078a11f143cbb625d2408921eb8207bfa1dd1ad301276f 26.21MB / 49.41MB 448.8s
+#79 ...
+
+#159 [projects 2/5] RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && rm -rf /var/lib/apt/lists/*
+#159 CANCELED
+
+#160 [subscriptions 2/4] WORKDIR /app
+#160 CANCELED
+
+#79 [subscriptions 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+#79 ...
+
+#121 [upgrade_ai_tool 4/8] RUN pip install --no-cache-dir -r requirements.txt
+#121 CANCELED
+
+#122 [generative-mock 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#122 CANCELED
+
+#118 [video_tool 2/7] RUN apt-get update     && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core fonts-noto-core fonts-noto-cjk     && rm -rf /var/lib/apt/lists/*
+#118 CANCELED
+
+#119 [cut_ai_tool 3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#119 CANCELED
+
+#116 [text_ai_tool 3/9] RUN apt-get update && apt-get install -y     tesseract-ocr     && rm -rf /var/lib/apt/lists/*
+#116 CANCELED
+
+#148 [bg_remove_ai_tool 6/6] RUN pip install --no-cache-dir -r requirements.txt
+#148 CANCELED
+
+#79 [subscriptions 1/4] FROM docker.io/library/node:latest@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
+------
+ > [obj_ai_tool  3/11] RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu:
+383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 622, in stream
+383.1     data = self.read(amt=amt, decode_content=decode_content)
+383.1            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 560, in read
+383.1     with self._error_catcher():
+383.1   File "/usr/local/lib/python3.11/contextlib.py", line 158, in __exit__
+383.1     self.gen.throw(typ, value, traceback)
+383.1   File "/usr/local/lib/python3.11/site-packages/pip/_vendor/urllib3/response.py", line 443, in _error_catcher
+383.1     raise ReadTimeoutError(self._pool, None, "Read timed out.")
+383.1 pip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='download-r2.pytorch.org', port=443): Read timed out.
+------
+Dockerfile:5
+
+--------------------
+
+   3 |     WORKDIR /app
+
+   4 |     
+
+   5 | >>> RUN pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+   6 |     RUN apt-get update && apt-get install -y --no-install-recommends \
+
+   7 |             libgl1 \  
+
+--------------------
+
+target people_ai_tool: failed to solve: process "/bin/sh -c pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu" did not complete successfully: exit code: 2
+
+EXIT=1
+2026-11-21T15:36:50Z

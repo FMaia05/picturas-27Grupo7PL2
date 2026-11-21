@@ -1,0 +1,163 @@
+{
+  "scenario": "C2-A",
+  "submitted": 4,
+  "http_status": [
+    201,
+    201,
+    201,
+    201
+  ],
+  "queue_before_restart": {
+    "messages": 4,
+    "messages_ready": 4,
+    "messages_unacknowledged": 0,
+    "consumers": 0,
+    "durable": true,
+    "arguments": {
+      "x-queue-type": "classic"
+    },
+    "policy": null
+  },
+  "queue_after_restart": {
+    "messages": 0,
+    "messages_ready": 0,
+    "messages_unacknowledged": 0,
+    "consumers": 0,
+    "durable": true,
+    "arguments": {
+      "x-queue-type": "classic"
+    },
+    "policy": null
+  },
+  "completed_within_180s": 0,
+  "lost": 4,
+  "loss_pct": 100.0,
+  "events": [
+    null,
+    null,
+    null,
+    null
+  ],
+  "project_state_before": {
+    "6b01e0df4f4d982f5894c46d": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e04f4d982f5894c4ae": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e04f4d982f5894c4ef": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e14f4d982f5894c530": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    }
+  },
+  "project_state_after": {
+    "6b01e0df4f4d982f5894c46d": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e04f4d982f5894c4ae": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e04f4d982f5894c4ef": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b01e0e14f4d982f5894c530": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    }
+  },
+  "stuck_runs": 4,
+  "health_after_restart": {
+    "containers": {
+      "projects": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-21T18:20:05.28931436Z"
+      },
+      "ws_gateway": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-21T17:39:06.376555113Z"
+      },
+      "video_tool": {
+        "status": "exited",
+        "running": false,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 137,
+        "started_at": "2026-11-21T18:10:04.985248567Z"
+      },
+      "img_storage": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-21T17:38:35.716891306Z"
+      },
+      "rabbitmq": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-21T18:20:37.229635027Z"
+      }
+    },
+    "consumers": {
+      "project_queue": 0,
+      "video_queue": 0,
+      "ws_queue": 1
+    }
+  },
+  "manual_recovery_actions": [
+    "restarted projects (0 consumers on project_queue)"
+  ],
+  "restart_at": "2026-11-21T18:20:35.230805+00:00"
+}

@@ -1,0 +1,124 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.16kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 910B 0.0s done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 5.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 426B done
+#5 DONE 0.1s
+
+#6 [1/9] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#6 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#6 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.1s done
+#6 DONE 0.1s
+
+#7 [2/9] WORKDIR /app
+#7 CACHED
+
+#8 [3/9] RUN apt-get update && apt-get install -y --no-install-recommends         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [4/9] COPY cut_ai/requirements.txt requirements.txt
+#9 CACHED
+
+#10 [5/9] RUN pip install --no-cache-dir -r requirements.txt
+#10 8.782 Collecting torch==2.2.0 (from -r requirements.txt (line 1))
+#10 18.19   WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1018)'))': /packages/c8/02/d3adf4b4851d99a31c5a9cf7b668f171e84334945d05fb7b51c42bf41abf/torch-2.2.0-cp311-cp311-manylinux1_x86_64.whl.metadata
+#10 23.14   Downloading torch-2.2.0-cp311-cp311-manylinux1_x86_64.whl.metadata (25 kB)
+#10 27.30 Collecting torchvision==0.17.0 (from -r requirements.txt (line 2))
+#10 28.25   Downloading torchvision-0.17.0-cp311-cp311-manylinux1_x86_64.whl.metadata (6.6 kB)
+#10 29.59 Collecting opencv-python-headless==4.10.0.84 (from -r requirements.txt (line 3))
+#10 29.62   Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+#10 32.95 Collecting Pillow==11.0.0 (from -r requirements.txt (line 4))
+#10 33.03   Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#10 36.77 Collecting numpy==1.26.4 (from -r requirements.txt (line 5))
+#10 36.84   Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+#10 37.18      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.0/61.0 kB 165.3 kB/s eta 0:00:00
+#10 37.26 Collecting pika==1.3.2 (from -r requirements.txt (line 6))
+#10 37.31   Downloading pika-1.3.2-py3-none-any.whl.metadata (13 kB)
+#10 37.55 Collecting pytz>=2023.3 (from -r requirements.txt (line 7))
+#10 37.58   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+#10 37.78 Collecting filelock (from torch==2.2.0->-r requirements.txt (line 1))
+#10 37.87   Downloading filelock-4.2.12-py3-none-any.whl.metadata (2.3 kB)
+#10 37.94 Collecting typing-extensions>=4.8.0 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 43.39   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#10 43.67 Collecting sympy (from torch==2.2.0->-r requirements.txt (line 1))
+#10 42.65   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+#10 43.02 Collecting networkx (from torch==2.2.0->-r requirements.txt (line 1))
+#10 44.40   Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+#10 44.58 Collecting jinja2 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 44.65   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#10 44.90 Collecting fsspec (from torch==2.2.0->-r requirements.txt (line 1))
+#10 45.08   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+#10 45.45 Collecting nvidia-cuda-nvrtc-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 45.82   Downloading nvidia_cuda_nvrtc_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+#10 46.01 Collecting nvidia-cuda-runtime-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 46.18   Downloading nvidia_cuda_runtime_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+#10 46.35 Collecting nvidia-cuda-cupti-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 46.44   Downloading nvidia_cuda_cupti_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+#10 46.60 Collecting nvidia-cudnn-cu12==8.9.2.26 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 47.01   Downloading nvidia_cudnn_cu12-8.9.2.26-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+#10 47.11 Collecting nvidia-cublas-cu12==12.1.3.1 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 47.15   Downloading nvidia_cublas_cu12-12.1.3.1-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+#10 47.57 Collecting nvidia-cufft-cu12==11.0.2.54 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 47.83   Downloading nvidia_cufft_cu12-11.0.2.54-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+#10 48.01 Collecting nvidia-curand-cu12==10.3.2.106 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 48.17   Downloading nvidia_curand_cu12-10.3.2.106-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+#10 48.33 Collecting nvidia-cusolver-cu12==11.4.5.107 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 48.46   Downloading nvidia_cusolver_cu12-11.4.5.107-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+#10 48.68 Collecting nvidia-cusparse-cu12==12.1.0.106 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 48.83   Downloading nvidia_cusparse_cu12-12.1.0.106-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+#10 49.05 Collecting nvidia-nccl-cu12==2.19.3 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 49.19   Downloading nvidia_nccl_cu12-2.19.3-py3-none-manylinux1_x86_64.whl.metadata (1.8 kB)
+#10 49.49 Collecting nvidia-nvtx-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 49.55   Downloading nvidia_nvtx_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.7 kB)
+#10 49.70 Collecting triton==2.2.0 (from torch==2.2.0->-r requirements.txt (line 1))
+#10 50.11   Downloading triton-2.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.4 kB)
+#10 50.65 Collecting requests (from torchvision==0.17.0->-r requirements.txt (line 2))
+#10 50.77   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#10 51.54 Collecting nvidia-nvjitlink-cu12 (from nvidia-cusolver-cu12==11.4.5.107->torch==2.2.0->-r requirements.txt (line 1))
+#10 51.68   Downloading nvidia_nvjitlink_cu12-12.9.86-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+#10 52.13 Collecting MarkupSafe>=2.0 (from jinja2->torch==2.2.0->-r requirements.txt (line 1))
+#10 52.29   Downloading markupsafe-3.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#10 53.55 Collecting charset_normalizer<4,>=2 (from requests->torchvision==0.17.0->-r requirements.txt (line 2))
+#10 53.93   Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+#10 54.36      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.4/46.4 kB 127.9 kB/s eta 0:00:00
+#10 54.51 Collecting idna<4,>=2.5 (from requests->torchvision==0.17.0->-r requirements.txt (line 2))
+#10 54.60   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#10 54.89 Collecting urllib3<3,>=1.26 (from requests->torchvision==0.17.0->-r requirements.txt (line 2))
+#10 55.08   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#10 55.35 Collecting certifi>=2023.5.7 (from requests->torchvision==0.17.0->-r requirements.txt (line 2))
+#10 55.65   Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
+#10 56.07 Collecting mpmath<1.4,>=1.1.0 (from sympy->torch==2.2.0->-r requirements.txt (line 1))
+#10 56.26   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+#10 56.55 Downloading torch-2.2.0-cp311-cp311-manylinux1_x86_64.whl (755.5 MB)
+#10 1042.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 755.5/755.5 MB 556.6 kB/s eta 0:00:00
+#10 1044.8 Downloading torchvision-0.17.0-cp311-cp311-manylinux1_x86_64.whl (6.9 MB)
+#10 1053.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 806.3 kB/s eta 0:00:00
+#10 1053.6 Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (49.9 MB)
+#10 1114.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.9/49.9 MB 1.0 MB/s eta 0:00:00
+#10 1114.2 Downloading pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.4 MB)
+#10 1116.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 2.2 MB/s eta 0:00:00
+#10 1119.6 Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.3 MB)
+#10 1131.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.3/18.3 MB 2.1 MB/s eta 0:00:00
+#10 1138.0 Downloading pika-1.3.2-py3-none-any.whl (155 kB)
+#10 1138.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 354.1 kB/s eta 0:00:00
+#10 1140.1 Downloading nvidia_cublas_cu12-12.1.3.1-py3-none-manylinux1_x86_64.whl (410.6 MB)
+#10 1647.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 410.6/410.6 MB 784.7 kB/s eta 0:00:00
+#10 1649.2 Downloading nvidia_cuda_cupti_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (14.1 MB)
+#10 1666.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.1/14.1 MB 902.7 kB/s eta 0:00:00
+#10 1666.3 Downloading nvidia_cuda_nvrtc_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (23.7 MB)
+#10 1694.0    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.7/23.7 MB 722.2 kB/s eta 0:00:00
+#10 1700.5 Downloading nvidia_cuda_runtime_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (823 kB)
+#10 1701.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 823.6/823.6 kB 1.4 MB/s eta 0:00:00
+#10 1701.5 Downloading nvidia_cudnn_cu12-8.9.2.26-py3-none-manylinux1_x86_64.whl (731.7 MB)

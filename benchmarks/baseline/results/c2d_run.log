@@ -1,0 +1,10 @@
+[18:31:45] C2-D(1) img_storage stopped during the reply on project_queue
+[18:31:58]   img_storage stopped at 51 %
+[18:33:50]   -> process-error / pending docs 0 / results 0 / reapply process-update
+[18:33:50] C2-D(2a) invalid trim (start beyond the end of the video) through the API
+[18:34:12]   -> process-error attempts 1
+[18:34:12] C2-D(2b) message with a missing input file injected in video_queue
+[18:34:33] C2-D(2c) malformed message (tools is not a list) injected in video_queue — watching 90 s
+[18:36:06]   -> worker restarts 10, tracebacks 10, still queued True
+[18:36:23]   heal after c2d: ['restarted video_tool (0 consumers on video_queue)']
+[18:36:23] saved benchmarks\baseline\results\c2d_failures.json

@@ -1,0 +1,13 @@
+[18:37:27] C1-B rep=1: preparing users A (subtitles) and B (previews)
+[18:37:46]   idle preview 1: 10.993 s (preview-ready)
+[18:37:46]   idle preview 2: 0.0 s (preview-ready)
+[18:37:49]   idle preview 3: 2.882 s (preview-ready)
+[18:37:59]   user A: Apply with subtitles on the 177 s speech video
+[18:37:59]   POST /process -> 201 "Created"
+[18:41:37]   under_subtitles preview 1: 212.967 s (preview-ready)
+[18:41:37]   under_subtitles preview 2: 0.0 s (preview-ready)
+[18:41:39]   under_subtitles preview 3: 1.946 s (preview-ready)
+[18:41:44]   idle p50 2.882 s, under subtitles p50 1.946 s, ratio 0.68, subtitles e2e 216.111 s
+[18:41:44] saved benchmarks\baseline\results\c1b_docker_stats_r1.csv
+[18:41:44] saved benchmarks\baseline\results\c1b_summary.json
+[18:41:44] saved benchmarks\baseline\results\c1b_previews.csv

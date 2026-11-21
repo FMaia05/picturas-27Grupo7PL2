@@ -1,0 +1,22 @@
+{
+  "discarded": true,
+  "note": "Warm-up only: not part of the baseline. Includes the Whisper model download.",
+  "subtitles_apply": {
+    "status": 201,
+    "event": "process-update",
+    "seconds": 21.022
+  },
+  "preview": {
+    "status": 201,
+    "event": "preview-ready",
+    "seconds": 5.125
+  },
+  "results": [
+    {
+      "img_id": "6b01e4ca8f1b3c17134160e2",
+      "type": "video",
+      "file_name": "sample_10s_720p.mp4",
+      "token": 1
+    }
+  ]
+}

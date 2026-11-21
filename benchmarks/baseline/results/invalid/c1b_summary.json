@@ -1,0 +1,136 @@
+{
+  "runs": [
+    {
+      "scenario": "C1-B",
+      "rep": 1,
+      "idle_latency_s": [
+        10.993,
+        0.0,
+        2.882
+      ],
+      "loaded_latency_s": [
+        212.967,
+        0.0,
+        1.946
+      ],
+      "idle_p50_s": 2.882,
+      "idle_p95_s": 10.993,
+      "loaded_p50_s": 1.946,
+      "loaded_p95_s": 212.967,
+      "ratio_p50_loaded_over_idle": 0.68,
+      "subtitles_job": {
+        "msg_id": "request-12473c73-0333-4f1e-98f8-3eb05b9dc945",
+        "project_id": "6b01e4e78f1b3c171341616f",
+        "published_vm": "2026-11-21T18:37:59.416000+00:00",
+        "worker_start_vm": "2026-11-21T18:37:59.472854+00:00",
+        "worker_ok_vm": "2026-11-21T18:41:35.054469+00:00",
+        "worker_starts": 1,
+        "queue_wait_s": 0.057,
+        "service_s": 215.582,
+        "sent_host": "2026-11-21T18:37:59.179778+00:00",
+        "done_host": "2026-11-21T18:41:35.290333+00:00",
+        "e2e_s": 216.111,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b01e4e88f1b3c171341618a",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:37:35.174636+00:00",
+          "event": "preview-ready",
+          "latency_s": 10.993,
+          "msg_id": "preview-a6351503-53ac-42f4-99b9-515c8709afd8",
+          "queue_wait_s": 0.062,
+          "service_s": 10.433,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b01e4e88f1b3c17134161a5",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:37:46.167337+00:00",
+          "event": "preview-ready",
+          "latency_s": 0.0,
+          "msg_id": "preview-1ba4bec4-bfa0-4d69-adce-c8788741dc27",
+          "queue_wait_s": 0.052,
+          "service_s": 2.722,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b01e4e98f1b3c17134161c0",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:37:46.227386+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.882,
+          "msg_id": "preview-46182e7a-bbea-426d-bd57-333c42489a12",
+          "queue_wait_s": 2.697,
+          "service_s": 2.031,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b01e4e98f1b3c17134161db",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:38:04.181480+00:00",
+          "event": "preview-ready",
+          "latency_s": 212.967,
+          "msg_id": "preview-a71d2224-1835-4101-ac18-b0406d629eb8",
+          "queue_wait_s": 210.326,
+          "service_s": 1.458,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b01e4ea8f1b3c17134161f6",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:41:37.148680+00:00",
+          "event": "preview-ready",
+          "latency_s": 0.0,
+          "msg_id": "preview-79994e43-0a6e-4ce2-b7f2-2dc565fa8fd1",
+          "queue_wait_s": 0.05,
+          "service_s": 1.801,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b01e4ea8f1b3c1713416211",
+          "http_status": 201,
+          "sent_host": "2026-11-21T18:41:37.239664+00:00",
+          "event": "preview-ready",
+          "latency_s": 1.946,
+          "msg_id": "preview-736f24c1-18ea-4571-a0bb-f4f1ddf70aec",
+          "queue_wait_s": 1.752,
+          "service_s": 1.974,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 1021.73,
+          "mem_mb_max": 2294.784,
+          "samples": 115
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 27.61,
+          "mem_mb_max": 153.0,
+          "samples": 115
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 346.15,
+          "mem_mb_max": 218.5,
+          "samples": 115
+        }
+      }
+    }
+  ]
+}

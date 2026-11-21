@@ -1,0 +1,52 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.18kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 278B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 4.89kB 0.0s done
+#6 DONE 0.0s
+
+#7 [2/6] WORKDIR /app
+#7 CACHED
+
+#8 [3/6] COPY ./saturation .
+#8 CACHED
+
+#9 [4/6] COPY ./utils ./utils
+#9 CACHED
+
+#10 [5/6] RUN pip install --no-cache-dir -r ./utils/requirements.txt
+#10 CACHED
+
+#11 [6/6] RUN pip install --no-cache-dir -r requirements.txt
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:fccf90acb79910c6ce54ae535a986436d210800f28dbeb5b891fe61e91a3663c done
+#12 exporting config sha256:a5b2e629c8294d2a95dc75b33a215423a087585d95930a051b88605020a92407 done
+#12 exporting attestation manifest sha256:a4808dd98ff93a5469078592bc97c61022b5eb88c3858f328725f6c49cbda5f5 0.0s done
+#12 exporting manifest list sha256:ffc5674e28501484b2fdcf5e0229456c32d892d421555d5564d33226cc0999db
+#12 exporting manifest list sha256:ffc5674e28501484b2fdcf5e0229456c32d892d421555d5564d33226cc0999db 0.0s done
+#12 naming to docker.io/library/picturas-baseline-saturation_tool:latest done
+#12 unpacking to docker.io/library/picturas-baseline-saturation_tool:latest done
+#12 DONE 0.1s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ picturas-baseline-saturation_tool  Built
