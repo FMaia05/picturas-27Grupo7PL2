@@ -9,6 +9,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import uuid
 from functools import lru_cache
 
 
@@ -55,7 +56,10 @@ def caption_video(input_path, output_path, info, progress):
         progress(100)
         return
 
-    with tempfile.TemporaryDirectory(prefix="speech-", dir=Path(output_path).parent) as work:
+    execution_id = uuid.uuid4().hex
+    with tempfile.TemporaryDirectory(
+        prefix=f"speech-{execution_id}-", dir=Path(output_path).parent
+    ) as work:
         # Detect input language; transcribe, never silently translate it.
         segments, _ = speech_model().transcribe(
             input_path, task="transcribe", language=None, beam_size=5,
