@@ -38,7 +38,11 @@
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
-            "arguments": {}
+            "arguments": {
+                "x-queue-type": "classic",
+                "x-dead-letter-exchange": "picturas.dlx",
+                "x-dead-letter-routing-key": "project_dlq"
+            }
         },
         {
             "name": "border_queue",
@@ -171,12 +175,75 @@
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic",
+                "x-dead-letter-exchange": "picturas.dlx",
+                "x-dead-letter-routing-key": "video_dlq"
+            }
+        },
+        {
+            "name": "video_dlq",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "video_preview_queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic",
+                "x-dead-letter-exchange": "picturas.dlx",
+                "x-dead-letter-routing-key": "video_preview_dlq"
+            }
+        },
+        {
+            "name": "video_preview_dlq",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "video_subtitles_queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic",
+                "x-dead-letter-exchange": "picturas.dlx",
+                "x-dead-letter-routing-key": "video_subtitles_dlq"
+            }
+        },
+        {
+            "name": "video_subtitles_dlq",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "project_dlq",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
             "arguments": {}
         }
     ],
     "exchanges": [
         {
             "name": "picturas",
+            "vhost": "/",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "picturas.dlx",
             "vhost": "/",
             "type": "direct",
             "durable": true,
@@ -344,6 +411,54 @@
             "destination": "video_queue",
             "destination_type": "queue",
             "routing_key": "video_queue",
+            "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "video_dlq",
+            "destination_type": "queue",
+            "routing_key": "video_dlq",
+            "arguments": {}
+        },
+        {
+            "source": "picturas",
+            "vhost": "/",
+            "destination": "video_preview_queue",
+            "destination_type": "queue",
+            "routing_key": "video_preview_queue",
+            "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "video_preview_dlq",
+            "destination_type": "queue",
+            "routing_key": "video_preview_dlq",
+            "arguments": {}
+        },
+        {
+            "source": "picturas",
+            "vhost": "/",
+            "destination": "video_subtitles_queue",
+            "destination_type": "queue",
+            "routing_key": "video_subtitles_queue",
+            "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "video_subtitles_dlq",
+            "destination_type": "queue",
+            "routing_key": "video_subtitles_dlq",
+            "arguments": {}
+        },
+        {
+            "source": "picturas.dlx",
+            "vhost": "/",
+            "destination": "project_dlq",
+            "destination_type": "queue",
+            "routing_key": "project_dlq",
             "arguments": {}
         }
     ]

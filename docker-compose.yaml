@@ -134,7 +134,7 @@ services:
         condition: service_started
     ports:
       - "9002:9001"
-    restart: on-failure
+    restart: unless-stopped
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -252,22 +252,53 @@ services:
     volumes:
       - image_data:/app/images
 
-  # Video worker (ffmpeg isolated in the container)
-  video_tool:
+  # All video queues use the same worker image.
+  video_tool: &video_worker
+    image: ${COMPOSE_PROJECT_NAME:-picturas}-video-worker
     build:
       context: ./Tools
       dockerfile: video/Dockerfile
-    restart: on-failure
+    restart: unless-stopped
+    cpus: '3.0'
+    mem_limit: 896m
+    deploy:
+      replicas: 2
     environment:
       VIDEO_PREVIEW_SECONDS: 3
-      WHISPER_MODEL: small
-      WHISPER_CACHE_DIR: /models/whisper
-      WHISPER_CPU_THREADS: 2
+      VIDEO_WORK_DIR: /app/images/.video-work
+      VIDEO_QUEUE_NAME: video_queue
     networks:
       - elk
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - image_data:/app/images
+
+  video_preview_tool:
+    <<: *video_worker
+    cpus: '2.0'
+    mem_limit: 768m
+    deploy:
+      replicas: 1
+    environment:
+      VIDEO_PREVIEW_SECONDS: 3
+      VIDEO_WORK_DIR: /app/images/.video-work
+      VIDEO_QUEUE_NAME: video_preview_queue
+
+  video_subtitles_tool:
+    <<: *video_worker
+    cpus: '6.0'
+    mem_limit: 3g
+    deploy:
+      replicas: 1
+    environment:
+      VIDEO_PREVIEW_SECONDS: 3
+      VIDEO_WORK_DIR: /app/images/.video-work
+      VIDEO_QUEUE_NAME: video_subtitles_queue
+      WHISPER_MODEL: small
+      WHISPER_CACHE_DIR: /models/whisper
+      WHISPER_CPU_THREADS: 2
     volumes:
       - image_data:/app/images
       - whisper_models:/models/whisper
