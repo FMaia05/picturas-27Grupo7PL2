@@ -36,7 +36,7 @@ Behind the gateway:
   - AI tools: `bg_remove_ai`, `cut_ai`, `expand_ai` (uses `generative-mock/`), `obj_ai`,
     `people_ai`, `text_ai`, `upgrade_ai`.
   - `Tools/utils/`: shared RabbitMQ, image I/O and message helpers.
-  - `Tools/video/` (`video_tool`): the single video worker, see below.
+  - `Tools/video/`: one worker implementation shared across the three video services.
 - `rabbitMQ/definitions.json`: queues, exchange and bindings.
 - `docker-compose.yaml`: the single source of truth for services and configuration.
 
@@ -45,11 +45,13 @@ Behind the gateway:
 - **Images**: `projects` sends one message per (image, tool) step and advances the chain when
   the tool replies on `project_queue`. Progress goes to the browser through `ws_queue`.
 - **Videos**: `projects` sends **one** message per video carrying the whole pipeline to
-  `video_queue`. The worker probes with ffprobe, decodes once, applies the frame effects
-  (`Tools/video/effects.py`, same PIL operations as the image tools), and encodes once to
-  MP4/H.264 + AAC, keeping the audio. It reports progress as `video-progress` events on
-  `ws_queue`, acks only at the end and leaves no partial output on failure. Preview mode
-  renders only the first `VIDEO_PREVIEW_SECONDS` (3 s).
+  `video_subtitles_queue` if it contains subtitles, otherwise `video_preview_queue` for a
+  preview or `video_queue` for Apply. The worker probes with ffprobe and applies frame effects
+  (`Tools/video/effects.py`, same PIL operations as the image tools) in one decode/encode pass,
+  producing MP4/H.264 + AAC with the original audio preserved. It reports progress as
+  `video-progress` on `ws_queue` and acknowledges the job after the broker confirms the reply.
+  Temporary files stay outside project output directories. Ordinary previews render the first
+  `VIDEO_PREVIEW_SECONDS` (3 s).
 
 ### Media types
 
@@ -124,4 +126,5 @@ cd Tools/video && python3 -m venv .venv && .venv/bin/pip install -r requirements
 - The users service answers errors with a non-standard 701 status (including "daily limit
   reached"); `projects` maps that case to 403 before replying.
 - Image/video handling is branched in the orchestrator, PIL effects are duplicated in
-  `Tools/video/effects.py`, and there is a single `video_tool` with no replicas.
+  `Tools/video/effects.py`. Apply without subtitles has two `video_tool` replicas. The preview
+  and subtitles queues have one dedicated consumer each.

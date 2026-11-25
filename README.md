@@ -151,14 +151,21 @@ exchange:
 > (`prcsousa/picturas-watermark-tool-ms`) instead of being built from this repository — it is a
 > deliberate example of integrating a third-party service.
 
-**Videos** are handled by a single worker, `video_tool` (`Tools/video/`), instead of the image
-tools. For each video, `projects` sends **one** message with the whole pipeline to
-`video_queue`; the worker probes the file with `ffprobe`, decodes it once, applies the frame
-effects (`Tools/video/effects.py`, the same PIL operations as the image tools), encodes once to
-MP4/H.264 + AAC and reports progress as `video-progress` events on `ws_queue`. It acknowledges
-the message only at the end and leaves no partial output on failure. `ffmpeg` is installed only
-inside this container. Automatic subtitles and frame extraction run as ordered stages of the
-same worker (`Tools/video/subtitles.py`, `Tools/video/frame_extraction.py`).
+For each **video**, `projects` sends **one** persistent message with the whole pipeline.
+All video services use the image built from `Tools/video/`:
+
+| Pipeline | Queue | Service | CPU / RAM per replica |
+| --- | --- | --- | --- |
+| Any pipeline with subtitles | `video_subtitles_queue` | `video_subtitles_tool` (1) | 6 / 3 GiB |
+| Preview without subtitles | `video_preview_queue` | `video_preview_tool` (1) | 2 / 768 MiB |
+| Apply without subtitles | `video_queue` | `video_tool` (2) | 3 / 896 MiB |
+
+The worker applies frame effects in one decode/encode pass, runs ordered caption stages or
+terminal frame extraction when requested, and reports `video-progress` on `ws_queue`.
+The subtitles service alone mounts the Whisper model cache. Workers acknowledge jobs
+after RabbitMQ confirms the reply. The orchestrator acknowledges replies after handling
+them and retries transient storage errors. Rejected video jobs and project replies go
+through `picturas.dlx` to the corresponding dead-letter queues.
 
 ### Infrastructure
 
@@ -208,6 +215,12 @@ OOM-killed.
 >
 > Then follow the installation below. This is needed only once. If you want to keep anything
 > from your old instance, export it before running the command.
+
+**Upgrading an existing Phase 2 stack.** RabbitMQ cannot change arguments on existing queues.
+Before deploying these definitions, stop accepting new processing requests and let in-flight
+work finish. Stop the application services, delete the empty `project_queue` and `video_queue`
+via RabbitMQ Management, then rebuild the broker to import the updated topology. A fresh Compose project creates the queues with
+the new arguments on first boot.
 
 ### Installation
 
