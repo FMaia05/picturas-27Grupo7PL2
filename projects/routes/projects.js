@@ -10,6 +10,7 @@ const FormData = require("form-data");
 const fs = require("fs");
 const fs_extra = require("fs-extra");
 const path = require("path");
+const { createHash } = require("node:crypto");
 const mime = require("mime-types");
 
 const JSZip = require("jszip");
@@ -41,6 +42,7 @@ const {
   get_image_internal_url,
   get_image_public_url,
   post_image,
+  retry_image_storage,
   delete_image,
   copy_image,
 } = require("../utils/imageStorage");
@@ -165,379 +167,245 @@ function toolsEqual(a, b) {
 }
 
 
-// TODO process message according to type of output
-function process_msg() {
-  read_msg(async (msg) => {
-
-    const timestamp = new Date().toISOString();
-    const user_msg_id = `update-client-process-${uuidv4()}`;
-
-    // variáveis “seguras” para usar no catch
-    let runnerIdSafe = null;
-    let ownerIdSafe = null;
-
-    try {
-      const msg_content = JSON.parse(msg.content.toString());
-      const msg_id = msg_content.correlationId;
-
-      const process = await Process.getOneByMsgId(msg_id);
-      if (!process) return;
-
-      ownerIdSafe = process.user_id;
-      runnerIdSafe = process.runner_id || process.user_id;
-
-       console.log(
-        `[T-03][RABBIT] msg=${msg_id} status=${msg_content.status} outType=${msg_content?.output?.type} curPos=${process.cur_pos} key=${(process.cache_key||"").slice(0,8)}`
-      );
-
-      const ownerId = process.user_id;
-      const runnerId = process.runner_id || process.user_id; 
-
-      const prev_process_input_img = process.og_img_uri;
-      const prev_process_output_img = process.new_img_uri;
-      
-      // Get current process, delete it and create it's sucessor if possible
-      const og_img_uri = process.og_img_uri;
-      const img_id = process.img_id;
-      
-      const project = await Project.getOne(process.user_id, process.project_id);
-      const sourceIsVideo = project.imgs.some((img) => String(img._id) === String(img_id) && isVideoMedia(img));
-      // In extraction runs keep every source job visible until its output is
-      // persisted, including ordinary images in mixed projects. Failed jobs stay
-      // as barriers so another source cannot commit a partial run.
-      const holdsRunCommit = project.tools.some((tool) => tool.procedure === "extract_frames") && !/preview/.test(msg_id);
-      if (!holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
-      
-      if (msg_content.status === "error") {
-        console.log(JSON.stringify(msg_content));
-        if (/preview/.test(msg_id)) {
-          send_msg_client_preview_error(`update-client-preview-${uuidv4()}`, timestamp, runnerId, msg_content.error.code, msg_content.error.msg)
-        }
-        
-        else {
-          send_msg_client_error(
-            user_msg_id,
-            timestamp,
-            runnerId,   
-            msg_content.error.code,
-            msg_content.error.msg
-          );
-        }
-        return;
-      }
-      
-      const output_file_uri = msg_content.output.imageURI;
-      const type = msg_content.output.type;
-
-      // Guard robusto: se o utilizador cancelou, activeToken muda e ignoramos outputs deste run
-      const active = project.activeToken || 0;
-      const tok = process.token || 0;
-
-      console.log(
-        `[RUN-DEBUG] msg=${msg_id} curPos=${process.cur_pos} processTok=${tok} activeTok=${active}`
-      );
-
-      if (active !== tok) {
-        console.log(`[RUN-GUARD] IGNORE msg=${msg_id} processTok=${tok} activeTok=${active}`);
-        if (holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
-        return;
-      }
-
-      const next_pos = process.cur_pos + 1;
-
-      // Images only go through the image tools (trim is video-only);
-      // a video is processed in one go by the video worker, so its reply is
-      // always the last one of the chain.
-      const imgTools = imageTools(project);
-      // A video worker also returns an image for extraction previews, or frames
-      // for full extraction. Neither should enter the image-effect chain.
-      const chainEnd = sourceIsVideo || type === "video" || type === "frames" || next_pos >= imgTools.length;
-      const isLast = type == "text" || chainEnd;
-
-if (/preview/.test(msg_id) && isLast) {
-  const file_path = path.resolve(__dirname, "..", output_file_uri);
-  const file_name = path.basename(file_path);
-  const fileStream = fs.createReadStream(file_path);
-
-  const data = new FormData();
-  await data.append(
-    "file",
-    fileStream,
-    path.basename(file_path),
-    mime.lookup(file_path)
-  );
-
-  const resp = await post_image(process.user_id, process.project_id, "preview", data);
-
-  const og_key_tmp = resp.data.data.imageKey.split("/");
-  const og_key = og_key_tmp[og_key_tmp.length - 1];
-
-  const preview = {
-    type: type,
-    file_name: file_name,
-    img_key: og_key,
-    img_id: img_id,
-    project_id: process.project_id,
-    user_id: process.user_id,
-  };
-
-  await Preview.create(preview);
-
-  // considerar "preview final" quando:
-  // - a tool devolveu texto (tipicamente o fim), ou quando
-  // - chegámos ao fim do pipeline
-  if (isLast) {
-    const previews = await Preview.getAll(process.user_id, process.project_id);
-
-    // 1) Copiar todos os previews do stage volátil (preview) para o stage persistente (preview_cache)
-    let copiedOk = true;
-    for (const p of previews) {
-      try {
-        await copy_image(process.user_id, process.project_id, "preview", "preview_cache", p.img_key);
-        const key8 = (process.cache_key || "").slice(0, 8);
-        console.log(`[T-03][CACHE-COPY][OK] key=${key8} file=${p.img_key}`);
-
-      } catch (e) {
-        copiedOk = false;
-          console.error(`[T-03][CACHE-COPY][FAIL] key=${key8} file=${p.img_key} err=${e.message}`);
-        // não crash — mas atenção: se falhar, o HIT futuro pode dar 404
-      }
-    }
-
-    let urls = {
-      imageUrl: "",
-      textResults: [],
-    };
-
-    // Montar URLs atuais (assinadas) a partir das keys
-    for (let p of previews) {
-      const url_resp = await get_image_public_url(
-        process.user_id,
-        process.project_id,
-        "preview_cache",
-        p.img_key
-      );
-
-      const url = url_resp.data.url;
-
-      if (p.type != "text") {
-        urls.imageUrl = url;
-        if (p.type === "video") urls.mediaType = "video";
-      }
-      else urls.textResults.push(url);
-    }
-
-    // métricas de duração (se timestamps ativos no Process)
-    const startedAt = process.createdAt ? new Date(process.createdAt).getTime() : null;
-    const durationMs = startedAt ? (Date.now() - startedAt) : null;
-
-    console.log(
-      `[T-03][RABBIT][PREVIEW-DONE] msg=${msg_id} key=${(process.cache_key||"").slice(0,8)} previews=${previews.length} durationMs=${durationMs}`
-    );
-
-    // grava cache do preview final (image + texts + duration)
-    // (se cache_key não existir por algum motivo, não crashes)
-    if (process.cache_key) {
-      const imgSha =
-        project.imgs.find((i) => String(i._id) === String(process.img_id))?.og_sha256 ?? "";
-
-      const imageKey = previews.find((p) => p.type !== "text")?.img_key ?? "";
-      const textKeys = previews.filter((p) => p.type === "text").map((p) => p.img_key);
-
-      await PreviewCache.upsert({
-        user_id: process.user_id,
-        project_id: process.project_id,
-        img_id: process.img_id,
-        cache_key: process.cache_key,
-        img_sha256: imgSha,
-        image_key: imageKey,
-        text_keys: textKeys,
-        duration_ms: durationMs,
-      });
-
-      console.log(
-        `[T-03][RABBIT][CACHE-SAVE] key=${process.cache_key.slice(0,8)} imageKey=${imageKey ? imageKey.slice(0,8) : "-"} textKeys=${textKeys.length}`
-      );
-    }
-
-    // envia preview ao cliente
-    send_msg_client_preview(
-      `update-client-preview-${uuidv4()}`,
-      timestamp,
-      runnerId,
-      JSON.stringify(urls)
-    );
-  }
+function deliveryKey(process, slot = 0) {
+  return `${process._id}:${slot}`;
 }
 
-      if (/preview/.test(msg_id) && chainEnd) return;
+async function uploadProcessOutput(process, stage, file, name) {
+  const response = await retry_image_storage(async (options) => {
+    const stream = fs.createReadStream(file);
+    try {
+      const data = new FormData();
+      data.append("file", stream, { filename: name, contentType: mime.lookup(name) });
+      return await post_image(process.user_id, process.project_id, stage, data, options);
+    } finally {
+      stream.destroy();
+    }
+  });
+  return response.data.data.imageKey.split("/").pop();
+}
 
-      if (!/preview/.test(msg_id) && isLast && type === "frames") {
+async function storeProcessOutput(process, model, stage, uri, type) {
+  const delivery = deliveryKey(process);
+  if (await model.findByDelivery(delivery)) return;
+  const file = path.resolve(__dirname, "..", uri);
+  const name = path.basename(file);
+  const key = await uploadProcessOutput(process, stage, file, name);
+  await model.createOnce(delivery, {
+    type,
+    file_name: name,
+    img_key: key,
+    img_id: process.img_id,
+    project_id: process.project_id,
+    user_id: process.user_id,
+    ...(stage === "out" ? { token: process.token || 0 } : {}),
+  });
+}
+
+async function finishPreview(process, project, timestamp, runnerId) {
+  const previews = await Preview.getAll(process.user_id, process.project_id);
+  for (const p of previews) {
+    await retry_image_storage(options =>
+      copy_image(process.user_id, process.project_id, "preview", "preview_cache", p.img_key, options)
+    );
+    const key8 = (process.cache_key || "").slice(0, 8);
+    console.log(`[T-03][CACHE-COPY][OK] key=${key8} file=${p.img_key}`);
+  }
+
+  let urls = {
+    imageUrl: "",
+    textResults: [],
+  };
+
+  for (let p of previews) {
+    const url_resp = await retry_image_storage(options =>
+      get_image_public_url(process.user_id, process.project_id, "preview_cache", p.img_key, options)
+    );
+
+    const url = url_resp.data.url;
+
+    if (p.type != "text") {
+      urls.imageUrl = url;
+      if (p.type === "video") urls.mediaType = "video";
+    }
+    else urls.textResults.push(url);
+  }
+
+  const startedAt = process.createdAt ? new Date(process.createdAt).getTime() : null;
+  const durationMs = startedAt ? (Date.now() - startedAt) : null;
+
+  console.log(
+    `[T-03][RABBIT][PREVIEW-DONE] msg=${process.msg_id} key=${(process.cache_key||"").slice(0,8)} previews=${previews.length} durationMs=${durationMs}`
+  );
+
+  if (process.cache_key) {
+    const imgSha =
+      project.imgs.find((i) => String(i._id) === String(process.img_id))?.og_sha256 ?? "";
+
+    const imageKey = previews.find((p) => p.type !== "text")?.img_key ?? "";
+    const textKeys = previews.filter((p) => p.type === "text").map((p) => p.img_key);
+
+    await PreviewCache.upsert({
+      user_id: process.user_id,
+      project_id: process.project_id,
+      img_id: process.img_id,
+      cache_key: process.cache_key,
+      img_sha256: imgSha,
+      image_key: imageKey,
+      text_keys: textKeys,
+      duration_ms: durationMs,
+    });
+
+    console.log(
+      `[T-03][RABBIT][CACHE-SAVE] key=${process.cache_key.slice(0,8)} imageKey=${imageKey ? imageKey.slice(0,8) : "-"} textKeys=${textKeys.length}`
+    );
+  }
+
+  await send_msg_client_preview(
+    `update-client-preview-${uuidv4()}`,
+    timestamp,
+    runnerId,
+    JSON.stringify(urls)
+  );
+}
+
+async function commitCompletedRun(process, tok) {
+  const pending = await Process.countByProjectAndToken(process.project_id, tok);
+  if (pending) return true;
+
+  const project = await Project.getOne(process.user_id, process.project_id);
+  if (!project || (project.activeToken || 0) !== tok) return false;
+  if ((project.committedToken || 0) === tok && project.committedTools?.length) return true;
+
+  const tools = [...project.tools]
+    .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+    .map(t => ({ _id: t._id, position: t.position, procedure: t.procedure, params: t.params }));
+  const committed = await Project.commitRunIfActive(process.user_id, process.project_id, tok, tools);
+  if (committed) console.log(`[COMMIT] project=${process.project_id} committedToken=${tok}`);
+  return Boolean(committed);
+}
+
+function process_msg() {
+  read_msg(handleProcessMessage);
+}
+
+async function handleProcessMessage(msg) {
+  const timestamp = new Date().toISOString();
+  const userMsgId = `update-client-process-${uuidv4()}`;
+  let runnerId;
+  try {
+    const reply = JSON.parse(msg.content.toString());
+    const msgId = reply?.correlationId;
+    if (typeof msgId !== "string" || !msgId || !["success", "error"].includes(reply.status)) {
+      throw new Error("Invalid process reply");
+    }
+
+    const process = await Process.getOneByMsgId(msgId);
+    if (!process) return;
+    runnerId = process.runner_id || process.user_id;
+
+    const removeProcess = () => Process.delete(process.user_id, process.project_id, process._id);
+    const project = await Project.getOne(process.user_id, process.project_id);
+    if (!project) {
+      await removeProcess();
+      return;
+    }
+
+    const isPreview = msgId.startsWith("preview-");
+    const holdsRunCommit = !isPreview && project.tools.some(tool => tool.procedure === "extract_frames");
+    console.log(`[T-03][RABBIT] msg=${msgId} status=${reply.status} outType=${reply.output?.type} curPos=${process.cur_pos} key=${(process.cache_key || "").slice(0, 8)}`);
+
+    if (reply.status === "error") {
+      if (process.completed) return;
+      if (isPreview) {
+        await send_msg_client_preview_error(`update-client-preview-${uuidv4()}`, timestamp, runnerId, reply.error.code, reply.error.msg);
+      } else {
+        await send_msg_client_error(userMsgId, timestamp, runnerId, reply.error.code, reply.error.msg);
+      }
+      // An extraction run cannot commit a partial set of results.
+      if (!holdsRunCommit) await removeProcess();
+      return;
+    }
+
+    const tok = process.token || 0;
+    if ((project.activeToken || 0) !== tok) {
+      await removeProcess();
+      return;
+    }
+
+    const { type, imageURI: uri } = reply.output;
+    const sourceIsVideo = project.imgs.some(img => String(img._id) === String(process.img_id) && isVideoMedia(img));
+    const imgTools = imageTools(project);
+    const nextPos = process.cur_pos + 1;
+    const chainEnd = sourceIsVideo || type === "video" || type === "frames" || nextPos >= imgTools.length;
+    const isLast = type === "text" || chainEnd;
+
+    if (isPreview && isLast) {
+      await storeProcessOutput(process, Preview, "preview", uri, type);
+      await finishPreview(process, project, timestamp, runnerId);
+    }
+
+    if (!isPreview && isLast && !process.completed) {
+      if (type === "frames") {
         if (!holdsRunCommit || !sourceIsVideo) throw new Error("Unexpected extracted frames for this job");
-        await persistFrameResults(msg_content.output, process, {
-          upload: async (file, name) => {
-            const data = new FormData();
-            data.append("file", fs.createReadStream(file), { filename: name, contentType: mime.lookup(name) });
-            const response = await post_image(process.user_id, process.project_id, "out", data);
-            return response.data.data.imageKey.split("/").pop();
-          },
-          create: (result) => Result.create(result),
+        await persistFrameResults(reply.output, process, {
+          find: (slot) => Result.findByDelivery(deliveryKey(process, slot)),
+          upload: (file, name) => uploadProcessOutput(process, "out", file, name),
+          create: (result, slot) => Result.createOnce(deliveryKey(process, slot), result),
           removeResult: (id) => Result.deleteById(process.user_id, process.project_id, id),
           removeImage: (key) => delete_image(process.user_id, process.project_id, "out", key),
         });
-      } else if (!/preview/.test(msg_id) && isLast) {
-        const file_path = path.resolve(__dirname, "..", output_file_uri);
-        const file_name = path.basename(file_path);
-        const fileStream = fs.createReadStream(file_path); // Use createReadStream for efficiency
-
-        const data = new FormData();
-        await data.append(
-          "file",
-          fileStream,
-          path.basename(file_path),
-          mime.lookup(file_path)
-        );
-
-        const resp = await post_image(
-          process.user_id,
-          process.project_id,
-          "out",
-          data
-        );
-
-        const og_key_tmp = resp.data.data.imageKey.split("/");
-        const og_key = og_key_tmp[og_key_tmp.length - 1];
-
-        const result = {
-          type: type,
-          file_name: file_name,
-          img_key: og_key,
-          img_id: img_id,
-          project_id: process.project_id,
-          user_id: process.user_id,
-          token: process.token || 0, 
-        };
-
-        await Result.create(result);
+      } else {
+        await storeProcessOutput(process, Result, "out", uri, type);
       }
 
-      // Se esta imagem acabou o pipeline, pode ser que a execução tenha terminado
-      if (!/preview/.test(msg_id) && isLast) {
-
-        if (holdsRunCommit && chainEnd) await Process.delete(process.user_id, process.project_id, process._id);
-        // A terminal source has all outputs stored; intermediate text results
-        // retain their barrier until their successor is registered below.
-        const remaining = await Process.countByProjectAndToken(
-          process.project_id,
-          process.token || 0
-        );
-
-        if (remaining === 0) {
-          // re-fetch do projeto (já tens project) mas garante que está fresh
-          const freshProject = await Project.getOne(process.user_id, process.project_id);
-
-          // só commita se ainda for a execução ativa (não foi cancelada entretanto)
-          if ((freshProject.activeToken || 0) === (process.token || 0)) {
-            freshProject.committedToken = process.token || 0;
-
-            //  guardar também resultsToken se ainda uso noutros sítios
-            freshProject.resultsToken = freshProject.committedToken;
-
-            const toolsSnapshot = [...(freshProject.tools || [])]
-              .sort((a,b) => (a.position ?? 0) - (b.position ?? 0))
-              .map(t => ({
-                _id: t._id,
-                position: t.position,
-                procedure: t.procedure,
-                params: t.params,
-              }));
-
-            const committed = await Project.commitRunIfActive(
-              process.user_id, process.project_id, process.token || 0, toolsSnapshot
-            );
-            if (!committed) return;
-
-            console.log(`[COMMIT] project=${process.project_id} committedToken=${process.token || 0}`);
-
-          } else {
-            console.log(
-              `[COMMIT-SKIP] project=${process.project_id} token=${process.token} activeToken=${freshProject.activeToken}`
-            );
-            return;
-          }
-        }
+      if (chainEnd) {
+        // Keep the reply resumable through commit and notification without
+        // counting this completed source as pending.
+        await Process.update(process.user_id, process.project_id, process._id, { completed: true });
       }
+    }
 
-      if (holdsRunCommit) {
-        const latest = await Project.getOne(process.user_id, process.project_id);
-        if (!latest || (latest.activeToken || 0) !== (process.token || 0)) return;
-      }
-
-      // Notify only after the result is stored and the completed run is committed.
-      if (!/preview/.test(msg_id))
-        send_msg_client(
-          user_msg_id,
-          timestamp,
-          runnerId
-        );
-
-      if (chainEnd) return;
-
-      const new_msg_id = /preview/.test(msg_id)
-        ? `preview-${uuidv4()}`
-        : `request-${uuidv4()}`;
-
-      const tool = imgTools[next_pos];
-
-      const tool_name = tool.procedure;
-      const params = tool.params;
-
-      const read_img = type == "text" ? prev_process_input_img : output_file_uri;
-      const output_img = type == "text" ? prev_process_output_img : output_file_uri;
-
-      // o token de cancelamento que vai ser propagado para o successor
-      const processToken = process.cancelToken || 0;
-
-      const new_process = {
-        user_id: project.user_id,
-        runner_id: runnerId,       
-        project_id: project._id,
-        img_id: img_id,
-        msg_id: new_msg_id,
-        cur_pos: next_pos,
-        og_img_uri: read_img,
-        new_img_uri: output_img,
-        cancelToken: processToken,
-        token: process.token,
-      };
-
-      // Making sure database entry is created before sending message to avoid conflicts
-      await Process.create(new_process);
-      if (holdsRunCommit) await Process.delete(process.user_id, process.project_id, process._id);
-      send_msg_tool(
-        new_msg_id,
-        timestamp,
-        new_process.og_img_uri,
-        new_process.new_img_uri,
-        tool_name,
-        params
-      );
-    } catch (err) {
-
-      console.error("[process_msg] error:", err);
-
-      const target = runnerIdSafe || ownerIdSafe;
-
-      send_msg_client_error(
-        user_msg_id,
-        timestamp,
-        target,
-        "30000",
-        "An error happened while processing the project"
-      );
+    if (!isPreview && chainEnd && !await commitCompletedRun(process, tok)) {
+      await removeProcess();
       return;
     }
-  });
+    if (holdsRunCommit) {
+      const latest = await Project.getOne(process.user_id, process.project_id);
+      if (!latest || (latest.activeToken || 0) !== tok) {
+        await removeProcess();
+        return;
+      }
+    }
+    if (!isPreview) await send_msg_client(userMsgId, timestamp, runnerId);
+
+    if (!chainEnd) {
+      // Reuse the same successor record if this reply is redelivered.
+      const id = createHash("sha256").update(String(process._id)).digest("hex").slice(0, 24);
+      const tool = imgTools[nextPos];
+      const successor = {
+        user_id: project.user_id,
+        runner_id: runnerId,
+        project_id: project._id,
+        img_id: process.img_id,
+        msg_id: `${isPreview ? "preview" : "request"}-${id}`,
+        cur_pos: nextPos,
+        og_img_uri: type === "text" ? process.og_img_uri : uri,
+        new_img_uri: type === "text" ? process.new_img_uri : uri,
+        cancelToken: process.cancelToken || 0,
+        token: process.token,
+      };
+      await Process.createSuccessor(id, successor);
+      await send_msg_tool(successor.msg_id, timestamp, successor.og_img_uri, successor.new_img_uri, tool.procedure, tool.params);
+    }
+    await removeProcess();
+  } catch (error) {
+    console.error("[process_msg] error:", error);
+    if (runnerId) {
+      await send_msg_client_error(userMsgId, timestamp, runnerId, "30000", "An error happened while processing the project");
+    }
+    throw error;
+  }
 }
 
 async function deleteProjectAndResources(userId, projectId) {
@@ -1242,8 +1110,8 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
       };
 
       Process.create(process)
-        .then(() => {
-          send_msg_tool(
+        .then(async () => {
+          await send_msg_tool(
             msg_id,
             timestamp,
             og_img_uri,
@@ -2730,4 +2598,4 @@ router.post(
   }
 );
 
-module.exports = { router, process_msg };
+module.exports = { router, process_msg, handleProcessMessage };

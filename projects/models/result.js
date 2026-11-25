@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const resultSchema = new mongoose.Schema({
+  delivery_key: { type: String, unique: true, sparse: true, select: false },
   type: { type: String, required: true },
   file_name: { type: String, required: true },
   img_key: { type: String, required: true },

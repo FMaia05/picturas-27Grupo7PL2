@@ -18,6 +18,15 @@ module.exports.create = async (preview) => {
   return await Preview.create(preview);
 };
 
+module.exports.findByDelivery = (key) => Preview.findOne({ delivery_key: key }).exec();
+
+module.exports.createOnce = async (key, data) => {
+  await Preview.init();
+  return Preview.findOneAndUpdate(
+    { delivery_key: key }, { $setOnInsert: data }, { upsert: true, new: true, runValidators: true }
+  ).exec();
+};
+
 module.exports.update = (user_id, project_id, img_id, preview) => {
   return Preview.updateOne(
     { user_id: user_id, project_id: project_id, img_id: img_id },

@@ -18,6 +18,15 @@ module.exports.create = async (result) => {
   return await Result.create(result);
 };
 
+module.exports.findByDelivery = (key) => Result.findOne({ delivery_key: key }).exec();
+
+module.exports.createOnce = async (key, data) => {
+  await Result.init();
+  return Result.findOneAndUpdate(
+    { delivery_key: key }, { $setOnInsert: data }, { upsert: true, new: true, runValidators: true }
+  ).exec();
+};
+
 module.exports.update = (user_id, project_id, img_id, result) => {
   return Result.updateOne(
     { user_id: user_id, project_id: project_id, img_id: img_id },

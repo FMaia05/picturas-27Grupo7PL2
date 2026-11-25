@@ -16,6 +16,7 @@ import json
 import os
 import subprocess
 import tempfile
+import uuid
 from pathlib import Path
 from fractions import Fraction
 
@@ -164,6 +165,12 @@ def validate_tools(tools: list) -> None:
             )
 
 
+def work_directory(output_path):
+    directory = Path(os.getenv("VIDEO_WORK_DIR") or Path(output_path).resolve().parent)
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory
+
+
 def _process_video(input_path: str, output_path: str, tools: list,
                   progress_cb=None, preview: bool = False) -> dict:
     """Applies `tools` (ordered) to the video at `input_path` and writes MP4 to `output_path`.
@@ -195,7 +202,7 @@ def _process_video(input_path: str, output_path: str, tools: list,
     ]
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-    tmp_out = output_path + ".part.mp4"
+    tmp_out = str(work_directory(output_path) / f"{uuid.uuid4().hex}.part.mp4")
     dec_err = tempfile.TemporaryFile()
     enc_err = tempfile.TemporaryFile()
     decoder = subprocess.Popen(decode_cmd, stdout=subprocess.PIPE, stderr=dec_err)
@@ -301,10 +308,10 @@ def process_video(input_path: str, output_path: str, tools: list,
             return extract_frames(input_path, output_path,
                                   probe(input_path, prefer_video_duration=True),
                                   tools[-1].get("params", {}),
-                                  progress_cb or (lambda _: None), preview=preview)
+                                  progress_cb or (lambda _: None), preview=preview, work_dir=work_directory(output_path))
         target = Path(output_path).resolve()
         target.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix="frame-source-", dir=target.parent) as work:
+        with tempfile.TemporaryDirectory(prefix=f"frame-source-{uuid.uuid4().hex}-", dir=work_directory(target)) as work:
             edited = str(Path(work) / "edited.mp4")
             # Sampling spans the complete edited timeline, including in preview.
             info = process_video(input_path, edited, tools[:-1],
@@ -312,7 +319,7 @@ def process_video(input_path: str, output_path: str, tools: list,
                                  preview=False)
             return extract_frames(edited, output_path, info, tools[-1].get("params", {}),
                                   lambda pct: progress_cb(70 + int(pct * 0.3)) if progress_cb else None,
-                                  preview=preview)
+                                  preview=preview, work_dir=work_directory(output_path))
     if not any(t.get("procedure") == "subtitles" for t in tools):
         return _process_video(input_path, output_path, tools, progress_cb, preview)
 
@@ -345,7 +352,7 @@ def process_video(input_path: str, output_path: str, tools: list,
 
     target = Path(output_path).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="captions-", dir=target.parent) as work:
+    with tempfile.TemporaryDirectory(prefix=f"captions-{uuid.uuid4().hex}-", dir=work_directory(target)) as work:
         current = input_path
         for index, stage in enumerate(stages):
             next_path = str(Path(work) / f"stage-{index}.mp4")

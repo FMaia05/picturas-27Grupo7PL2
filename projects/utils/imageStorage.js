@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { setTimeout: sleep } = require("node:timers/promises");
 
 const fs = require("fs");
 
@@ -20,18 +21,18 @@ async function get_image_internal_url(user, project, type, img) {
   );
 }
 
-async function get_image_public_url(user, project, type, img) {
+async function get_image_public_url(user, project, type, img, options) {
   return await axios.get(
-    `${img_storage_ms}/image/public/${user}/${project}/${type}/${img}` /* , { httpsAgent: httpsAgent } */,
+    `${img_storage_ms}/image/public/${user}/${project}/${type}/${img}`, options,
   );
 }
 
-async function post_image(user, project, type, file) {
+async function post_image(user, project, type, file, options) {
   return await axios.post(
     `${img_storage_ms}/upload/${user}/${project}/${type}`,
     file /* , { httpsAgent: httpsAgent } */,
     // Videos can be hundreds of MB
-    { maxBodyLength: Infinity, maxContentLength: Infinity, headers: file.getHeaders ? file.getHeaders() : undefined },
+    { maxBodyLength: Infinity, maxContentLength: Infinity, headers: file.getHeaders ? file.getHeaders() : undefined, ...options },
   );
 }
 
@@ -41,12 +42,32 @@ async function delete_image(user, project, type, img) {
   );
 }
 
-async function copy_image(userId, projectId, fromStage, toStage, fileName) {
+async function copy_image(userId, projectId, fromStage, toStage, fileName, options) {
   // usa o mesmo serviço interno (docker network) tal como as outras
   return axios.post(
     `${img_storage_ms}/copy/${userId}/${projectId}/${fromStage}/${toStage}/${fileName}`,
-    {}
+    {}, options
   );
 }
 
-module.exports = { get_image_internal_url, get_image_public_url, post_image, delete_image, copy_image };
+const transientCodes = new Set([
+  "ECONNREFUSED", "ECONNRESET", "ECONNABORTED", "ETIMEDOUT", "EPIPE",
+  "EAI_AGAIN", "ENOTFOUND", "ENETUNREACH", "EHOSTUNREACH",
+]);
+
+async function retry_image_storage(operation, wait = sleep) {
+  // Even immediate connection failures get an attempt after 55 seconds.
+  const delays = [1_000, 2_000, 4_000, 8_000, 10_000, 10_000, 10_000, 10_000];
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await operation({ timeout: 30_000 });
+    } catch (error) {
+      const status = error.response?.status;
+      const transient = status ? status >= 500 && status < 600 : transientCodes.has(error.code);
+      if (!transient || attempt === delays.length) throw error;
+      await wait(delays[attempt]);
+    }
+  }
+}
+
+module.exports = { retry_image_storage, get_image_internal_url, get_image_public_url, post_image, delete_image, copy_image };

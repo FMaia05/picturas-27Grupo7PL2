@@ -47,7 +47,7 @@ def sampling_times(params, duration, fps):
     return [min(t, last_frame) for t in times], fmt
 
 
-def extract_frames(input_path, output_path, info, params, progress, preview=False):
+def extract_frames(input_path, output_path, info, params, progress, preview=False, work_dir=None):
     times, fmt = sampling_times(params, info["duration"], info["fps"])
     if preview and len(times) > 6:
         times = [times[round(i * (len(times) - 1) / 5)] for i in range(6)]
@@ -56,7 +56,7 @@ def extract_frames(input_path, output_path, info, params, progress, preview=Fals
     # Every successful render gets its own directory. A failed retry cannot
     # overwrite a previous generation that the storage service still needs.
     destination = parent / f"{Path(output_path).stem}-frames-{uuid.uuid4().hex}"
-    with tempfile.TemporaryDirectory(prefix="extract-", dir=parent) as work:
+    with tempfile.TemporaryDirectory(prefix=f"extract-{uuid.uuid4().hex}-", dir=work_dir or parent) as work:
         work = Path(work)
         frames_dir = work / "frames"
         frames_dir.mkdir()

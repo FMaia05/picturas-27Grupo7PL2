@@ -11,6 +11,8 @@ if the worker dies midway, RabbitMQ redelivers it.
 import datetime
 import json
 import os
+from functools import partial
+from threading import Thread
 import time
 import uuid
 
@@ -20,10 +22,10 @@ from pika.exchange_type import ExchangeType
 
 import utils.env as env
 from effects import UnsupportedEffect
-from video_processor import InvalidSpeed, InvalidTrim, InvalidVideo, process_video
+from frame_extraction import InvalidExtraction
+from video_processor import InvalidSpeed, InvalidTrim, InvalidVideo, ProcessingError, process_video
 
 EXCHANGE = "picturas"
-VIDEO_QUEUE = "video_queue"
 PROJECT_QUEUE = "project_queue"
 WS_QUEUE = "ws_queue"
 MICROSERVICE = "picturas-video-tool-ms"
@@ -44,12 +46,14 @@ def now():
 
 class VideoWorker:
     def __init__(self):
+        self._queue = os.getenv("VIDEO_QUEUE_NAME", "video_queue")
         self._connection = self._connect()
         self._channel = self._connection.channel()
         self._channel.exchange_declare(exchange=EXCHANGE,
                                        exchange_type=ExchangeType.direct, durable=True)
-        self._channel.queue_declare(queue=VIDEO_QUEUE, durable=True)
-        self._channel.queue_bind(queue=VIDEO_QUEUE, exchange=EXCHANGE, routing_key=VIDEO_QUEUE)
+        self._channel.queue_declare(queue=self._queue, passive=True)
+        self._replies = self._connection.channel()
+        self._replies.confirm_delivery()
         # one video at a time per replica; parallelism comes from replicas
         self._channel.basic_qos(prefetch_count=1)
 
@@ -58,9 +62,7 @@ class VideoWorker:
         credentials = pika.PlainCredentials(env.RABBITMQ_USERNAME, env.RABBITMQ_PASSWORD)
         params = pika.ConnectionParameters(
             env.RABBITMQ_HOST, int(env.RABBITMQ_PORT), "/", credentials,
-            # processing a video blocks this thread for minutes; without a
-            # heartbeat the broker does not drop the connection midway
-            heartbeat=0,
+            heartbeat=20,
         )
         for attempt in range(30):
             try:
@@ -70,8 +72,20 @@ class VideoWorker:
         raise RuntimeError("Could not connect to RabbitMQ")
 
     def _publish(self, queue, msg):
-        self._channel.basic_publish(exchange=EXCHANGE, routing_key=queue,
-                                    body=json.dumps(msg))
+        if queue == PROJECT_QUEUE:
+            self._replies.basic_publish(exchange=EXCHANGE, routing_key=queue,
+                                        body=json.dumps(msg), mandatory=True,
+                                        properties=pika.BasicProperties(delivery_mode=2))
+        else:
+            self._channel.basic_publish(exchange=EXCHANGE, routing_key=queue,
+                                        body=json.dumps(msg))
+
+    def _schedule(self, callback, *args, **kwargs):
+        try:
+            self._connection.add_callback_threadsafe(partial(callback, *args, **kwargs))
+        except pika.exceptions.ConnectionWrongStateError:
+            # The broker will redeliver the unacknowledged job.
+            pass
 
     def _reply_success(self, msg_id, started, output_uri, video_info):
         output = {"type": video_info.get("output_type", "video"),
@@ -125,54 +139,95 @@ class VideoWorker:
 
     def callback(self, ch, method, properties, body):
         started = now()
-        info = {}
         try:
-            info = json.loads(body.decode())
-            msg_id = info["messageId"]
-            params = info["parameters"]
-            input_uri = params["inputImageURI"]
-            output_uri = params["outputImageURI"]
-            tools = params.get("tools") or []
-            preview = bool(params.get("preview"))
-            progress = params.get("progress") or {}
-        except (ValueError, KeyError) as e:
-            print(f"[video] invalid message discarded: {e}", flush=True)
-            ch.basic_ack(delivery_tag=method.delivery_tag)
+            info = json.loads(body)
+            if not isinstance(info, dict):
+                raise ValueError("Expected a JSON object")
+            params = info.get("parameters")
+            if not isinstance(params, dict):
+                raise ValueError("Expected parameters")
+            for field, value in (("messageId", info.get("messageId")),
+                                 ("procedure", info.get("procedure")),
+                                 ("inputImageURI", params.get("inputImageURI")),
+                                 ("outputImageURI", params.get("outputImageURI"))):
+                if not isinstance(value, str) or not value:
+                    raise ValueError(f"Expected a non-empty {field}")
+            tools = params.get("tools")
+            if not isinstance(tools, list) or any(
+                not isinstance(tool, dict) or not isinstance(tool.get("procedure"), str)
+                or not isinstance(tool.get("params", {}), dict) for tool in tools
+            ):
+                raise ValueError("Expected tools to be a list of tool objects")
+            if not isinstance(params.get("progress", {}), dict):
+                raise ValueError("Expected a progress object")
+        except ValueError as error:
+            print(f"[video] invalid message rejected: {error}", flush=True)
+            ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
             return
 
-        print(f"[video] msg={msg_id} preview={preview} tools={[t.get('procedure') for t in tools]}",
+        Thread(target=self._process, args=(ch, method, started, info, params),
+               daemon=True).start()
+
+    def _process(self, ch, method, started, info, params):
+        msg_id = info["messageId"]
+        input_uri = params["inputImageURI"]
+        output_uri = params["outputImageURI"]
+        tools = params["tools"]
+        preview = bool(params.get("preview"))
+        progress = params.get("progress", {})
+        errors = {
+            UnsupportedEffect: "unsupported_effect",
+            InvalidTrim: "invalid_trim",
+            InvalidSpeed: "invalid_speed",
+            InvalidVideo: "invalid_video",
+            InvalidExtraction: "error_processing",
+            ProcessingError: "error_processing",
+        }
+
+        print(f"[video] msg={msg_id} preview={preview} tools={[t['procedure'] for t in tools]}",
               flush=True)
+        if info["procedure"] != "video":
+            reply = partial(self._reply_error, msg_id, started, CODES["wrong_procedure"],
+                            "The procedure received does not fit into this tool", input_uri)
+            self._schedule(self._finish, ch, method.delivery_tag, reply)
+            return
 
-        if info.get("procedure") != "video":
-            self._reply_error(msg_id, started, CODES["wrong_procedure"],
-                              "The procedure received does not fit into this tool", input_uri)
+        try:
+            result = process_video(
+                input_uri, output_uri, tools, preview=preview,
+                progress_cb=lambda pct: self._schedule(self._progress, progress, preview, pct),
+            )
+            reply = partial(self._reply_success, msg_id, started, output_uri, result)
+            print(f"[video] msg={msg_id} ok frames={result['frames']} "
+                  f"t={(now() - started).total_seconds():.1f}s", flush=True)
+        except tuple(errors) as error:
+            code = next(code for failure, code in errors.items() if isinstance(error, failure))
+            reply = partial(self._reply_error, msg_id, started, CODES[code], str(error), input_uri)
+        except Exception as error:
+            print(f"[video] msg={msg_id} unexpected failure: {error}", flush=True)
+            if not method.redelivered:
+                self._schedule(ch.basic_nack, delivery_tag=method.delivery_tag, requeue=True)
+                return
+            reply = partial(self._reply_error, msg_id, started, CODES["error_processing"],
+                            str(error), input_uri)
+            self._schedule(self._finish, ch, method.delivery_tag, reply, dead_letter=True)
+            return
+
+        self._schedule(self._finish, ch, method.delivery_tag, reply)
+
+    @staticmethod
+    def _finish(ch, delivery_tag, reply, dead_letter=False):
+        # Only settle work after the durable reply has been confirmed.
+        reply()
+        if dead_letter:
+            ch.basic_nack(delivery_tag=delivery_tag, requeue=False)
         else:
-            try:
-                result = process_video(
-                    input_uri, output_uri, tools, preview=preview,
-                    progress_cb=lambda pct: self._progress(progress, preview, pct),
-                )
-                self._reply_success(msg_id, started, output_uri, result)
-                print(f"[video] msg={msg_id} ok frames={result['frames']} "
-                      f"t={(now() - started).total_seconds():.1f}s", flush=True)
-            except UnsupportedEffect as e:
-                self._reply_error(msg_id, started, CODES["unsupported_effect"], str(e), input_uri)
-            except InvalidTrim as e:
-                self._reply_error(msg_id, started, CODES["invalid_trim"], str(e), input_uri)
-            except InvalidSpeed as e:
-                self._reply_error(msg_id, started, CODES["invalid_speed"], str(e), input_uri)
-            except InvalidVideo as e:
-                self._reply_error(msg_id, started, CODES["invalid_video"], str(e), input_uri)
-            except Exception as e:  # noqa: BLE001 - any other failure is reported
-                self._reply_error(msg_id, started, CODES["error_processing"], str(e), input_uri)
-
-        # manual ack only at the end
-        ch.basic_ack(delivery_tag=method.delivery_tag)
+            ch.basic_ack(delivery_tag=delivery_tag)
 
     def run(self):
-        self._channel.basic_consume(queue=VIDEO_QUEUE, on_message_callback=self.callback,
+        self._channel.basic_consume(queue=self._queue, on_message_callback=self.callback,
                                     auto_ack=False)
-        print("[video] waiting for jobs on video_queue", flush=True)
+        print(f"[video] waiting for jobs on {self._queue}", flush=True)
         self._channel.start_consuming()
 
 

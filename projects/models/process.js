@@ -11,6 +11,7 @@ var processSchema = new mongoose.Schema({
   runner_id: { type: String, required: false },  
   cache_key: { type: String, required: false },
   cancelToken: { type: Number, required: false },
+  completed: { type: Boolean },
   token: { type: Number, required: true },
 }, { timestamps: true });
 

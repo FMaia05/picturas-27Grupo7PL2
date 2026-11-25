@@ -18,13 +18,17 @@ const queues = {
     'people_ai': 'people_ai_queue',
     'expand_ai': 'expand_ai_queue',
     'watermark': 'watermark_queue',
-    'video': 'video_queue',
     'project': 'project_queue',
     'ws': 'ws_queue'
 }
 
+function videoQueue({ tools, preview }) {
+    if (tools.some(tool => tool.procedure === 'subtitles')) return 'video_subtitles_queue';
+    return preview ? 'video_preview_queue' : 'video_queue';
+}
+
 function send_msg_tool(msg_id, timestamp, og_img_uri, new_img_uri, tool, params) {
-    const queue = queues[tool];
+    const queue = tool === 'video' ? videoQueue(params) : queues[tool];
     const msg = {
         "messageId": msg_id,
         "timestamp": timestamp,
@@ -36,7 +40,7 @@ function send_msg_tool(msg_id, timestamp, og_img_uri, new_img_uri, tool, params)
         }
     };
 
-    send_rabbit_msg(msg, queue);
+    return send_rabbit_msg(msg, queue);
 }
 
 function send_msg_client(msg_id, timestamp, user) {
@@ -48,7 +52,7 @@ function send_msg_client(msg_id, timestamp, user) {
         "status": 'success'
     };
 
-    send_rabbit_msg(msg, queue);
+    return send_rabbit_msg(msg, queue);
 }
 
 function send_msg_client_error(msg_id, timestamp, user, error_code, error_msg) {
@@ -62,7 +66,7 @@ function send_msg_client_error(msg_id, timestamp, user, error_code, error_msg) {
         "errorMsg": error_msg
     };
 
-    send_rabbit_msg(msg, queue);
+    return send_rabbit_msg(msg, queue);
 }
 
 function send_msg_client_preview(msg_id, timestamp, user, url) {
@@ -75,7 +79,7 @@ function send_msg_client_preview(msg_id, timestamp, user, url) {
         "img_url": url
     };
 
-    send_rabbit_msg(msg, queue);
+    return send_rabbit_msg(msg, queue);
 }
 
 function send_msg_client_preview_error(msg_id, timestamp, user, error_code, error_msg) {
@@ -89,7 +93,7 @@ function send_msg_client_preview_error(msg_id, timestamp, user, error_code, erro
         "errorMsg": error_msg
     };
 
-    send_rabbit_msg(msg, queue);
+    return send_rabbit_msg(msg, queue);
 }
 
 function read_msg(callback){
@@ -106,7 +110,7 @@ function send_msg_project_op({ projectId, ownerId, op }) {
     timestamp: Date.now(),
     status: "success",
   };
-  send_rabbit_msg(msg, queue);
+  void send_rabbit_msg(msg, queue).catch(error => console.error("[project-op]", error));
 }
 
-module.exports = { send_msg_tool, send_msg_client, send_msg_client_error, send_msg_client_preview, send_msg_client_preview_error, read_msg, send_msg_project_op };
+module.exports = { videoQueue, send_msg_tool, send_msg_client, send_msg_client_error, send_msg_client_preview, send_msg_client_preview_error, read_msg, send_msg_project_op };

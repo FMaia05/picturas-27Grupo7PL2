@@ -29,23 +29,31 @@ function frameFiles(output, process, appRoot = path.resolve(__dirname, '..')) {
 
 async function persistFrameResults(output, process, storage, appRoot) {
   const files = frameFiles(output, process, appRoot);
-  const uploaded = [];
   const created = [];
+  let unregistered;
   try {
-    for (const { file, name } of files) {
+    for (const [index, { file, name }] of files.entries()) {
+      if (storage.find && await storage.find(index)) continue;
       const key = await storage.upload(file, name);
-      uploaded.push(key);
+      unregistered = key;
       const result = await storage.create({
         type: 'image', file_name: name, img_key: key, img_id: process.img_id,
         project_id: process.project_id, user_id: process.user_id, token: process.token || 0,
-      });
-      created.push(result._id);
+      }, index);
+      created.push({ id: result._id, key });
+      unregistered = undefined;
     }
   } catch (error) {
     // Failed outputs are never committed. Best-effort cleanup must not hide the
     // original error; the caller retains the Process record as a commit barrier.
-    await Promise.allSettled(created.map((id) => storage.removeResult(id)));
-    await Promise.allSettled(uploaded.map((key) => storage.removeImage(key)));
+    // With durable IDs, leave an upload whose MongoDB write outcome is unknown
+    // in place so an acknowledged record cannot point at a deleted object.
+    const cleanup = created.map(async ({ id, key }) => {
+      await storage.removeResult(id);
+      await storage.removeImage(key);
+    });
+    if (unregistered && !storage.find) cleanup.push(storage.removeImage(unregistered));
+    await Promise.allSettled(cleanup);
     throw error;
   }
 }

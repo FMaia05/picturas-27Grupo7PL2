@@ -26,6 +26,10 @@ module.exports.create = async (process) => {
   return await Process.create(process);
 };
 
+module.exports.createSuccessor = (id, process) => {
+  return Process.updateOne({ _id: id }, { $setOnInsert: process }, { upsert: true }).exec();
+};
+
 module.exports.update = (user_id, project_id, process_id, process) => {
   return Process.updateOne(
     { user_id: user_id, project_id: project_id, _id: process_id },
@@ -42,6 +46,6 @@ module.exports.delete = (user_id, project_id, process_id) => {
 };
 
 module.exports.countByProjectAndToken = async (project_id, token) => {
-  return await Process.countDocuments({ project_id, token }).exec();
+  return await Process.countDocuments({ project_id, token, completed: { $ne: true }, msg_id: { $not: /^preview-/ } }).exec();
 };
 
