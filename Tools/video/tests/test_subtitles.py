@@ -75,6 +75,29 @@ def test_no_speech_is_noop(sample_video, tmp_path, monkeypatch):
     assert probe(str(out))["duration"] == pytest.approx(4, abs=0.15)
 
 
+def test_caption_workspace_name_contains_execution_uuid(tmp_path, monkeypatch):
+    monkeypatch.setattr(subtitles, "speech_model", Recognizer)
+    workspaces = []
+
+    def record_workspace(*args, **kwargs):
+        workspaces.append(Path(kwargs["cwd"]))
+        return SimpleNamespace(returncode=0, stderr="")
+
+    monkeypatch.setattr(subtitles.subprocess, "run", record_workspace)
+    subtitles.caption_video(
+        "source.mp4", tmp_path / "out.mp4",
+        {"has_audio": True, "duration": 4}, lambda _: None,
+    )
+
+    assert len(workspaces) == 1
+    workspace = workspaces[0]
+    execution_id = workspace.name.removeprefix("speech-").split("-", 1)[0]
+    assert len(execution_id) == 32
+    assert int(execution_id, 16) >= 0
+    assert workspace.parent == tmp_path
+    assert not workspace.exists()
+
+
 def test_model_failure_does_not_publish_partial_output(sample_video, tmp_path, monkeypatch):
     def fail():
         raise RuntimeError("model unavailable")
