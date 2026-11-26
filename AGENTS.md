@@ -45,8 +45,10 @@ Behind the gateway:
 - **Images**: `projects` sends one message per (image, tool) step and advances the chain when
   the tool replies on `project_queue`. Progress goes to the browser through `ws_queue`.
 - **Videos**: `projects` sends **one** message per video carrying the whole pipeline to
-  `video_subtitles_queue` if it contains subtitles, otherwise `video_preview_queue` for a
-  preview or `video_queue` for Apply. The worker probes with ffprobe and applies frame effects
+  `video_subtitles_queue` if it contains subtitles or the video is above 1080p, otherwise
+  `video_preview_queue` for a preview or `video_queue` for Apply. Above 720p ffmpeg runs with
+  two threads so that the job fits in the replica's memory limit. Each job writes to
+  `out/<message id>/`. The worker probes with ffprobe and applies frame effects
   (`Tools/video/effects.py`, same PIL operations as the image tools) in one decode/encode pass,
   producing MP4/H.264 + AAC with the original audio preserved. It reports progress as
   `video-progress` on `ws_queue` and acknowledges the job after the broker confirms the reply.

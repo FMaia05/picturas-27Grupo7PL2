@@ -156,7 +156,7 @@ All video services use the image built from `Tools/video/`:
 
 | Pipeline | Queue | Service | CPU / RAM per replica |
 | --- | --- | --- | --- |
-| Any pipeline with subtitles | `video_subtitles_queue` | `video_subtitles_tool` (1) | 6 / 3 GiB |
+| Any pipeline with subtitles, or a video above 1080p | `video_subtitles_queue` | `video_subtitles_tool` (1) | 6 / 3 GiB |
 | Preview without subtitles | `video_preview_queue` | `video_preview_tool` (1) | 2 / 768 MiB |
 | Apply without subtitles | `video_queue` | `video_tool` (2) | 3 / 896 MiB |
 
@@ -166,6 +166,14 @@ The subtitles service alone mounts the Whisper model cache. Workers acknowledge 
 after RabbitMQ confirms the reply. The orchestrator acknowledges replies after handling
 them and retries transient storage errors. Rejected video jobs and project replies go
 through `picturas.dlx` to the corresponding dead-letter queues.
+
+Above 720p the worker limits ffmpeg to two threads (`VIDEO_LARGE_THREADS`): by default ffmpeg
+sizes its buffers by the host's CPUs and does not fit in the replica's memory limit. Videos
+above 1080p (input, or output of a resize) need more memory than the editing and preview
+replicas have, so they go to the subtitles service. Each video job writes to its own
+directory (`out/<message id>/`), so a cancelled job still running in one replica cannot
+overwrite the result of the job that replaced it. A job whose worker process dies three
+times (`VIDEO_MAX_ATTEMPTS`) is reported as failed and sent to its dead-letter queue.
 
 ### Infrastructure
 

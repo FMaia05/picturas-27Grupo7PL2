@@ -93,6 +93,9 @@ services:
     build:
       context: ./rabbitMQ
     restart: on-failure
+    # RabbitMQ stores its data under its node name: with a generated hostname, the
+    # persistent messages would be lost whenever the container is recreated.
+    hostname: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
