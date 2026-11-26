@@ -22,8 +22,9 @@ const queues = {
     'ws': 'ws_queue'
 }
 
-function videoQueue({ tools, preview }) {
-    if (tools.some(tool => tool.procedure === 'subtitles')) return 'video_subtitles_queue';
+function videoQueue({ tools, preview, large }) {
+    // The subtitles worker is the one with memory for videos above 1080p.
+    if (large || tools.some(tool => tool.procedure === 'subtitles')) return 'video_subtitles_queue';
     return preview ? 'video_preview_queue' : 'video_queue';
 }
 

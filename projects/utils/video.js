@@ -56,6 +56,20 @@ function isVideoMedia(img) {
   return img && img.media_type === "video";
 }
 
+// Every job writes to its own directory: with several replicas, a cancelled job that is
+// still running must not overwrite the output of the job that replaced it.
+function videoJobOutput(outputUri, msgId) {
+  return `${path.posix.dirname(outputUri)}/${msgId}/${path.posix.basename(outputUri)}`;
+}
+
+// Above 1080p (input, or output of a resize) a job needs more memory than the editing
+// and preview workers have.
+function isLargeVideo(video, tools = []) {
+  const pixels = [video, ...tools.filter((t) => t.procedure === "resize").map((t) => t.params)]
+    .map((size) => (size?.width || 0) * (size?.height || 0));
+  return Math.max(...pixels) > 1920 * 1088;
+}
+
 // Result name: edited video is always MP4
 function videoOutputName(originalname) {
   const base = path.basename(originalname, path.extname(originalname));
@@ -216,6 +230,8 @@ module.exports = {
   isVideoFile,
   isVideoMedia,
   videoOutputName,
+  videoJobOutput,
+  isLargeVideo,
   probeVideoBuffer,
   validateVideo,
   imageTools,

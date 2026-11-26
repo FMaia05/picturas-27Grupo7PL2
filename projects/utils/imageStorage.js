@@ -2,6 +2,8 @@ const axios = require("axios");
 const { setTimeout: sleep } = require("node:timers/promises");
 
 const fs = require("fs");
+const { pipeline } = require("node:stream/promises");
+const { randomUUID } = require("node:crypto");
 
 const key = fs.readFileSync(__dirname + "/../certs/selfsigned.key");
 const cert = fs.readFileSync(__dirname + "/../certs/selfsigned.crt");
@@ -50,6 +52,20 @@ async function copy_image(userId, projectId, fromStage, toStage, fileName, optio
   );
 }
 
+// Download a source to the shared volume. The rename makes it atomic: another worker
+// may be reading the same source for an edit or a preview.
+async function download_source(url, dest) {
+  const tmp = `${dest}.${randomUUID()}.download`;
+  try {
+    const response = await axios.get(url, { responseType: "stream" });
+    await pipeline(response.data, fs.createWriteStream(tmp));
+    fs.renameSync(tmp, dest);
+  } catch (error) {
+    fs.rmSync(tmp, { force: true });
+    throw error;
+  }
+}
+
 const transientCodes = new Set([
   "ECONNREFUSED", "ECONNRESET", "ECONNABORTED", "ETIMEDOUT", "EPIPE",
   "EAI_AGAIN", "ENOTFOUND", "ENETUNREACH", "EHOSTUNREACH",
@@ -70,4 +86,4 @@ async function retry_image_storage(operation, wait = sleep) {
   }
 }
 
-module.exports = { retry_image_storage, get_image_internal_url, get_image_public_url, post_image, delete_image, copy_image };
+module.exports = { download_source, retry_image_storage, get_image_internal_url, get_image_public_url, post_image, delete_image, copy_image };

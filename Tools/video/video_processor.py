@@ -165,6 +165,14 @@ def validate_tools(tools: list) -> None:
             )
 
 
+def ffmpeg_threads(width, height):
+    """ffmpeg allocates frames for each CPU of the host, whatever the container's memory
+    limit: from 1080p on it does not fit. Smaller videos keep the automatic setting."""
+    if width * height <= 1280 * 736:
+        return []
+    return ["-threads", os.getenv("VIDEO_LARGE_THREADS", "2")]
+
+
 def work_directory(output_path):
     directory = Path(os.getenv("VIDEO_WORK_DIR") or Path(output_path).resolve().parent)
     directory.mkdir(parents=True, exist_ok=True)
@@ -195,7 +203,7 @@ def _process_video(input_path: str, output_path: str, tools: list,
     # rescale timestamps by the speed factor, then resample to the original frame rate
     # (frames are dropped when speeding up and duplicated when slowing down)
     decode_cmd = [
-        "ffmpeg", "-v", "error", "-ss", f"{start:.3f}", "-t", f"{duration:.3f}",
+        "ffmpeg", "-v", "error", *ffmpeg_threads(w, h), "-ss", f"{start:.3f}", "-t", f"{duration:.3f}",
         "-i", input_path, "-map", "0:v:0", "-an",
         "-vf", f"setpts=PTS/{speed:.6f},fps={info['fps_str']}",
         "-f", "rawvideo", "-pix_fmt", "rgb24", "-",
@@ -279,6 +287,7 @@ def _start_encoder(input_path, out_path, size, info, start, duration, speed, err
         # H.264/yuv420p requires even dimensions
         "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2",
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+        *ffmpeg_threads(ow, oh),
         "-pix_fmt", "yuv420p", "-movflags", "+faststart",
         "-shortest", "-f", "mp4", out_path,
     ]

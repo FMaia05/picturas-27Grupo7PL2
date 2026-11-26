@@ -45,6 +45,7 @@ const {
   retry_image_storage,
   delete_image,
   copy_image,
+  download_source,
 } = require("../utils/imageStorage");
 
 const {
@@ -59,6 +60,8 @@ const {
   isVideoFile,
   isVideoMedia,
   videoOutputName,
+  videoJobOutput,
+  isLargeVideo,
   probeVideoBuffer,
   validateVideo,
   imageTools,
@@ -398,6 +401,8 @@ async function handleProcessMessage(msg) {
       await Process.createSuccessor(id, successor);
       await send_msg_tool(successor.msg_id, timestamp, successor.og_img_uri, successor.new_img_uri, tool.procedure, tool.params);
     }
+    // The preview is in the storage: its job directory is no longer needed.
+    if (isPreview && sourceIsVideo) removeJobDirectory(process);
     await removeProcess();
   } catch (error) {
     console.error("[process_msg] error:", error);
@@ -406,6 +411,11 @@ async function handleProcessMessage(msg) {
     }
     throw error;
   }
+}
+
+function removeJobDirectory(process) {
+  const directory = path.resolve(__dirname, "..", path.dirname(process.new_img_uri));
+  if (path.basename(directory) === process.msg_id) fs.rmSync(directory, { recursive: true, force: true });
 }
 
 async function deleteProjectAndResources(userId, projectId) {
@@ -987,6 +997,7 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
         ? {
             tools: videoPipeline(project, req.params.img),
             preview: true,
+            large: isLargeVideo(previewImg.video, project.tools),
             progress: { user: runnerUserId, projectId: req.params.project, imgId: req.params.img },
           }
         : tool.params;
@@ -1082,18 +1093,12 @@ router.post("/:user/:project/preview/:img", checkSharePermission, requireEditPer
       );
       const url = resp.data.url;
 
-      const img_resp = await axios.get(url, { responseType: "stream" });
-      const writer = fs.createWriteStream(og_img_uri);
-
-      await new Promise((resolve, reject) => {
-        writer.on("finish", resolve);
-        writer.on("error", reject);
-        img_resp.data.pipe(writer);
-      });
+      await download_source(url, og_img_uri);
 
       const img_name_parts = img.new_uri.split("/");
       const img_name = img_name_parts[img_name_parts.length - 1];
-      const new_img_uri = `./images/users/${ownerId}/projects/${req.params.project}/preview/${img_name}`;
+      const preview_uri = `./images/users/${ownerId}/projects/${req.params.project}/preview/${img_name}`;
+      const new_img_uri = previewIsVideo ? videoJobOutput(preview_uri, msg_id) : preview_uri;
 
       const process = {
         user_id: ownerId,        
@@ -1479,14 +1484,7 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
             );
             url = resp.data.url;
 
-            const img_resp = await axios.get(url, { responseType: "stream" });
-            const writer = fs.createWriteStream(img.og_uri);
-
-            await new Promise((resolve, reject) => {
-              writer.on("finish", resolve);
-              writer.on("error", reject);
-              img_resp.data.pipe(writer);
-            });
+            await download_source(url, img.og_uri);
           } catch (_) {
             res.status(400).jsonp("Error acquiring source images");
             return;
@@ -1496,7 +1494,7 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
           const timestamp = new Date().toISOString();
 
           const og_img_uri = img.og_uri;
-          const new_img_uri = img.new_uri;
+          const new_img_uri = isVideoMedia(img) ? videoJobOutput(img.new_uri, msg_id) : img.new_uri;
           let tool_name;
           let params;
           if (isVideoMedia(img)) {
@@ -1505,6 +1503,7 @@ router.post("/:user/:project/process", checkSharePermission, requireEditPermissi
             params = {
               tools: videoPipeline(project, img._id),
               preview: false,
+              large: isLargeVideo(img.video, project.tools),
               progress: { user: runnerUserId, projectId: req.params.project, imgId: String(img._id) },
             };
           } else {

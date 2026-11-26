@@ -56,6 +56,8 @@ def caption_video(input_path, output_path, info, progress):
         progress(100)
         return
 
+    from video_processor import ffmpeg_threads
+
     execution_id = uuid.uuid4().hex
     with tempfile.TemporaryDirectory(
         prefix=f"speech-{execution_id}-", dir=Path(output_path).parent
@@ -72,11 +74,12 @@ def caption_video(input_path, output_path, info, progress):
             return
 
         # Fixed relative filename avoids FFmpeg filter escaping of user paths.
+        threads = ffmpeg_threads(info.get("width", 0), info.get("height", 0))
         cmd = [
-            "ffmpeg", "-y", "-v", "error", "-i", str(Path(input_path).resolve()),
+            "ffmpeg", "-y", "-v", "error", *threads, "-i", str(Path(input_path).resolve()),
             "-map", "0:v:0", "-map", "0:a:0?",
             "-vf", "subtitles=captions.srt:force_style='FontName=DejaVu Sans,FontSize=20,Outline=1,MarginV=16'",
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", *threads,
             "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart",
             str(Path(output_path).resolve()),
         ]
