@@ -20,6 +20,7 @@ import pika
 import pytz
 from pika.exchange_type import ExchangeType
 
+import attempts
 import utils.env as env
 from effects import UnsupportedEffect
 from frame_extraction import InvalidExtraction
@@ -184,9 +185,18 @@ class VideoWorker:
             ProcessingError: "error_processing",
         }
 
+        if attempts.start(msg_id) > attempts.MAX_ATTEMPTS:
+            print(f"[video] job {msg_id} rejected after {attempts.MAX_ATTEMPTS} attempts", flush=True)
+            attempts.finish(msg_id)
+            reply = partial(self._reply_error, msg_id, started, CODES["error_processing"],
+                            "The video could not be processed after several attempts", input_uri)
+            self._schedule(self._finish, ch, method.delivery_tag, reply, dead_letter=True)
+            return
+
         print(f"[video] msg={msg_id} preview={preview} tools={[t['procedure'] for t in tools]}",
               flush=True)
         if info["procedure"] != "video":
+            attempts.finish(msg_id)
             reply = partial(self._reply_error, msg_id, started, CODES["wrong_procedure"],
                             "The procedure received does not fit into this tool", input_uri)
             self._schedule(self._finish, ch, method.delivery_tag, reply)
@@ -208,11 +218,13 @@ class VideoWorker:
             if not method.redelivered:
                 self._schedule(ch.basic_nack, delivery_tag=method.delivery_tag, requeue=True)
                 return
+            attempts.finish(msg_id)
             reply = partial(self._reply_error, msg_id, started, CODES["error_processing"],
                             str(error), input_uri)
             self._schedule(self._finish, ch, method.delivery_tag, reply, dead_letter=True)
             return
 
+        attempts.finish(msg_id)
         self._schedule(self._finish, ch, method.delivery_tag, reply)
 
     @staticmethod
@@ -232,4 +244,5 @@ class VideoWorker:
 
 
 if __name__ == "__main__":
+    attempts.own_work_directory()
     VideoWorker().run()
