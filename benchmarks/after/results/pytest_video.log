@@ -1,0 +1,133 @@
+........................................................................ [ 77%]
+.....................                                                    [100%]
+==================================== PASSES ====================================
+_______ test_job_that_killed_three_workers_is_reported_and_dead_lettered _______
+----------------------------- Captured stdout call -----------------------------
+[video] job request-1 rejected after 3 attempts
+____________ test_finished_job_starts_again_from_the_first_attempt _____________
+----------------------------- Captured stdout call -----------------------------
+[video] msg=request-1 preview=False tools=[]
+[video] msg=request-1 ok frames=1 t=0.0s
+_____________ test_worker_uses_selected_queue_and_heartbeat[None] ______________
+----------------------------- Captured stdout call -----------------------------
+[video] waiting for jobs on video_queue
+______ test_worker_uses_selected_queue_and_heartbeat[video_preview_queue] ______
+----------------------------- Captured stdout call -----------------------------
+[video] waiting for jobs on video_preview_queue
+_____ test_worker_uses_selected_queue_and_heartbeat[video_subtitles_queue] _____
+----------------------------- Captured stdout call -----------------------------
+[video] waiting for jobs on video_subtitles_queue
+______________ test_malformed_payload_goes_directly_to_dlq[body0] ______________
+----------------------------- Captured stdout call -----------------------------
+[video] invalid message rejected: Expected tools to be a list of tool objects
+______________ test_malformed_payload_goes_directly_to_dlq[null] _______________
+----------------------------- Captured stdout call -----------------------------
+[video] invalid message rejected: Expected a JSON object
+____________ test_malformed_payload_goes_directly_to_dlq[{invalid] _____________
+----------------------------- Captured stdout call -----------------------------
+[video] invalid message rejected: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+_______ test_unexpected_failure_is_dead_lettered_on_the_second_delivery ________
+----------------------------- Captured stdout call -----------------------------
+[video] msg=request-1 preview=False tools=[]
+[video] msg=request-1 unexpected failure: unexpected test failure
+[video] msg=request-1 preview=False tools=[]
+[video] msg=request-1 unexpected failure: unexpected test failure
+______ test_progress_and_confirmed_reply_are_published_on_the_pika_thread ______
+----------------------------- Captured stdout call -----------------------------
+[video] msg=request-1 preview=False tools=[]
+[video] msg=request-1 ok frames=1 t=0.0s
+=========================== short test summary info ============================
+PASSED tests/test_attempts.py::test_attempts_are_counted_per_job_and_forgotten_at_the_end
+PASSED tests/test_attempts.py::test_without_a_shared_directory_nothing_is_counted
+PASSED tests/test_attempts.py::test_replica_cleans_only_its_own_leftovers
+PASSED tests/test_attempts.py::test_job_that_killed_three_workers_is_reported_and_dead_lettered
+PASSED tests/test_attempts.py::test_finished_job_starts_again_from_the_first_attempt
+PASSED tests/test_attempts.py::test_ffmpeg_threads_are_bounded_where_the_memory_limit_requires_it[size0-expected0]
+PASSED tests/test_attempts.py::test_ffmpeg_threads_are_bounded_where_the_memory_limit_requires_it[size1-expected1]
+PASSED tests/test_attempts.py::test_ffmpeg_threads_are_bounded_where_the_memory_limit_requires_it[size2-expected2]
+PASSED tests/test_attempts.py::test_ffmpeg_threads_are_bounded_where_the_memory_limit_requires_it[size3-expected3]
+PASSED tests/test_frame_extraction.py::test_count_images_and_original_preserved[png-.png]
+PASSED tests/test_frame_extraction.py::test_count_images_and_original_preserved[jpeg-.jpg]
+PASSED tests/test_frame_extraction.py::test_interval_sampling
+PASSED tests/test_frame_extraction.py::test_preview_contact_sheet_uses_full_edited_timeline
+PASSED tests/test_frame_extraction.py::test_preceding_effects_apply_to_every_frame
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params0]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params1]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params2]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params3]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params4]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params5]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params6]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params7]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params8]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params9]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params10]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params11]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params12]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params13]
+PASSED tests/test_frame_extraction.py::test_invalid_parameters[params14]
+PASSED tests/test_frame_extraction.py::test_interval_resource_limit_and_boundaries
+PASSED tests/test_frame_extraction.py::test_extraction_must_be_terminal_once[tools0]
+PASSED tests/test_frame_extraction.py::test_extraction_must_be_terminal_once[tools1]
+PASSED tests/test_frame_extraction.py::test_extractor_failure_leaves_previous_output
+PASSED tests/test_frame_extraction.py::test_extraction_does_not_load_speech_model
+PASSED tests/test_frame_extraction.py::test_captions_run_before_extraction
+PASSED tests/test_frame_extraction.py::test_invalid_parameter_container[None]
+PASSED tests/test_frame_extraction.py::test_invalid_parameter_container[False]
+PASSED tests/test_frame_extraction.py::test_invalid_parameter_container[params2]
+PASSED tests/test_frame_extraction.py::test_invalid_parameter_container[count]
+PASSED tests/test_frame_extraction.py::test_extraction_only_seeks_original_without_transcoding[png]
+PASSED tests/test_frame_extraction.py::test_extraction_only_seeks_original_without_transcoding[jpeg]
+PASSED tests/test_frame_extraction.py::test_extraction_uses_video_duration_when_audio_is_longer
+PASSED tests/test_subtitles.py::test_no_audio_does_not_load_model
+PASSED tests/test_subtitles.py::test_caption_rendering_preserves_audio_and_original
+PASSED tests/test_subtitles.py::test_order_and_preview
+PASSED tests/test_subtitles.py::test_no_speech_is_noop
+PASSED tests/test_subtitles.py::test_caption_workspace_name_contains_execution_uuid
+PASSED tests/test_subtitles.py::test_model_failure_does_not_publish_partial_output
+PASSED tests/test_subtitles.py::test_captions_clamp_times_and_remove_markup
+PASSED tests/test_subtitles.py::test_preview_after_temporal_edit[following0-1]
+PASSED tests/test_subtitles.py::test_preview_after_temporal_edit[following1-3]
+PASSED tests/test_subtitles.py::test_preview_after_temporal_edit[following2-2]
+PASSED tests/test_subtitles.py::test_encoder_failure_preserves_previous_output
+PASSED tests/test_subtitles.py::test_invalid_recognition_timestamps_are_rejected[nan-1]
+PASSED tests/test_subtitles.py::test_invalid_recognition_timestamps_are_rejected[0-inf]
+PASSED tests/test_video_processor.py::test_probe_reads_characteristics
+PASSED tests/test_video_processor.py::test_probe_rejects_non_video
+PASSED tests/test_video_processor.py::test_sequence_applied_in_order
+PASSED tests/test_video_processor.py::test_brightness_changes_frames
+PASSED tests/test_video_processor.py::test_original_unchanged
+PASSED tests/test_video_processor.py::test_audio_kept_and_output_is_h264
+PASSED tests/test_video_processor.py::test_mov_without_audio
+PASSED tests/test_video_processor.py::test_trim_cuts_video_and_audio
+PASSED tests/test_video_processor.py::test_successive_trims_compose
+PASSED tests/test_video_processor.py::test_invalid_trim_rejected[params0]
+PASSED tests/test_video_processor.py::test_invalid_trim_rejected[params1]
+PASSED tests/test_video_processor.py::test_invalid_trim_rejected[params2]
+PASSED tests/test_video_processor.py::test_invalid_trim_rejected[params3]
+PASSED tests/test_video_processor.py::test_invalid_trim_rejected[params4]
+PASSED tests/test_video_processor.py::test_unsupported_effect_rejected
+PASSED tests/test_video_processor.py::test_failure_leaves_no_partial_output
+PASSED tests/test_video_processor.py::test_progress_reported
+PASSED tests/test_video_processor.py::test_preview_limited_excerpt
+PASSED tests/test_video_processor.py::test_speed_up
+PASSED tests/test_video_processor.py::test_slow_down
+PASSED tests/test_video_processor.py::test_speed_limits[0.25-16]
+PASSED tests/test_video_processor.py::test_speed_limits[5-0.8]
+PASSED tests/test_video_processor.py::test_invalid_speed_rejected[0.1]
+PASSED tests/test_video_processor.py::test_invalid_speed_rejected[6]
+PASSED tests/test_video_processor.py::test_invalid_speed_rejected[fast]
+PASSED tests/test_video_processor.py::test_invalid_speed_rejected[None]
+PASSED tests/test_video_processor.py::test_trim_then_speed
+PASSED tests/test_video_processor.py::test_atempo_chain
+PASSED tests/test_video_processor.py::test_edit_is_reproducible
+PASSED tests/test_video_worker.py::test_worker_uses_selected_queue_and_heartbeat[None]
+PASSED tests/test_video_worker.py::test_worker_uses_selected_queue_and_heartbeat[video_preview_queue]
+PASSED tests/test_video_worker.py::test_worker_uses_selected_queue_and_heartbeat[video_subtitles_queue]
+PASSED tests/test_video_worker.py::test_malformed_payload_goes_directly_to_dlq[body0]
+PASSED tests/test_video_worker.py::test_malformed_payload_goes_directly_to_dlq[null]
+PASSED tests/test_video_worker.py::test_malformed_payload_goes_directly_to_dlq[{invalid]
+PASSED tests/test_video_worker.py::test_unexpected_failure_is_dead_lettered_on_the_second_delivery
+PASSED tests/test_video_worker.py::test_progress_and_confirmed_reply_are_published_on_the_pika_thread
+PASSED tests/test_video_worker.py::test_repeated_renders_use_unique_atomic_temporary_paths
+93 passed in 181.35s (0:03:01)

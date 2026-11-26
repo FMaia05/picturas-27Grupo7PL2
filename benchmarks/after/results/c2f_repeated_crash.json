@@ -1,0 +1,74 @@
+{
+  "scenario": "C2-F",
+  "http_status": 201,
+  "msg_id": "request-1c0e42d3-924d-4829-9c4a-4a33e7010b20",
+  "crashes_injected": 3,
+  "attempts": 3,
+  "stopped_by_limit": true,
+  "queue_after": {
+    "messages": 0,
+    "messages_ready": 0,
+    "messages_unacknowledged": 0,
+    "consumers": 4,
+    "queues": {
+      "video_preview_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 1,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_preview_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 2,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_subtitles_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 1,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_subtitles_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      }
+    }
+  },
+  "user_event": "process-error",
+  "user_event_data": {
+    "error_code": 2001,
+    "error_msg": "The video could not be processed after several attempts"
+  },
+  "dead_letter": {
+    "project_dlq": 1,
+    "video_dlq": 2,
+    "video_preview_dlq": 0,
+    "video_subtitles_dlq": 1
+  },
+  "state": {
+    "pending_process_docs": 0,
+    "result_rows": [],
+    "tokens": {
+      "activeToken": 1,
+      "committedToken": 0
+    }
+  }
+}

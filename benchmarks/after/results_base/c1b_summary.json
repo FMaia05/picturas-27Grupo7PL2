@@ -1,0 +1,518 @@
+{
+  "aggregate": {
+    "idle_n": 9,
+    "idle_p50_s": 2.57,
+    "idle_p95_s": 3.236,
+    "overlapped_n": 3,
+    "overlapped_p50_s": 189.383,
+    "overlapped_p95_s": 194.008,
+    "subtitles_e2e_s": [
+      192.628,
+      190.242,
+      197.491
+    ]
+  },
+  "runs": [
+    {
+      "scenario": "C1-B",
+      "rep": 1,
+      "idle_latency_s": [
+        3.236,
+        2.57,
+        2.216
+      ],
+      "loaded_latency_s": [
+        189.383,
+        2.873,
+        2.911
+      ],
+      "idle_p50_s": 2.57,
+      "idle_p95_s": 3.236,
+      "loaded_p50_s": 2.911,
+      "loaded_p95_s": 189.383,
+      "ratio_p50_loaded_over_idle": 1.13,
+      "overlapped_latency_s": [
+        189.383
+      ],
+      "ratio_overlapped_max_over_idle_p50": 73.7,
+      "subtitles_job": {
+        "msg_id": "request-525d56a0-cf9e-4a3d-9e65-048f7ee015b0",
+        "project_id": "6b084194bd82971791b96f90",
+        "published_vm": "2026-11-26T14:26:50.382000+00:00",
+        "worker_start_vm": "2026-11-26T14:26:50.435634+00:00",
+        "worker_ok_vm": "2026-11-26T14:30:01.309819+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-baseline-video_tool-1",
+        "queue_wait_s": 0.054,
+        "service_s": 190.874,
+        "sent_host": "2026-11-26T14:26:50.021412+00:00",
+        "done_host": "2026-11-26T14:30:02.649660+00:00",
+        "e2e_s": 192.628,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b084195bd82971791b96fab",
+          "http_status": 201,
+          "t_send": 1795703193.669945,
+          "t_ready": 1795703195.9043548,
+          "sent_host": "2026-11-26T14:26:33.669945+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.234,
+          "msg_id": "preview-86d71d8d-e038-4f2f-8698-51f10ddea8e3",
+          "queue_wait_s": 0.053,
+          "service_s": 2.094,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b084195bd82971791b96fc6",
+          "http_status": 201,
+          "t_send": 1795703195.9043548,
+          "t_ready": 1795703199.1400635,
+          "sent_host": "2026-11-26T14:26:35.904355+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.236,
+          "msg_id": "preview-27355108-5050-49ba-99dc-1e97d7c65e0d",
+          "queue_wait_s": 0.049,
+          "service_s": 3.204,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b084196bd82971791b96fe1",
+          "http_status": 201,
+          "t_send": 1795703199.1400635,
+          "t_ready": 1795703201.7102199,
+          "sent_host": "2026-11-26T14:26:39.140064+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.57,
+          "msg_id": "preview-e264bb9a-3cf5-4983-850d-031b94cc7354",
+          "queue_wait_s": 0.05,
+          "service_s": 2.516,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b084196bd82971791b96ffc",
+          "http_status": 201,
+          "t_send": 1795703201.7102199,
+          "t_ready": 1795703203.926101,
+          "sent_host": "2026-11-26T14:26:41.710220+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.216,
+          "msg_id": "preview-9ef4093b-87e5-4d30-baa7-01e821b443b5",
+          "queue_wait_s": 0.051,
+          "service_s": 2.148,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b084196bd82971791b97017",
+          "http_status": 201,
+          "t_send": 1795703215.0238144,
+          "t_ready": 1795703404.4064102,
+          "sent_host": "2026-11-26T14:26:55.023814+00:00",
+          "event": "preview-ready",
+          "latency_s": 189.383,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-c92af20d-5581-44cb-a5e0-d3c03fd76d4e",
+          "queue_wait_s": 185.721,
+          "service_s": 2.148,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b084197bd82971791b97032",
+          "http_status": 201,
+          "t_send": 1795703404.4064102,
+          "t_ready": 1795703407.2794797,
+          "sent_host": "2026-11-26T14:30:04.406410+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.873,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-5f66c5d6-a3c2-41e8-93f6-e806cefcd1ea",
+          "queue_wait_s": 0.052,
+          "service_s": 2.187,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b084197bd82971791b9704d",
+          "http_status": 201,
+          "t_send": 1795703407.2794797,
+          "t_ready": 1795703410.1905718,
+          "sent_host": "2026-11-26T14:30:07.279480+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.911,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-d28e2f42-9962-4558-a5d9-8d1a06b7b371",
+          "queue_wait_s": 0.057,
+          "service_s": 2.689,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 929.43,
+          "mem_mb_max": 2358.272,
+          "samples": 112
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 10.52,
+          "mem_mb_max": 365.3,
+          "samples": 112
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 333.57,
+          "mem_mb_max": 219.8,
+          "samples": 112
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 2,
+      "idle_latency_s": [
+        2.559,
+        2.011,
+        3.01
+      ],
+      "loaded_latency_s": [
+        187.349,
+        2.278,
+        2.073
+      ],
+      "idle_p50_s": 2.559,
+      "idle_p95_s": 3.01,
+      "loaded_p50_s": 2.278,
+      "loaded_p95_s": 187.349,
+      "ratio_p50_loaded_over_idle": 0.89,
+      "overlapped_latency_s": [
+        187.349
+      ],
+      "ratio_overlapped_max_over_idle_p50": 73.2,
+      "subtitles_job": {
+        "msg_id": "request-48749983-58cc-4e1e-858e-4123ad68f2b9",
+        "project_id": "6b084276bd82971791b97100",
+        "published_vm": "2026-11-26T14:30:36.966000+00:00",
+        "worker_start_vm": "2026-11-26T14:30:37.018698+00:00",
+        "worker_ok_vm": "2026-11-26T14:33:46.942227+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-baseline-video_tool-1",
+        "queue_wait_s": 0.053,
+        "service_s": 189.924,
+        "sent_host": "2026-11-26T14:30:36.482263+00:00",
+        "done_host": "2026-11-26T14:33:46.724025+00:00",
+        "e2e_s": 190.242,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b084277bd82971791b9711b",
+          "http_status": 201,
+          "t_send": 1795703420.3477793,
+          "t_ready": 1795703422.8165643,
+          "sent_host": "2026-11-26T14:30:20.347779+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.469,
+          "msg_id": "preview-9ce0ec57-a9a3-4370-aa9f-eb729e556a12",
+          "queue_wait_s": 0.051,
+          "service_s": 2.362,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b084278bd82971791b97136",
+          "http_status": 201,
+          "t_send": 1795703422.8165643,
+          "t_ready": 1795703425.3756359,
+          "sent_host": "2026-11-26T14:30:22.816564+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.559,
+          "msg_id": "preview-f445d6f2-31ca-4206-94c8-974768ad13d0",
+          "queue_wait_s": 0.054,
+          "service_s": 2.517,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b084278bd82971791b97151",
+          "http_status": 201,
+          "t_send": 1795703425.3756359,
+          "t_ready": 1795703427.386452,
+          "sent_host": "2026-11-26T14:30:25.375636+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.011,
+          "msg_id": "preview-be57707b-73ae-4363-98bb-90cebb86e559",
+          "queue_wait_s": 0.052,
+          "service_s": 1.912,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b084278bd82971791b9716c",
+          "http_status": 201,
+          "t_send": 1795703427.386452,
+          "t_ready": 1795703430.3961508,
+          "sent_host": "2026-11-26T14:30:27.386452+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.01,
+          "msg_id": "preview-cdaf700e-ba27-4f0c-b2e0-166aad7e0d07",
+          "queue_wait_s": 0.052,
+          "service_s": 2.913,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b084279bd82971791b97187",
+          "http_status": 201,
+          "t_send": 1795703441.483692,
+          "t_ready": 1795703628.8327837,
+          "sent_host": "2026-11-26T14:30:41.483692+00:00",
+          "event": "preview-ready",
+          "latency_s": 187.349,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-58f2eb61-74d6-4ee7-b7c9-4e315fc7e415",
+          "queue_wait_s": 184.724,
+          "service_s": 0.81,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b084279bd82971791b971a2",
+          "http_status": 201,
+          "t_send": 1795703628.8327837,
+          "t_ready": 1795703631.110752,
+          "sent_host": "2026-11-26T14:33:48.832784+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.278,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-8e8207db-d7a7-40e9-89d7-082d213fb3ae",
+          "queue_wait_s": 0.056,
+          "service_s": 2.171,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b08427abd82971791b971bd",
+          "http_status": 201,
+          "t_send": 1795703631.1112766,
+          "t_ready": 1795703633.1846063,
+          "sent_host": "2026-11-26T14:33:51.111277+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.073,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-5f4926b5-bc2f-4975-8e66-6746f1094b34",
+          "queue_wait_s": 0.052,
+          "service_s": 1.946,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 917.37,
+          "mem_mb_max": 2470.912,
+          "samples": 109
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 18.85,
+          "mem_mb_max": 403.5,
+          "samples": 109
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 337.42,
+          "mem_mb_max": 214.3,
+          "samples": 109
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 3,
+      "idle_latency_s": [
+        3.103,
+        2.652,
+        2.342
+      ],
+      "loaded_latency_s": [
+        194.008,
+        2.295,
+        2.224
+      ],
+      "idle_p50_s": 2.652,
+      "idle_p95_s": 3.103,
+      "loaded_p50_s": 2.295,
+      "loaded_p95_s": 194.008,
+      "ratio_p50_loaded_over_idle": 0.87,
+      "overlapped_latency_s": [
+        194.008
+      ],
+      "ratio_overlapped_max_over_idle_p50": 73.2,
+      "subtitles_job": {
+        "msg_id": "request-a9d0f089-d3f5-46e7-81e1-a553475739a9",
+        "project_id": "6b084355bd82971791b97270",
+        "published_vm": "2026-11-26T14:34:23.837000+00:00",
+        "worker_start_vm": "2026-11-26T14:34:23.899015+00:00",
+        "worker_ok_vm": "2026-11-26T14:37:40.306185+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-baseline-video_tool-1",
+        "queue_wait_s": 0.062,
+        "service_s": 196.407,
+        "sent_host": "2026-11-26T14:34:23.418330+00:00",
+        "done_host": "2026-11-26T14:37:40.909477+00:00",
+        "e2e_s": 197.491,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b084356bd82971791b9728b",
+          "http_status": 201,
+          "t_send": 1795703642.3659537,
+          "t_ready": 1795703645.203704,
+          "sent_host": "2026-11-26T14:34:02.365954+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.838,
+          "msg_id": "preview-c6143092-49a2-4853-8ffe-b35cc06dea97",
+          "queue_wait_s": 0.052,
+          "service_s": 2.722,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b084356bd82971791b972a6",
+          "http_status": 201,
+          "t_send": 1795703645.2044284,
+          "t_ready": 1795703648.3075566,
+          "sent_host": "2026-11-26T14:34:05.204428+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.103,
+          "msg_id": "preview-dee2d8e6-0b87-4a9d-94b7-ad41f516324b",
+          "queue_wait_s": 0.062,
+          "service_s": 3.017,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b084357bd82971791b972c1",
+          "http_status": 201,
+          "t_send": 1795703648.3081188,
+          "t_ready": 1795703650.9599087,
+          "sent_host": "2026-11-26T14:34:08.308119+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.652,
+          "msg_id": "preview-67bce74b-d51d-47e9-b52e-01c044cfff39",
+          "queue_wait_s": 0.054,
+          "service_s": 2.577,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b084357bd82971791b972dc",
+          "http_status": 201,
+          "t_send": 1795703650.9609113,
+          "t_ready": 1795703653.302624,
+          "sent_host": "2026-11-26T14:34:10.960911+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.342,
+          "msg_id": "preview-cbff5cf4-ff73-4a41-a98b-8bbbd41562f3",
+          "queue_wait_s": 0.053,
+          "service_s": 2.298,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b084358bd82971791b972f7",
+          "http_status": 201,
+          "t_send": 1795703668.418741,
+          "t_ready": 1795703862.4270158,
+          "sent_host": "2026-11-26T14:34:28.418741+00:00",
+          "event": "preview-ready",
+          "latency_s": 194.008,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-f76c1822-37bf-43f6-ba40-1944f4778c73",
+          "queue_wait_s": 191.141,
+          "service_s": 2.137,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b084358bd82971791b97312",
+          "http_status": 201,
+          "t_send": 1795703862.4270158,
+          "t_ready": 1795703864.7217133,
+          "sent_host": "2026-11-26T14:37:42.427016+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.295,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-8afa14a6-8b42-4c24-adb8-ace235251f8a",
+          "queue_wait_s": 0.05,
+          "service_s": 1.942,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b084358bd82971791b9732d",
+          "http_status": 201,
+          "t_send": 1795703864.7217133,
+          "t_ready": 1795703866.9455152,
+          "sent_host": "2026-11-26T14:37:44.721713+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.224,
+          "overlapped_subtitles": false,
+          "msg_id": "preview-194e00b2-87a1-4ce9-b00e-5cb04337176a",
+          "queue_wait_s": 0.055,
+          "service_s": 2.016,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-baseline-video_tool-1": {
+          "cpu_pct_max": 964.31,
+          "mem_mb_max": 2490.368,
+          "samples": 116
+        },
+        "picturas-baseline-projects-1": {
+          "cpu_pct_max": 26.59,
+          "mem_mb_max": 391.5,
+          "samples": 116
+        },
+        "picturas-baseline-rabbitmq-1": {
+          "cpu_pct_max": 309.81,
+          "mem_mb_max": 216.4,
+          "samples": 116
+        }
+      }
+    }
+  ]
+}

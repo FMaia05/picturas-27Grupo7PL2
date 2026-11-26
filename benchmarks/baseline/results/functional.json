@@ -1,0 +1,424 @@
+{
+  "image_chain": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 9,
+    "status": 200,
+    "results": [
+      {
+        "name": "picture0.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            48,
+            64
+          ]
+        ],
+        "frames": 1,
+        "content": "1e5248303f673dce"
+      },
+      {
+        "name": "picture1.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            48,
+            64
+          ]
+        ],
+        "frames": 1,
+        "content": "1e5248303f673dce"
+      },
+      {
+        "name": "picture2.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            48,
+            64
+          ]
+        ],
+        "frames": 1,
+        "content": "1e5248303f673dce"
+      }
+    ]
+  },
+  "video_effects": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "sample_10s_720p.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 300,
+        "content": "da3575b3d72e4eb7"
+      }
+    ]
+  },
+  "video_trim_speed": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "sample_10s_720p.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 60,
+        "content": "3a891ab38add6ceb"
+      }
+    ]
+  },
+  "mov_to_mp4": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "sample_6s.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            640,
+            480
+          ]
+        ],
+        "frames": 150,
+        "content": "b84a76bd48d6a665"
+      }
+    ]
+  },
+  "mixed_project": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 6,
+    "status": 200,
+    "results": [
+      {
+        "name": "picture0.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            64,
+            48
+          ]
+        ],
+        "frames": 1,
+        "content": "b280a93169ba4fab"
+      },
+      {
+        "name": "picture1.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            64,
+            48
+          ]
+        ],
+        "frames": 1,
+        "content": "b280a93169ba4fab"
+      },
+      {
+        "name": "sample_10s_720p.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 90,
+        "content": "dfe10028aae710cf"
+      },
+      {
+        "name": "sample_6s.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            640,
+            480
+          ]
+        ],
+        "frames": 150,
+        "content": "c2506f4479b29965"
+      }
+    ]
+  },
+  "extract_frames": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 2,
+    "status": 200,
+    "results": [
+      {
+        "name": "media-0-frame-0001-000000000ms.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            640,
+            480
+          ]
+        ],
+        "frames": 1,
+        "content": "7a573fb777578232"
+      },
+      {
+        "name": "media-0-frame-0002-000001500ms.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            640,
+            480
+          ]
+        ],
+        "frames": 1,
+        "content": "ea68b0d6a4061de7"
+      },
+      {
+        "name": "media-0-frame-0003-000003000ms.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            640,
+            480
+          ]
+        ],
+        "frames": 1,
+        "content": "ea68b0d6a4061de7"
+      },
+      {
+        "name": "media-0-frame-0004-000004500ms.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            640,
+            480
+          ]
+        ],
+        "frames": 1,
+        "content": "ea68b0d6a4061de7"
+      },
+      {
+        "name": "picture0.png",
+        "streams": [
+          [
+            "video",
+            "png",
+            64,
+            48
+          ]
+        ],
+        "frames": 1,
+        "content": "207cf6b3ff983169"
+      }
+    ]
+  },
+  "subtitles_without_speech": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "sample_10s_720p.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 300,
+        "content": "e1ede2ab536012ae"
+      }
+    ]
+  },
+  "preview_video": {
+    "previews": [
+      {
+        "http": 201,
+        "event": "preview-ready",
+        "type": "video",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 90,
+        "content": "dfe10028aae710cf"
+      },
+      {
+        "http": 201,
+        "event": "preview-ready",
+        "type": "video",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 90,
+        "content": "dfe10028aae710cf"
+      }
+    ]
+  },
+  "preview_image": {
+    "http": 201,
+    "event": "preview-ready",
+    "streams": [
+      [
+        "video",
+        "png",
+        64,
+        48
+      ]
+    ],
+    "frames": 1,
+    "content": "b280a93169ba4fab"
+  },
+  "preview_contact_sheet": {
+    "http": 201,
+    "event": "preview-ready",
+    "type": null,
+    "streams": [
+      [
+        "video",
+        "png",
+        1152,
+        480
+      ]
+    ],
+    "frames": 1,
+    "content": "30cb8c1b0829e355"
+  },
+  "invalid_trim_is_reported": {
+    "http": 201,
+    "outcome": "error",
+    "code": "2003",
+    "status": 200,
+    "results": []
+  },
+  "cancel_then_apply_again": {
+    "http": [
+      201,
+      204,
+      201
+    ],
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "sample_10s_720p.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            1280,
+            720
+          ]
+        ],
+        "frames": 300,
+        "content": "da3575b3d72e4eb7"
+      }
+    ]
+  },
+  "rejected_uploads": {
+    "corrupted": 400,
+    "too_long_free": 400,
+    "too_long_premium": 204
+  },
+  "free_daily_quota": {
+    "first": "committed",
+    "second_http": 403
+  }
+}

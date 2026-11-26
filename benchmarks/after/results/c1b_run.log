@@ -1,0 +1,39 @@
+[14:50:41] C1-B rep=1: preparing users A (subtitles) and B (previews)
+[14:50:49]   warmup_discarded preview 1: 3.286 s (preview-ready)
+[14:50:53]   idle preview 1: 3.341 s (preview-ready)
+[14:50:56]   idle preview 2: 3.062 s (preview-ready)
+[14:50:59]   idle preview 3: 2.896 s (preview-ready)
+[14:51:05]   user A: Apply with subtitles on the 177 s speech video
+[14:51:05]   POST /process -> 201 "Created"
+[14:51:15]   under_subtitles preview 1: 5.165 s (preview-ready)
+[14:51:20]   under_subtitles preview 2: 5.058 s (preview-ready)
+[14:51:25]   under_subtitles preview 3: 4.68 s (preview-ready)
+[14:54:09]   idle p50 3.062 s, under subtitles p50 5.058 s, ratio 1.65, subtitles e2e 179.578 s
+[14:54:09] saved benchmarks\after\results\c1b_docker_stats_r1.csv
+[14:54:09] C1-B rep=2: preparing users A (subtitles) and B (previews)
+[14:54:17]   warmup_discarded preview 1: 2.973 s (preview-ready)
+[14:54:19]   idle preview 1: 2.642 s (preview-ready)
+[14:54:22]   idle preview 2: 2.9 s (preview-ready)
+[14:54:25]   idle preview 3: 2.618 s (preview-ready)
+[14:54:33]   user A: Apply with subtitles on the 177 s speech video
+[14:54:33]   POST /process -> 201 "Created"
+[14:54:42]   under_subtitles preview 1: 3.935 s (preview-ready)
+[14:54:46]   under_subtitles preview 2: 4.261 s (preview-ready)
+[14:54:51]   under_subtitles preview 3: 4.56 s (preview-ready)
+[14:57:27]   idle p50 2.642 s, under subtitles p50 4.261 s, ratio 1.61, subtitles e2e 167.57 s
+[14:57:27] saved benchmarks\after\results\c1b_docker_stats_r2.csv
+[14:57:27] C1-B rep=3: preparing users A (subtitles) and B (previews)
+[14:57:34]   warmup_discarded preview 1: 2.754 s (preview-ready)
+[14:57:37]   idle preview 1: 2.527 s (preview-ready)
+[14:57:39]   idle preview 2: 2.724 s (preview-ready)
+[14:57:42]   idle preview 3: 2.682 s (preview-ready)
+[14:57:50]   user A: Apply with subtitles on the 177 s speech video
+[14:57:50]   POST /process -> 201 "Created"
+[14:57:59]   under_subtitles preview 1: 3.887 s (preview-ready)
+[14:58:03]   under_subtitles preview 2: 4.177 s (preview-ready)
+[14:58:07]   under_subtitles preview 3: 4.262 s (preview-ready)
+[15:00:45]   idle p50 2.682 s, under subtitles p50 4.177 s, ratio 1.56, subtitles e2e 169.424 s
+[15:00:45] saved benchmarks\after\results\c1b_docker_stats_r3.csv
+[15:00:45] C1-B aggregate: {'idle_n': 9, 'idle_p50_s': 2.724, 'idle_p95_s': 3.341, 'overlapped_n': 9, 'overlapped_p50_s': 4.262, 'overlapped_p95_s': 5.165, 'subtitles_e2e_s': [179.578, 167.57, 169.424]}
+[15:00:45] saved benchmarks\after\results\c1b_summary.json
+[15:00:45] saved benchmarks\after\results\c1b_previews.csv

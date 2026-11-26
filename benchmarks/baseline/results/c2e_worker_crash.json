@@ -1,0 +1,236 @@
+{
+  "scenario": "C2-E",
+  "reps": [
+    {
+      "rep": 1,
+      "http_status": 201,
+      "percent": 51,
+      "victim": "picturas-baseline-video_tool-1",
+      "signal_sent": true,
+      "auto_restart_seen_after_s": 10.7,
+      "restart_count_before": 0,
+      "restart_count_after": 1,
+      "worker_starts": 2,
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "completion_event": "process-update",
+      "recovery_s_from_request": 57.875,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b06c85e8f1b3c1713416708",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3840075"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      }
+    },
+    {
+      "rep": 2,
+      "http_status": 201,
+      "percent": 51,
+      "victim": "picturas-baseline-video_tool-1",
+      "signal_sent": true,
+      "auto_restart_seen_after_s": 2.55,
+      "restart_count_before": 1,
+      "restart_count_after": 2,
+      "worker_starts": 2,
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "completion_event": "process-update",
+      "recovery_s_from_request": 28.113,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b06c8c68f1b3c171341677a",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3676688"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      }
+    },
+    {
+      "rep": 3,
+      "http_status": 201,
+      "percent": 51,
+      "victim": "picturas-baseline-video_tool-1",
+      "signal_sent": true,
+      "auto_restart_seen_after_s": 3.36,
+      "restart_count_before": 2,
+      "restart_count_after": 3,
+      "worker_starts": 2,
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "completion_event": "process-update",
+      "recovery_s_from_request": 41.873,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b06c9008f1b3c17134167ec",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3767780"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      }
+    }
+  ]
+}

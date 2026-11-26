@@ -27,7 +27,8 @@ import requests
 
 from common import (RABBIT_API, RABBIT_AUTH, SAMPLES, Client, Events, compose, container,
                     iso, log, mongo_projects, parse_iso, pid_match, project_tokens, queue, results_db,
-                    save_json, sh, utcnow, wait_rabbit, worker_events)
+                    save_json, sh, utcnow, wait_rabbit, worker_events, worker_containers, worker_services,
+                    crash, edit_queue)
 from c1_performance import JOB_TIMEOUT, prepare, wait_idle
 
 SHORT = SAMPLES / "sample_10s_720p.mp4"
@@ -35,15 +36,26 @@ DONE = ("process-update", "process-error")
 
 
 # --------------------------------------------------------------------------- helpers
-def state(svc):
+def state(svc, name=None):
     r = sh(["docker", "inspect", "-f",
             "{{.State.Status}}|{{.State.Running}}|{{.State.Paused}}|{{.RestartCount}}|{{.State.ExitCode}}|{{.State.StartedAt}}",
-            container(svc)], check=False)
+            name or container(svc)], check=False)
     parts = r.stdout.strip().split("|")
     if len(parts) < 6:
         return {"status": "missing"}
     return {"status": parts[0], "running": parts[1] == "true", "paused": parts[2] == "true",
             "restart_count": int(parts[3]), "exit_code": int(parts[4]), "started_at": parts[5]}
+
+
+def job_container(since, timeout=20):
+    """Container that started the job of this scenario (the one a fault must hit)."""
+    end = time.time() + timeout
+    while time.time() < end:
+        for m, w in worker_events(since).items():
+            if m.startswith("request-") and w["containers"]:
+                return w["containers"][-1]
+        time.sleep(0.5)
+    return container("video_tool")
 
 
 def project_state(pid):
@@ -90,7 +102,7 @@ def ensure_running(svc, timeout=120):
     return s
 
 
-def queue_when(pred, name="video_queue", timeout=30):
+def queue_when(pred, name=None, timeout=30):
     """The management API refreshes queue statistics every ~5 s: poll until pred(q) holds
     (or the timeout ends) and return the last reading."""
     end = time.time() + timeout
@@ -115,23 +127,36 @@ def consumers(qname):
 
 
 def health_snapshot():
-    svcs = ["projects", "ws_gateway", "video_tool", "img_storage", "rabbitmq"]
-    return {"containers": {s: state(s) for s in svcs},
-            "consumers": {q: consumers(q) for q in ("project_queue", "video_queue", "ws_queue")}}
+    svcs = ["projects", "ws_gateway", "img_storage", "rabbitmq"]
+    return {"containers": {**{s: state(s) for s in svcs}, **{n: state(None, n) for n in worker_containers()}},
+            "consumers": {**{q: consumers(q) for q in ("project_queue", "ws_queue")}, "video": queue()["consumers"]}}
 
 
 def heal(label):
     """After a scenario, make sure the consumers are back. Records anything that had to be
     restarted by hand (that itself is a measured outcome: no automatic recovery)."""
     actions = []
-    for svc in ("rabbitmq", "img_storage", "video_tool", "projects", "ws_gateway"):
+    for n in worker_containers():
+        s = state(None, n)
+        if s.get("paused"):
+            sh(["docker", "unpause", n], check=False)
+            actions.append(f"unpaused {n}")
+        elif not s.get("running"):
+            sh(["docker", "start", n], check=False)
+            actions.append(f"started {n}")
+    for svc in ("rabbitmq", "img_storage", "projects", "ws_gateway"):
         s = state(svc)
         if not s.get("running") or s.get("paused"):
             ensure_running(svc)
             actions.append(f"started {svc}")
     wait_rabbit()
     time.sleep(5)
-    for q, svc in (("project_queue", "projects"), ("ws_queue", "ws_gateway"), ("video_queue", "video_tool")):
+    if not queue()["consumers"]:
+        for svc in worker_services():
+            compose("restart", svc)
+        actions.append("restarted the video workers (0 consumers)")
+        time.sleep(10)
+    for q, svc in (("project_queue", "projects"), ("ws_queue", "ws_gateway")):
         if not consumers(q):
             compose("restart", svc)
             actions.append(f"restarted {svc} (0 consumers on {q})")
@@ -149,7 +174,7 @@ def c2a(_args):
     users = [Client() for _ in range(4)]
     evs = [Events(u) for u in users]
     pids = [prepare(u, f"c2a-u{i}", SHORT)[0] for i, u in enumerate(users)]
-    compose("stop", "video_tool")
+    compose("stop", *worker_services())
     t_sub = []
     for u, pid in zip(users, pids):
         t0, _, st, _ = u.process(pid)
@@ -164,7 +189,7 @@ def c2a(_args):
     q_after = queue()
     health_after_restart = health_snapshot()
     log(f"  queue after restart: {q_after}")
-    compose("start", "video_tool")
+    compose("start", *worker_services())
     t_vt = time.time()
     deadline = t_vt + 180
     dones = [ev.wait_for(lambda e: e["event"] in DONE, max(0, deadline - time.time()), t_sub[i][0])
@@ -209,10 +234,11 @@ def c2b(args):
             ev.close()
             continue
         pct = p["data"]["percent"]
-        rc_before = state("video_tool")["restart_count"]
+        victim = job_container(since)
+        rc_before = state(None, victim)["restart_count"]
         t_kill = time.time()
-        sh(["docker", "kill", container("video_tool")])
-        log(f"  killed video_tool at {pct} %")
+        sh(["docker", "kill", victim])
+        log(f"  killed {victim} at {pct} %")
         q_after_kill = None
         auto_restart_s = None
         for _ in range(60):
@@ -222,7 +248,7 @@ def c2b(args):
                     q_after_kill = queue()
                 except Exception:  # noqa: BLE001
                     pass
-            s = state("video_tool")
+            s = state(None, victim)
             if s.get("running"):
                 auto_restart_s = round(time.time() - t_kill, 2)
                 break
@@ -230,7 +256,7 @@ def c2b(args):
         if auto_restart_s is None:
             manual_start = iso()
             log("  video_tool did not restart by itself in 30 s: starting it by hand")
-            ensure_running("video_tool")
+            sh(["docker", "start", victim], check=False)
         d = ev.wait_for(lambda e: e["event"] in DONE, JOB_TIMEOUT, t_kill)
         time.sleep(3)
         worker = worker_events(since)
@@ -238,7 +264,8 @@ def c2b(args):
         starts = worker.get(msg, {}).get("starts", []) if msg else []
         rec = {
             "rep": rep, "http_status": st, "killed_at_percent": pct, "kill_at": iso(t_kill),
-            "restart_count_before": rc_before, "restart_count_after": state("video_tool")["restart_count"],
+            "restart_count_before": rc_before, "restart_count_after": state(None, victim)["restart_count"],
+            "victim": victim, "containers": worker.get(msg, {}).get("containers"),
             "auto_restart_after_s": auto_restart_s, "manual_start_at": manual_start,
             "queue_right_after_kill": q_after_kill,
             "msg_id": msg, "worker_starts": len(starts),
@@ -273,22 +300,25 @@ def c2c(args):
     t0, _, st, _ = u.process(pid)
     p = wait_progress(ev, t0, 50)
     pct = p["data"]["percent"] if p else None
+    victim = job_container(since)
     t_pause = time.time()
-    sh(["docker", "pause", container("video_tool")])
+    sh(["docker", "pause", victim])
     log(f"  paused at {pct} %")
     samples = []
     taken_back_s = None
     while time.time() - t_pause < args.pause_window:
         q = queue()
-        samples.append({"t_s": round(time.time() - t_pause, 1), **{k: q[k] for k in (
-            "messages_ready", "messages_unacknowledged", "consumers")}})
-        if taken_back_s is None and (q["messages_ready"] or 0) > 0:
+        restarted = any(len(w["starts"]) > 1 for m, w in worker_events(since).items() if m.startswith("request-"))
+        samples.append({"t_s": round(time.time() - t_pause, 1), "redelivered_elsewhere": restarted,
+                        **{k: q[k] for k in ("messages_ready", "messages_unacknowledged", "consumers")}})
+        if taken_back_s is None and (restarted or (q["messages_ready"] or 0) > 0):
             taken_back_s = samples[-1]["t_s"]
         time.sleep(5)
     events_during = [e["event"] for e in ev.snapshot() if t_pause <= e["t"] < time.time()]
     t_unpause = time.time()
-    sh(["docker", "unpause", container("video_tool")])
-    d = ev.wait_for(lambda e: e["event"] in DONE, JOB_TIMEOUT, t_unpause)
+    sh(["docker", "unpause", victim])
+    d_pause = next((e for e in ev.snapshot() if e["event"] in DONE and e["t"] >= t_pause), None)
+    d = d_pause or ev.wait_for(lambda e: e["event"] in DONE, JOB_TIMEOUT, t_unpause)
     time.sleep(3)
     worker = worker_events(since)
     msg = next((m for m in worker if m.startswith("request-")), None)
@@ -298,6 +328,8 @@ def c2c(args):
         "broker_took_message_back_after_s": taken_back_s,
         "unacked_whole_window": all((s["messages_unacknowledged"] or 0) >= 1 for s in samples),
         "user_events_during_pause": sorted(set(events_during)),
+        "completed_while_paused_s": round(d_pause["t"] - t_pause, 3) if d_pause else None,
+        "victim": victim,
         "completion_event_after_unpause": d and d["event"],
         "completion_after_unpause_s": round(d["t"] - t_unpause, 3) if d else None,
         "worker_starts": len(worker.get(msg, {}).get("starts", [])) if msg else None,
@@ -314,7 +346,7 @@ def c2c(args):
 # --------------------------------------------------------------------------- C2-D
 def publish_video_queue(body):
     r = requests.post(f"{RABBIT_API}/exchanges/%2F/picturas/publish", auth=RABBIT_AUTH, json={
-        "properties": {}, "routing_key": "video_queue",
+        "properties": {}, "routing_key": edit_queue(),
         "payload": json.dumps(body), "payload_encoding": "string"}, timeout=10)
     r.raise_for_status()
     return r.json()
@@ -335,12 +367,14 @@ def c2d(args):
     compose("stop", "img_storage")
     t_stop = time.time()
     log(f"  img_storage stopped at {p and p['data']['percent']} %")
-    d = ev.wait_for(lambda e: e["event"] in DONE, 600, t0)
+    # The outage has a fixed length, whatever the system answers meanwhile
+    time.sleep(max(0.0, t_stop + args.storage_down - time.time()))
     pq_after = queue("project_queue")
     during = project_state(pid)
-    time.sleep(args.storage_down)
     compose("start", "img_storage")
     t_start = time.time()
+    d = ev.wait_for(lambda e: e["event"] in DONE, 120, t0)
+    out_event_s = round(d["t"] - t_stop, 1) if d else None
     time.sleep(60)  # does anything retry once the dependency is back?
     later = project_state(pid)
     worker = worker_events(since)
@@ -350,7 +384,7 @@ def c2d(args):
     t2, _, st2, _ = u.process(pid)
     d2 = ev.wait_for(lambda e: e["event"] in DONE, JOB_TIMEOUT, t2)
     out["storage_failure"] = {
-        "http_status": st, "storage_down_s": round(t_start - t_stop, 1),
+        "http_status": st, "first_event_after_stop_s": out_event_s, "storage_down_s": round(t_start - t_stop, 1),
         "first_event": d and d["event"], "first_event_data": d and d["data"],
         "worker_finished_ok": bool(worker.get(msg, {}).get("ok")) if msg else None,
         "worker_starts": len(worker.get(msg, {}).get("starts", [])) if msg else None,
@@ -408,14 +442,15 @@ def c2d(args):
     log("C2-D(2c) malformed message (tools is not a list) injected in video_queue — watching 90 s")
     wait_idle()
     since_dt = utcnow()
-    rc0 = state("video_tool")["restart_count"]
+    rc0 = sum(state(None, n)["restart_count"] for n in worker_containers())
     mid = f"request-bench-poison-{uuid.uuid4()}"
     publish_video_queue({"messageId": mid, "timestamp": iso(), "procedure": "video",
                          "parameters": {"inputImageURI": "x", "outputImageURI": "y", "tools": "not-a-list"}})
     samples = []
     t_pub = time.time()
     while time.time() - t_pub < args.poison_window:
-        s = state("video_tool")
+        ss = [state(None, n) for n in worker_containers()]
+        s = {"restart_count": sum(x["restart_count"] for x in ss), "status": " ".join(x["status"] for x in ss)}
         try:
             q = queue()
         except Exception:  # noqa: BLE001
@@ -424,8 +459,10 @@ def c2d(args):
                         "status": s.get("status"), "messages": q.get("messages"),
                         "unacked": q.get("messages_unacknowledged")})
         time.sleep(5)
-    logs = sh(["docker", "logs", "--since", since_dt.isoformat(), container("video_tool")], check=False)
-    tracebacks = (logs.stdout + logs.stderr).count("Traceback")
+    tracebacks = 0
+    for n in worker_containers():
+        logs = sh(["docker", "logs", "--since", since_dt.isoformat(), n], check=False)
+        tracebacks += (logs.stdout + logs.stderr).count("Traceback")
     q_end = queue()
     out["poison_pill"] = {
         "msg_id": mid, "window_s": args.poison_window,
@@ -436,15 +473,16 @@ def c2d(args):
     log(f"  -> worker restarts {out['poison_pill']['worker_restarts_in_window']}, "
         f"tracebacks {tracebacks}, still queued {out['poison_pill']['message_still_in_queue']}")
     # clean-up: remove the poison message so the stack is usable again
-    requests.delete(f"{RABBIT_API}/queues/%2F/video_queue/contents", auth=RABBIT_AUTH, timeout=10)
-    out["poison_pill"]["cleanup"] = "video_queue purged through the management API"
+    requests.delete(f"{RABBIT_API}/queues/%2F/{edit_queue()}/contents", auth=RABBIT_AUTH, timeout=10)
+    out["poison_pill"]["cleanup"] = "edit queue purged through the management API"
 
     # ---- dead-letter configuration
     qs = requests.get(f"{RABBIT_API}/queues/%2F", auth=RABBIT_AUTH, timeout=10).json()
     out["dead_letter"] = {
         "queues_with_dlx": [q["name"] for q in qs if "x-dead-letter-exchange" in (q.get("arguments") or {})],
         "queues_named_dead_or_dlq": [q["name"] for q in qs if "dead" in q["name"] or "dlq" in q["name"]],
-        "video_queue_arguments": next((q.get("arguments") for q in qs if q["name"] == "video_queue"), None),
+        "messages_in_dead_letter_queues": {q["name"]: q.get("messages") for q in qs if "dead" in q["name"] or "dlq" in q["name"]},
+        "video_queue_arguments": {q["name"]: q.get("arguments") for q in qs if q["name"].startswith("video_")},
         "policies": requests.get(f"{RABBIT_API}/policies", auth=RABBIT_AUTH, timeout=10).json(),
     }
     out["heal"] = heal("c2d")
@@ -452,15 +490,105 @@ def c2d(args):
     return out
 
 
+# --------------------------------------------------------------------------- C2-E
+def c2e(args):
+    """Real crash (SIGKILL to the process, not a manual stop) at >= 50 %, `reps` times."""
+    reps = []
+    for rep in range(1, args.reps + 1):
+        log(f"C2-E worker process crash rep={rep}")
+        heal(f"pre-c2e-{rep}")
+        wait_idle()
+        u = Client()
+        ev = Events(u)
+        pid, _ = prepare(u, f"c2e-r{rep}", SHORT)
+        since = iso(time.time() - 2)
+        t0, _, st, _ = u.process(pid)
+        p = wait_progress(ev, t0, 50)
+        victim = job_container(since)
+        before = state(None, victim)
+        t_req = time.time()
+        sent = crash(victim)
+        restarted = None
+        while time.time() - t_req < 60:
+            s = state(None, victim)
+            if s.get("running") and s["started_at"] != before["started_at"]:
+                restarted = round(time.time() - t_req, 2)
+                break
+            time.sleep(0.2)
+        d = ev.wait_for(lambda e: e["event"] in DONE, 600, t_req)
+        time.sleep(2)
+        w = next((x for m, x in worker_events(since).items() if m.startswith("request-")), {})
+        rec = {"rep": rep, "http_status": st, "percent": p and p["data"]["percent"], "victim": victim,
+               "signal_sent": sent is not None, "auto_restart_seen_after_s": restarted,
+               "restart_count_before": before["restart_count"],
+               "restart_count_after": state(None, victim)["restart_count"],
+               "worker_starts": len(w.get("starts", [])), "containers": w.get("containers"),
+               "completion_event": d and d["event"],
+               "recovery_s_from_request": round(d["t"] - t_req, 3) if d else None,
+               "state": project_state(pid), "integrity": out_integrity(u.user_id, pid)}
+        log(f"  -> restart {restarted} s, starts {rec['worker_starts']}, {rec['completion_event']} "
+            f"in {rec['recovery_s_from_request']} s, partial {rec['integrity']['partial_files']}")
+        reps.append(rec)
+        ev.close()
+    heal("c2e")
+    save_json("c2e_worker_crash.json", {"scenario": "C2-E", "reps": reps})
+
+
+# --------------------------------------------------------------------------- C2-F
+def c2f(args):
+    """A valid job whose worker process dies on every attempt: how many attempts are made?"""
+    log(f"C2-F job that kills its worker on every attempt (at most {args.max_crashes} crashes)")
+    heal("pre-c2f")
+    wait_idle()
+    u = Client()
+    ev = Events(u)
+    pid, _ = prepare(u, "c2f", SHORT)
+    since = iso(time.time() - 2)
+    t0, _, st, _ = u.process(pid)
+    crashes, done, msg = 0, None, None
+    quiet_until = time.time() + 90
+    while crashes < args.max_crashes and time.time() < quiet_until:
+        done = next((e for e in ev.snapshot() if e["event"] in DONE and e["t"] >= t0), None)
+        if done:
+            break
+        for m, w in worker_events(since).items():
+            if m.startswith("request-") and len(w["starts"]) > crashes:
+                msg = m
+                crash(w["containers"][-1])
+                crashes += 1
+                quiet_until = time.time() + 90
+                log(f"  crash {crashes} ({w['containers'][-1]})")
+                break
+        time.sleep(0.3)
+    if not done and crashes >= args.max_crashes:
+        log("  no attempt limit reached: letting the job run")
+    time.sleep(10)
+    q = queue()
+    starts = len(worker_events(since).get(msg, {}).get("starts", [])) if msg else 0
+    stopped_by_limit = crashes < args.max_crashes
+    done = done or ev.wait_for(lambda e: e["event"] in DONE, 60, t0)
+    qs = requests.get(f"{RABBIT_API}/queues/%2F", auth=RABBIT_AUTH, timeout=10).json()
+    out = {"scenario": "C2-F", "http_status": st, "msg_id": msg, "crashes_injected": crashes,
+           "attempts": starts, "stopped_by_limit": stopped_by_limit, "queue_after": q,
+           "user_event": done and done["event"], "user_event_data": done and done["data"],
+           "dead_letter": {x["name"]: x.get("messages") for x in qs if "dead" in x["name"] or "dlq" in x["name"]},
+           "state": project_state(pid)}
+    log(f"  -> attempts {starts}, limited {stopped_by_limit}, user event {out['user_event']}, DLQ {out['dead_letter']}")
+    ev.close()
+    heal("c2f")
+    save_json("c2f_repeated_crash.json", out)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("scenario", choices=["c2a", "c2b", "c2c", "c2d", "all"])
+    ap.add_argument("scenario", choices=["c2a", "c2b", "c2c", "c2d", "c2e", "c2f", "all"])
     ap.add_argument("--reps", type=int, default=3, help="C2-B repetitions")
     ap.add_argument("--pause-window", type=int, default=120)
-    ap.add_argument("--storage-down", type=int, default=30)
+    ap.add_argument("--storage-down", type=int, default=40)
+    ap.add_argument("--max-crashes", type=int, default=6, help="C2-F: stop injecting after this many")
     ap.add_argument("--poison-window", type=int, default=90)
     args = ap.parse_args()
-    fns = {"c2a": c2a, "c2b": c2b, "c2c": c2c, "c2d": c2d}
+    fns = {"c2a": c2a, "c2b": c2b, "c2c": c2c, "c2d": c2d, "c2e": c2e, "c2f": c2f}
     for name in (fns if args.scenario == "all" else [args.scenario]):
         fns[name](args)
 

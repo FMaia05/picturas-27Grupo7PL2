@@ -43,7 +43,7 @@ ao MongoDB do `projects`. As contas de teste são criadas como `premium` atravé
 | Tempo de serviço (s) | linha `[video] msg=… ok` − início do trabalho | VM do Docker |
 | Tempo fim-a-fim (s) | chegada do evento Socket.IO (`process-update` / `preview-ready`) − envio do pedido HTTP | anfitrião |
 | Débito (vídeos/min) | N concluídos / (última conclusão − primeiro envio) × 60 | anfitrião |
-| Pico de CPU / RAM | máximo de `docker stats --no-stream` amostrado a cada ~1 s (CPU em % de 1 núcleo; 1600 % = 16 CPUs) | anfitrião |
+| Pico de CPU / RAM | máximo de `docker stats --no-stream` amostrado a cada ~2 s (o script pede 1 s, mas cada chamada demora ~2 s: período medido 2,0–2,1 s; picos mais curtos podem escapar) (CPU em % de 1 núcleo; 1600 % = 16 CPUs) | anfitrião |
 | Percentis | método do posto mais próximo, sem interpolação (com 3 amostras, p95 = máximo) | — |
 
 ---
@@ -60,8 +60,8 @@ threads) sobre `sample_10s_720p.mp4` com `brightness + contrast + saturation` (f
 | N | Trabalhos concluídos | Débito médio (vídeos/min) [mín–máx] | *Makespan* médio (s) | Espera em fila média / máx. (s) | Tempo de serviço médio (s) | Fim-a-fim p50 / máx. (s) | Pico CPU `video_tool` | Pico RAM `video_tool` |
 |---|---|---|---|---|---|---|---|---|
 | 1 | 3/3 | **5,48** [5,24–5,62] | 10,96 | 0,05 / 0,06 | 11,11 | 10,76 / 11,45 | 254 % | 603 MB |
-| 2 | 6/6 | **5,38** [4,83–5,67] | 22,45 | 5,91 / 15,02 | 11,09 | 17,60 / 24,85 | 278 % | 614 MB |
-| 4 | 12/12 | **5,37** [4,81–5,65] | 44,93 | 17,84 / 38,96 | 10,90 | 30,71 / 49,85 | 331 % | 632 MB |
+| 2 | 6/6 | **5,38** [4,83–5,67] | 22,45 | 5,91 / 15,02 | 11,09 | 14,03 / 24,85 | 278 % | 614 MB |
+| 4 | 12/12 | **5,37** [4,81–5,65] | 44,93 | 17,84 / 38,96 | 10,90 | 29,24 / 49,85 | 331 % | 632 MB |
 
 **Leitura.** O débito **não cresce com N** (≈ 5,4 vídeos/min em todos os níveis) e o *makespan*
 cresce linearmente (≈ 11 s × N). A espera em fila do k-ésimo trabalho é ≈ (k − 1) × 10 s, como se
@@ -112,10 +112,10 @@ o de C1-A com N = 1 (serviço ≈ 11 s). Dados: `results/c2*_*.json` e `results/
 | | Execuções presas | **4/4**: `Process` pendente, `activeToken = 1`, `committedToken = 0`, nenhum evento enviado ao utilizador em 180 s |
 | | Recuperação dos serviços | Depois do reinício, o `projects` continuou em execução mas ficou com **0 consumidores na `project_queue`**: não volta a ligar-se ao broker. Foi preciso `docker compose restart projects` (observado em duas execuções). O `ws_gateway` voltou a ligar-se sozinho. |
 | **C2-B** `docker kill` ao `video_tool` a 51 % (H-05), 3 repetições | Reentrega | **3/3 reentregues** (2 inícios do mesmo `msg_id` no log); concluídos com `process-update` |
-| | Reinício automático do worker | **0/3**. Com `restart: on-failure`, um `docker kill` conta como paragem manual: o contentor ficou parado até ser arrancado à mão (30 s depois do kill, pelo script) |
-| | Tempo kill → conclusão | 53,16 / 58,89 / 50,53 s (média **54,2 s**, inclui os 30 s até ao arranque manual) |
+| | Reinício automático do worker | **Não avaliável neste cenário (0/3).** O Docker trata `docker kill` como paragem manual e ignora `restart: on-failure`. É um artefacto da injeção, não uma fragilidade: numa queda do processo o contentor reinicia sozinho (C2-D(2c): 2 reinícios em 5,4 s) |
+| | Tempo kill → conclusão | 53,16 / 58,89 / 50,53 s (média 54,2 s). Destes, **39,5–41,0 s são espera do script** até arrancar o contentor à mão; do arranque até concluir: **12,1 / 19,4 / 11,1 s (média 14,2 s)** |
 | | Integridade | 0 ficheiros parciais (`.part`); `out/sample_10s_720p.mp4` válido no `ffprobe`; 1 resultado; execução *committed* |
-| **C2-C** `docker pause` ao `video_tool` a 51 % durante 120 s (H-10) | Mensagem recuperada pelo broker | **Nunca**: `messages_unacknowledged = 1` e `messages_ready = 0` dos 5 s aos 115 s (a amostra dos 0,2 s ainda mostrava estatísticas anteriores); consumidor sempre «ativo» (`heartbeat = 0`) |
+| **C2-C** `docker pause` ao `video_tool` a 51 % durante 120 s (H-10) | Mensagem recuperada pelo broker | **Não, na janela observada (última amostra aos 115,5 s)**: `messages_unacknowledged = 1` e `messages_ready = 0` dos 5 s aos 115 s (a amostra dos 0,2 s ainda mostrava estatísticas anteriores); consumidor sempre «ativo» (`heartbeat = 0`). O RabbitMQ 4.0.5 tem `consumer_timeout` = 1 800 000 ms (30 min, lido do broker), por isso a retenção não é ilimitada; o comportamento depois dos 115,5 s não foi medido |
 | | Informação ao utilizador | Só eventos `video-progress` anteriores à pausa; nenhum erro nem *timeout* em 120 s |
 | | Depois do `unpause` | Concluído em 4,87 s (1 início, sem reentrega) |
 | **C2-D(1)** `img_storage` parado enquanto o `projects` trata a resposta (H-07) | Resultado | O worker concluiu (`ok`), mas o `projects` falhou ao guardar a saída: **evento `process-error` 30000** genérico; resultado **perdido** (0 `Result`) |
@@ -123,7 +123,7 @@ o de C1-A com N = 1 (serviço ≈ 11 s). Dados: `results/c2*_*.json` e `results/
 | | Recuperação | Só manual: novo *Apply* → `process-update` |
 | **C2-D(2a)** trim inválido (50–60 s num vídeo de 10 s) pela API | Tratamento | Aceite pela API (201) e rejeitado pelo worker: `process-error` 2003 em 0,28 s, **1 tentativa** |
 | **C2-D(2b)** mensagem com ficheiro de entrada inexistente | Tratamento | Erro tratado pelo worker, **1 tentativa**, fila vazia ao fim de 20 s |
-| **C2-D(2c)** mensagem malformada (`tools` não é lista) injetada na `video_queue` | Tentativas / reinícios | **10 reinícios do `video_tool` e 10 *tracebacks* em 90 s**; a mensagem continuava na fila no fim (ciclo infinito), com o serviço de vídeo indisponível. Foi preciso purgar a fila e reiniciar o worker |
+| **C2-D(2c)** mensagem malformada (`tools` não é lista) injetada na `video_queue` | Tentativas / reinícios | **10 reinícios do `video_tool` e 10 *tracebacks* em 90 s**; a mensagem continuava na fila no fim (sem limite de tentativas configurado; só foram observados 90 s). A mensagem foi injetada diretamente no broker: não se mostrou que a API pública a consiga produzir, com o serviço de vídeo indisponível. Foi preciso purgar a fila e reiniciar o worker |
 | Configuração de *dead-letter* | Filas com DLX / DLQ | **Nenhuma** (`video_queue`: `{"x-queue-type": "classic"}`; sem políticas) |
 
 **Leitura.**
@@ -133,7 +133,7 @@ o de C1-A com N = 1 (serviço ≈ 11 s). Dados: `results/c2*_*.json` e `results/
 - **H-05 confirmada nas duas vertentes:** a confirmação manual no fim faz a morte do worker ser
   recuperada por reentrega, sem ficheiros parciais; mas uma mensagem venenosa gera reentregas sem
   limite.
-- **H-10 confirmada:** um worker bloqueado retém a mensagem indefinidamente.
+- **H-10 confirmada:** um worker bloqueado retém a mensagem durante toda a janela observada (> 115 s); só o `consumer_timeout` de 30 min a limitaria.
 - **H-07:** confirmada na forma «falha de dependência durante o tratamento da resposta → trabalho
   perdido sem nova tentativa». A causa no código é o `channel.ack` imediato em `read_rabbit_msg`
   combinado com `Process.delete` antes do upload. O utilizador recebe um erro genérico.
@@ -154,8 +154,8 @@ resultado.
 | CAND-1 | Pico de RAM do `video_tool` (MB) | 632 (efeitos) / 2533 (legendagem) | Limite explícito por contentor que caiba nos 7,46 GiB da VM com réplicas |
 | CAND-2 | Perda em reinício do broker (%) | 100 % (4/4) e 4 execuções presas | alvo 0 % / mínimo 0 % (`REQ-VID-FAIL-004`) |
 | CAND-2 | Recuperação automática do orquestrador após reinício do broker | não (0 consumidores, reinício manual) | alvo: sim, sem intervenção |
-| CAND-2 | Trabalhos recuperados após morte do worker (%) | 100 % reentregues, mas 0 % de reinícios automáticos; 54,2 s com arranque manual aos 30 s | alvo 100 % sem intervenção; tempo a fixar |
-| CAND-2 | Tempo até libertar a mensagem de um worker bloqueado (s) | ∞ (> 120 s) | p.ex. ≤ 2 × intervalo de *heartbeat* |
+| CAND-2 | Trabalhos recuperados após morte do worker (%) | 100 % reentregues e concluídos (3/3), 0 ficheiros parciais; 14,2 s em média desde o arranque do contentor (54,2 s totais incluem ~40 s de espera do script) | não usar 54,2 s como termo de comparação; repetir com uma queda real do processo |
+| CAND-2 | Tempo até libertar a mensagem de um worker bloqueado (s) | > 115 s (não medido além disso; `consumer_timeout` = 30 min) | p.ex. ≤ 2 × intervalo de *heartbeat* |
 | CAND-2 | Tentativas de uma mensagem venenosa antes de DLQ | ilimitadas (10 reinícios em 90 s), sem DLQ | alvo R ≤ 3 e encaminhamento para DLQ |
 | CAND-2 | Resultados perdidos por falha transitória do `img_storage` | 1/1 perdido, 0 novas tentativas | alvo 0 perdidos |
 
@@ -174,9 +174,11 @@ resultado.
   O aquecimento (`results/c1_warmup.json`) confirmou que o modelo carrega da cache. O primeiro
   aquecimento, interrompido pelo download parado, foi retirado da fila e descartado.
 - **Atrasos nas observações.** As estatísticas da API de gestão do RabbitMQ atualizam a cada
-  ~5 s; os scripts esperam que estabilizem antes de ler. Os carimbos de tempo do `docker logs`
-  podem atrasar ~1 s: em 3 dos 21 trabalhos do C1-A o tempo de serviço (VM) excede o fim-a-fim
-  (anfitrião) em 0,74–1,04 s. Os relógios do anfitrião e da VM nunca são subtraídos entre si.
+  ~5 s; os scripts esperam que estabilizem antes de ler. O relógio da VM
+  desvia-se do anfitrião de forma variável: a publicação (VM) surge entre 0,43 s antes e 1,43 s
+  depois do envio (anfitrião) e, em 3 dos 21 trabalhos do C1-A, o tempo de serviço (VM) excede o
+  fim-a-fim (anfitrião) em 0,74–1,04 s. Espera em fila e tempo de serviço têm por isso um erro da
+  ordem de 1–1,5 s; débito e fim-a-fim usam só o relógio do anfitrião e não são afetados.
 - **Correção durante a medição.** A primeira execução do C1-B emparelhou os eventos
   `preview-ready` com desfasamento de um, porque os eventos não trazem ID e o relógio do Windows
   tem resolução de ~15 ms. Foi descartada (`results/invalid/`) e repetida com emparelhamento por
@@ -189,3 +191,11 @@ resultado.
 - **Carga do RabbitMQ.** O `rabbitmq` registou picos de CPU de ~200–350 % com N = 4 e durante a
   legendagem. A causa não foi investigada: pode incluir as consultas da própria monitorização (API de
   gestão). A comparação antes/depois tem de usar os mesmos scripts.
+
+## Correções a este documento
+
+**2026-11-25** (dados brutos inalterados): C2-B separa a espera do script (~40 s, não 30 s) do tempo
+de recuperação e deixa de apresentar a ausência de reinício como fragilidade; C2-C deixa de afirmar
+retenção «indefinida»/∞; p50 do C1-A com N = 2 e 4 recalculados pelo posto mais próximo (estavam
+interpolados: 17,60 e 30,71 s); período real de amostragem de `docker stats`; causa do desvio entre
+relógios.

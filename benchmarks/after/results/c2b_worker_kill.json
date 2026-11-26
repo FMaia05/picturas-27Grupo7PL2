@@ -1,0 +1,392 @@
+{
+  "scenario": "C2-B",
+  "reps": [
+    {
+      "rep": 1,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T15:02:47.163738+00:00",
+      "restart_count_before": 1,
+      "restart_count_after": 0,
+      "victim": "picturas-after-video_tool-2",
+      "containers": [
+        "picturas-after-video_tool-2",
+        "picturas-after-video_tool-1"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T15:03:28.185747+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 4,
+        "queues": {
+          "video_preview_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_preview_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_queue": {
+            "messages": 1,
+            "messages_ready": 0,
+            "messages_unacknowledged": 1,
+            "consumers": 2,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_subtitles_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_subtitles_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-cedf06b7-4700-4100-83f2-f62046ce5b2b",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 10.403,
+      "first_attempt_to_kill_s": 7.268,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b084a0f69bc983ca6a7b044",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/request-cedf06b7-4700-4100-83f2-f62046ce5b2b/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3482077"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T15:02:47.758200+00:00"
+    },
+    {
+      "rep": 2,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T15:03:49.951500+00:00",
+      "restart_count_before": 2,
+      "restart_count_after": 0,
+      "victim": "picturas-after-video_tool-1",
+      "containers": [
+        "picturas-after-video_tool-1",
+        "picturas-after-video_tool-2"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T15:04:31.513676+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 4,
+        "queues": {
+          "video_preview_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_preview_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_queue": {
+            "messages": 1,
+            "messages_ready": 0,
+            "messages_unacknowledged": 1,
+            "consumers": 2,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_subtitles_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_subtitles_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-ad1fea3b-6eea-40d8-91ff-0f143f16e1d0",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 10.205,
+      "first_attempt_to_kill_s": 7.047,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b084a4f69bc983ca6a7b0b7",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/request-ad1fea3b-6eea-40d8-91ff-0f143f16e1d0/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3833486"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T15:03:49.225248+00:00"
+    },
+    {
+      "rep": 3,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T15:04:53.556480+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "victim": "picturas-after-video_tool-2",
+      "containers": [
+        "picturas-after-video_tool-2",
+        "picturas-after-video_tool-1"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T15:05:35.305851+00:00",
+      "queue_right_after_kill": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 4,
+        "queues": {
+          "video_preview_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_preview_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 2,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          },
+          "video_subtitles_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-dead-letter-exchange": "picturas.dlx",
+              "x-dead-letter-routing-key": "video_subtitles_dlq",
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-bf39db62-e492-42b5-911f-42624a5eb200",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 10.061,
+      "first_attempt_to_kill_s": 7.602,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b084a8c69bc983ca6a7b12a",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/request-bf39db62-e492-42b5-911f-42624a5eb200/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3663361"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T15:04:53.262735+00:00"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "scenario": "C2-F",
+  "http_status": 201,
+  "msg_id": "request-c94fc121-04ab-4d87-93ed-2e1766f711b9",
+  "crashes_injected": 6,
+  "attempts": 7,
+  "stopped_by_limit": false,
+  "queue_after": {
+    "messages": 1,
+    "messages_ready": 0,
+    "messages_unacknowledged": 1,
+    "consumers": 0,
+    "queues": {
+      "video_queue": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      }
+    }
+  },
+  "user_event": "process-update",
+  "user_event_data": "update-client-process-5582ad41-4916-415c-88e2-f0bc8ab0c95c",
+  "dead_letter": {},
+  "state": {
+    "pending_process_docs": 0,
+    "result_rows": [
+      {
+        "img_id": "6b06c9538f1b3c171341685e",
+        "type": "video",
+        "file_name": "sample_10s_720p.mp4",
+        "token": 1
+      }
+    ],
+    "tokens": {
+      "activeToken": 1,
+      "committedToken": 1
+    }
+  }
+}

@@ -1,0 +1,9 @@
+[17:12:04] 4K sample: 44.6 MB
+[17:13:34] edit: committed 
+[17:14:15] preview: {'event': 'preview-ready', 'data': None}
+[17:15:28] subtitles: committed 
+[17:15:32]   picturas-after-video_tool-1: {'restarts': 0, 'oom_killed': 'false', 'limit_mb': 896, 'oom_kills_in_cgroup': 0, 'peak_mb': 20}
+[17:15:32]   picturas-after-video_tool-2: {'restarts': 0, 'oom_killed': 'false', 'limit_mb': 896, 'oom_kills_in_cgroup': 0, 'peak_mb': 22}
+[17:15:32]   picturas-after-video_preview_tool-1: {'restarts': 0, 'oom_killed': 'false', 'limit_mb': 768, 'oom_kills_in_cgroup': 0, 'peak_mb': 23}
+[17:15:32]   picturas-after-video_subtitles_tool-1: {'restarts': 0, 'oom_killed': 'false', 'limit_mb': 3072, 'oom_kills_in_cgroup': 0, 'peak_mb': 3072}
+[17:15:32] saved benchmarks\after\results\c4k.json

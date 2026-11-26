@@ -1,0 +1,4 @@
+[17:25:11] C2-C worker paused for 120 s
+[17:25:46]   paused at 51 %
+[17:28:33]   -> taken back after 48.3 s; unacked whole window False; after unpause process-update in -57.311 s
+[17:28:33] saved benchmarks\after\results\c2c_worker_pause.json

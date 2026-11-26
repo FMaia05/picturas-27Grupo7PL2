@@ -1,0 +1,325 @@
+{
+  "scenario": "C2-D",
+  "storage_failure": {
+    "http_status": 201,
+    "first_event_after_stop_s": 51.4,
+    "storage_down_s": 43.3,
+    "first_event": "process-update",
+    "first_event_data": "update-client-process-d7d4bb85-0db9-40f8-8594-ffe5fc8a4054",
+    "worker_finished_ok": true,
+    "worker_starts": 1,
+    "project_queue_after": {
+      "messages": 1,
+      "messages_ready": 0,
+      "messages_unacknowledged": 1,
+      "consumers": 1,
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "picturas.dlx",
+        "x-dead-letter-routing-key": "project_dlq",
+        "x-queue-type": "classic"
+      },
+      "policy": null
+    },
+    "state_while_storage_down": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "state_60s_after_storage_back": {
+      "pending_process_docs": 0,
+      "result_rows": [
+        {
+          "img_id": "6b080a12b3ff346fccb6461d",
+          "type": "video",
+          "file_name": "sample_10s_720p.mp4",
+          "token": 1
+        }
+      ],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 1
+      }
+    },
+    "process_error_events": 0,
+    "retried_automatically": false,
+    "reapply_status": 201,
+    "reapply_event": "process-update"
+  },
+  "invalid_trim": {
+    "http_status": 201,
+    "http_body": "\"Created\"",
+    "event": "process-error",
+    "event_data": {
+      "error_code": 2003,
+      "error_msg": "Trim [50.0, 60.0] s is outside the video duration (10.00 s)"
+    },
+    "seconds": 0.449,
+    "worker_attempts": 1,
+    "state": {
+      "pending_process_docs": 0,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    }
+  },
+  "missing_input": {
+    "msg_id": "request-bench-missing-485b23cb-a942-4113-9cd7-36a2dad621fd",
+    "worker_attempts": 1,
+    "queue_after_20s": {
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 4,
+      "queues": {
+        "video_preview_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 1,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_preview_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        },
+        "video_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 2,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        },
+        "video_subtitles_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 1,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_subtitles_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        }
+      }
+    }
+  },
+  "poison_pill": {
+    "msg_id": "request-bench-poison-fba766a3-f6ce-426b-94fb-5e5831ab8d44",
+    "window_s": 90,
+    "worker_restarts_in_window": 0,
+    "tracebacks_in_window": 0,
+    "queue_at_end": {
+      "messages": 0,
+      "messages_ready": 0,
+      "messages_unacknowledged": 0,
+      "consumers": 4,
+      "queues": {
+        "video_preview_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 1,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_preview_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        },
+        "video_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 2,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        },
+        "video_subtitles_queue": {
+          "messages": 0,
+          "messages_ready": 0,
+          "messages_unacknowledged": 0,
+          "consumers": 1,
+          "durable": true,
+          "arguments": {
+            "x-dead-letter-exchange": "picturas.dlx",
+            "x-dead-letter-routing-key": "video_subtitles_dlq",
+            "x-queue-type": "classic"
+          },
+          "policy": null
+        }
+      }
+    },
+    "message_still_in_queue": false,
+    "samples": [
+      {
+        "t_s": 1.8,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 8.5,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 15.3,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 22.3,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 29.2,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 36.1,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 42.8,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 49.6,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 56.7,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 63.5,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 70.3,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 77.3,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 84.0,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      },
+      {
+        "t_s": 90.8,
+        "restart_count": 0,
+        "status": "running running running running",
+        "messages": 0,
+        "unacked": 0
+      }
+    ],
+    "cleanup": "edit queue purged through the management API"
+  },
+  "dead_letter": {
+    "queues_with_dlx": [
+      "project_queue",
+      "video_preview_queue",
+      "video_queue",
+      "video_subtitles_queue"
+    ],
+    "queues_named_dead_or_dlq": [
+      "project_dlq",
+      "video_dlq",
+      "video_preview_dlq",
+      "video_subtitles_dlq"
+    ],
+    "messages_in_dead_letter_queues": {
+      "project_dlq": 2,
+      "video_dlq": 3,
+      "video_preview_dlq": 0,
+      "video_subtitles_dlq": 1
+    },
+    "video_queue_arguments": {
+      "video_dlq": {
+        "x-queue-type": "classic"
+      },
+      "video_preview_dlq": {
+        "x-queue-type": "classic"
+      },
+      "video_preview_queue": {
+        "x-dead-letter-exchange": "picturas.dlx",
+        "x-dead-letter-routing-key": "video_preview_dlq",
+        "x-queue-type": "classic"
+      },
+      "video_queue": {
+        "x-dead-letter-exchange": "picturas.dlx",
+        "x-dead-letter-routing-key": "video_dlq",
+        "x-queue-type": "classic"
+      },
+      "video_subtitles_dlq": {
+        "x-queue-type": "classic"
+      },
+      "video_subtitles_queue": {
+        "x-dead-letter-exchange": "picturas.dlx",
+        "x-dead-letter-routing-key": "video_subtitles_dlq",
+        "x-queue-type": "classic"
+      }
+    },
+    "policies": []
+  },
+  "heal": []
+}

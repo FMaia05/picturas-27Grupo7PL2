@@ -4,6 +4,6 @@ nginx frontend api_gateway users users_mongoDB
 # Orchestrator, broker, storage, real-time events
 projects projects_mongoDB rabbitmq seaweedfs img_storage ws_gateway
 # Video worker
-video_tool
+video_tool video_preview_tool video_subtitles_tool
 # PIL image tools (idle during the video scenarios, kept so the broker topology is realistic)
 binarization_tool border_tool brightness_tool contrast_tool cut_tool resize_tool rotate_tool saturation_tool

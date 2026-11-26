@@ -1,0 +1,33 @@
+[14:19:04] C1-A N=1 rep=1: preparing 1 users/projects
+[14:19:16]   POST statuses [201]
+[14:19:33]   -> 1/1 done, makespan 11.504 s, throughput 5.216 v/min, wait max 0.063 s
+[14:19:33] C1-A N=2 rep=1: preparing 2 users/projects
+[14:19:38]   POST statuses [201, 201]
+[14:20:24]   -> 2/2 done, makespan 38.854 s, throughput 3.088 v/min, wait max 12.485 s
+[14:20:24] C1-A N=4 rep=1: preparing 4 users/projects
+[14:20:33]   POST statuses [201, 201, 201, 201]
+[14:22:10]   -> 4/4 done, makespan 90.689 s, throughput 2.646 v/min, wait max 69.828 s
+[14:22:10] C1-A N=1 rep=2: preparing 1 users/projects
+[14:22:15]   POST statuses [201]
+[14:22:37]   -> 1/1 done, makespan 18.211 s, throughput 3.295 v/min, wait max 0.058 s
+[14:22:37] C1-A N=2 rep=2: preparing 2 users/projects
+[14:22:41]   POST statuses [201, 201]
+[14:23:08]   -> 2/2 done, makespan 21.255 s, throughput 5.646 v/min, wait max 11.287 s
+[14:23:08] C1-A N=4 rep=2: preparing 4 users/projects
+[14:23:14]   POST statuses [201, 201, 201, 201]
+[14:24:04]   -> 4/4 done, makespan 43.914 s, throughput 5.465 v/min, wait max 31.792 s
+[14:24:04] C1-A N=1 rep=3: preparing 1 users/projects
+[14:24:08]   POST statuses [201]
+[14:24:23]   -> 1/1 done, makespan 11.092 s, throughput 5.409 v/min, wait max 0.056 s
+[14:24:23] C1-A N=2 rep=3: preparing 2 users/projects
+[14:24:30]   POST statuses [201, 201]
+[14:25:07]   -> 2/2 done, makespan 31.561 s, throughput 3.802 v/min, wait max 15.117 s
+[14:25:07] C1-A N=4 rep=3: preparing 4 users/projects
+[14:25:19]   POST statuses [201, 201, 201, 201]
+[14:26:02]   -> 4/4 done, makespan 43.429 s, throughput 5.526 v/min, wait max 26.704 s
+[14:26:27] saved benchmarks\after\results_base\c1a_summary.json
+[14:26:27] saved benchmarks\after\results_base\c1a_jobs.csv
+[14:26:27] saved benchmarks\after\results_base\c1a_docker_stats.csv
+[14:26:27] C1-A N=1: {'N': 1, 'reps': 3, 'throughput_mean': 4.64, 'throughput_min': 3.295, 'throughput_max': 5.409, 'makespan_mean_s': 13.602, 'queue_wait_mean_s': 0.059, 'queue_wait_max_s': 0.063, 'service_mean_s': 13.764, 'e2e_mean_s': 13.602, 'e2e_p95_s': 18.211, 'worker_cpu_pct_max_per_container': 300.33, 'worker_mem_mb_max_per_container': 1188.864, 'completed': 3, 'submitted': 3}
+[14:26:27] C1-A N=2: {'N': 2, 'reps': 3, 'throughput_mean': 4.179, 'throughput_min': 3.088, 'throughput_max': 5.646, 'makespan_mean_s': 30.557, 'queue_wait_mean_s': 6.511, 'queue_wait_max_s': 15.117, 'service_mean_s': 15.391, 'e2e_mean_s': 22.102, 'e2e_p95_s': 38.854, 'worker_cpu_pct_max_per_container': 356.92, 'worker_mem_mb_max_per_container': 1247.232, 'completed': 6, 'submitted': 6}
+[14:26:27] C1-A N=4: {'N': 4, 'reps': 3, 'throughput_mean': 4.546, 'throughput_min': 2.646, 'throughput_max': 5.526, 'makespan_mean_s': 59.344, 'queue_wait_mean_s': 21.941, 'queue_wait_max_s': 69.828, 'service_mean_s': 14.834, 'e2e_mean_s': 37.4, 'e2e_p95_s': 90.6, 'worker_cpu_pct_max_per_container': 324.9, 'worker_mem_mb_max_per_container': 1234.944, 'completed': 12, 'submitted': 12}

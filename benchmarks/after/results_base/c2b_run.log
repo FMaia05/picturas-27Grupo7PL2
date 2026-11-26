@@ -1,0 +1,13 @@
+[14:39:38] C2-B worker kill rep=1
+[14:39:52]   killed picturas-baseline-video_tool-1 at 51 %
+[14:40:31]   video_tool did not restart by itself in 30 s: starting it by hand
+[14:40:49]   -> redelivered=True completion=process-update recovery 51.638 s, auto restart None s, partial files []
+[14:40:49] C2-B worker kill rep=2
+[14:41:04]   killed picturas-baseline-video_tool-1 at 51 %
+[14:41:43]   video_tool did not restart by itself in 30 s: starting it by hand
+[14:41:59]   -> redelivered=True completion=process-update recovery 50.455 s, auto restart None s, partial files []
+[14:41:59] C2-B worker kill rep=3
+[14:42:13]   killed picturas-baseline-video_tool-1 at 51 %
+[14:42:52]   video_tool did not restart by itself in 30 s: starting it by hand
+[14:43:08]   -> redelivered=True completion=process-update recovery 50.045 s, auto restart None s, partial files []
+[14:43:14] saved benchmarks\after\results_base\c2b_worker_kill.json

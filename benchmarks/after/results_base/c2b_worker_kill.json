@@ -1,0 +1,308 @@
+{
+  "scenario": "C2-B",
+  "reps": [
+    {
+      "rep": 1,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T14:39:51.991494+00:00",
+      "restart_count_before": 68,
+      "restart_count_after": 0,
+      "victim": "picturas-baseline-video_tool-1",
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T14:40:31.345422+00:00",
+      "queue_right_after_kill": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 1,
+        "queues": {
+          "video_queue": {
+            "messages": 0,
+            "messages_ready": 0,
+            "messages_unacknowledged": 0,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-ebb49c6e-8daa-4a2b-aa6e-03565cc37208",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 51.638,
+      "first_attempt_to_kill_s": 6.63,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b0844b0bd82971791b9753b",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3558179"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T14:40:31.854466+00:00"
+    },
+    {
+      "rep": 2,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T14:41:03.672533+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "victim": "picturas-baseline-video_tool-1",
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T14:41:43.036872+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 1,
+        "queues": {
+          "video_queue": {
+            "messages": 1,
+            "messages_ready": 0,
+            "messages_unacknowledged": 1,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-c54b18fe-419e-46c5-89ba-beb133e97bbc",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 50.455,
+      "first_attempt_to_kill_s": 7.335,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b0844f7bd82971791b975ad",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3566649"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T14:41:42.682625+00:00"
+    },
+    {
+      "rep": 3,
+      "http_status": 201,
+      "killed_at_percent": 51,
+      "kill_at": "2026-11-26T14:42:12.856665+00:00",
+      "restart_count_before": 0,
+      "restart_count_after": 0,
+      "victim": "picturas-baseline-video_tool-1",
+      "containers": [
+        "picturas-baseline-video_tool-1",
+        "picturas-baseline-video_tool-1"
+      ],
+      "auto_restart_after_s": null,
+      "manual_start_at": "2026-11-26T14:42:52.336935+00:00",
+      "queue_right_after_kill": {
+        "messages": 1,
+        "messages_ready": 0,
+        "messages_unacknowledged": 1,
+        "consumers": 1,
+        "queues": {
+          "video_queue": {
+            "messages": 1,
+            "messages_ready": 0,
+            "messages_unacknowledged": 1,
+            "consumers": 1,
+            "durable": true,
+            "arguments": {
+              "x-queue-type": "classic"
+            },
+            "policy": null
+          }
+        }
+      },
+      "msg_id": "request-4a5e8077-ea50-4985-b378-4487c5cad032",
+      "worker_starts": 2,
+      "redelivered": true,
+      "completion_event": "process-update",
+      "recovery_total_s": 50.045,
+      "first_attempt_to_kill_s": 6.334,
+      "state": {
+        "pending_process_docs": 0,
+        "result_rows": [
+          {
+            "img_id": "6b08453ebd82971791b9761f",
+            "type": "video",
+            "file_name": "sample_10s_720p.mp4",
+            "token": 1
+          }
+        ],
+        "tokens": {
+          "activeToken": 1,
+          "committedToken": 1
+        }
+      },
+      "integrity": {
+        "files": [
+          {
+            "path": "<project>/out/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3744390"
+              }
+            }
+          },
+          {
+            "path": "<project>/src/sample_10s_720p.mp4",
+            "ffprobe_ok": true,
+            "probe": {
+              "programs": [],
+              "stream_groups": [],
+              "streams": [
+                {
+                  "codec_name": "h264"
+                },
+                {
+                  "codec_name": "aac"
+                }
+              ],
+              "format": {
+                "duration": "10.000000",
+                "size": "3885435"
+              }
+            }
+          }
+        ],
+        "partial_files": []
+      },
+      "redelivery_start_vm": "2026-11-26T14:42:52.869367+00:00"
+    }
+  ]
+}

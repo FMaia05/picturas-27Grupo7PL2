@@ -1,0 +1,7 @@
+[11:36:38] C2-E worker process crash rep=1
+[11:38:36]   -> restart 10.7 s, starts 2, process-update in 57.875 s, partial []
+[11:38:37] C2-E worker process crash rep=2
+[11:39:36]   -> restart 2.55 s, starts 2, process-update in 28.113 s, partial []
+[11:39:36] C2-E worker process crash rep=3
+[11:40:49]   -> restart 3.36 s, starts 2, process-update in 41.873 s, partial []
+[11:40:56] saved benchmarks\baseline\results\c2e_worker_crash.json

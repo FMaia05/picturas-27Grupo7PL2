@@ -1,0 +1,569 @@
+{
+  "aggregate": {
+    "idle_n": 9,
+    "idle_p50_s": 2.724,
+    "idle_p95_s": 3.341,
+    "overlapped_n": 9,
+    "overlapped_p50_s": 4.262,
+    "overlapped_p95_s": 5.165,
+    "subtitles_e2e_s": [
+      179.578,
+      167.57,
+      169.424
+    ]
+  },
+  "runs": [
+    {
+      "scenario": "C1-B",
+      "rep": 1,
+      "idle_latency_s": [
+        3.341,
+        3.062,
+        2.896
+      ],
+      "loaded_latency_s": [
+        5.165,
+        5.058,
+        4.68
+      ],
+      "idle_p50_s": 3.062,
+      "idle_p95_s": 3.341,
+      "loaded_p50_s": 5.058,
+      "loaded_p95_s": 5.165,
+      "ratio_p50_loaded_over_idle": 1.65,
+      "overlapped_latency_s": [
+        5.165,
+        5.058,
+        4.68
+      ],
+      "ratio_overlapped_max_over_idle_p50": 1.7,
+      "subtitles_job": {
+        "msg_id": "request-d715b543-bdff-4557-bc88-6c975333f5ff",
+        "project_id": "6b08474169bc983ca6a7aa93",
+        "published_vm": "2026-11-26T14:51:04.276000+00:00",
+        "worker_start_vm": "2026-11-26T14:51:04.280614+00:00",
+        "worker_ok_vm": "2026-11-26T14:54:04.141680+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-after-video_subtitles_tool-1",
+        "queue_wait_s": 0.005,
+        "service_s": 179.861,
+        "sent_host": "2026-11-26T14:51:05.094999+00:00",
+        "done_host": "2026-11-26T14:54:04.673033+00:00",
+        "e2e_s": 179.578,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b08474269bc983ca6a7aaae",
+          "http_status": 201,
+          "t_send": 1795704646.4171822,
+          "t_ready": 1795704649.7032735,
+          "sent_host": "2026-11-26T14:50:46.417182+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.286,
+          "msg_id": "preview-72547bce-4920-42c2-8d59-580480cc4023",
+          "queue_wait_s": 0.012,
+          "service_s": 3.288,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b08474269bc983ca6a7aac9",
+          "http_status": 201,
+          "t_send": 1795704649.7032735,
+          "t_ready": 1795704653.0440578,
+          "sent_host": "2026-11-26T14:50:49.703274+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.341,
+          "msg_id": "preview-c0070355-4150-48ce-bf0e-3a01d51e5281",
+          "queue_wait_s": 0.007,
+          "service_s": 3.412,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b08474269bc983ca6a7aae4",
+          "http_status": 201,
+          "t_send": 1795704653.0440578,
+          "t_ready": 1795704656.1064463,
+          "sent_host": "2026-11-26T14:50:53.044058+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.062,
+          "msg_id": "preview-2a4291e6-80e2-49a1-9cf1-8baa11370096",
+          "queue_wait_s": 0.005,
+          "service_s": 3.137,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b08474369bc983ca6a7aaff",
+          "http_status": 201,
+          "t_send": 1795704656.1064463,
+          "t_ready": 1795704659.0021417,
+          "sent_host": "2026-11-26T14:50:56.106446+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.896,
+          "msg_id": "preview-f009c472-0065-4282-992c-290976f615ac",
+          "queue_wait_s": 0.006,
+          "service_s": 2.969,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b08474369bc983ca6a7ab1a",
+          "http_status": 201,
+          "t_send": 1795704670.0957868,
+          "t_ready": 1795704675.2612362,
+          "sent_host": "2026-11-26T14:51:10.095787+00:00",
+          "event": "preview-ready",
+          "latency_s": 5.165,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-be01e48c-c1ad-461a-afb2-9b04bdc4b63a",
+          "queue_wait_s": 0.005,
+          "service_s": 5.247,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b08474369bc983ca6a7ab35",
+          "http_status": 201,
+          "t_send": 1795704675.2617607,
+          "t_ready": 1795704680.3199923,
+          "sent_host": "2026-11-26T14:51:15.261761+00:00",
+          "event": "preview-ready",
+          "latency_s": 5.058,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-934ffad9-01f2-4f1a-8148-7e181b8d3a5c",
+          "queue_wait_s": 0.005,
+          "service_s": 5.14,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b08474469bc983ca6a7ab50",
+          "http_status": 201,
+          "t_send": 1795704680.3199923,
+          "t_ready": 1795704685.0001872,
+          "sent_host": "2026-11-26T14:51:20.319992+00:00",
+          "event": "preview-ready",
+          "latency_s": 4.68,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-0c959944-9ec5-430c-92ea-a5786dfca3db",
+          "queue_wait_s": 0.01,
+          "service_s": 4.76,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-after-video_tool-1": {
+          "cpu_pct_max": 0.1,
+          "mem_mb_max": 62.27,
+          "samples": 97
+        },
+        "picturas-after-video_tool-2": {
+          "cpu_pct_max": 0.08,
+          "mem_mb_max": 74.06,
+          "samples": 97
+        },
+        "picturas-after-projects-1": {
+          "cpu_pct_max": 20.25,
+          "mem_mb_max": 249.7,
+          "samples": 97
+        },
+        "picturas-after-rabbitmq-1": {
+          "cpu_pct_max": 337.77,
+          "mem_mb_max": 208.1,
+          "samples": 97
+        },
+        "picturas-after-video_preview_tool-1": {
+          "cpu_pct_max": 209.48,
+          "mem_mb_max": 533.8,
+          "samples": 97
+        },
+        "picturas-after-video_subtitles_tool-1": {
+          "cpu_pct_max": 386.0,
+          "mem_mb_max": 1644.544,
+          "samples": 97
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 2,
+      "idle_latency_s": [
+        2.642,
+        2.9,
+        2.618
+      ],
+      "loaded_latency_s": [
+        3.935,
+        4.261,
+        4.56
+      ],
+      "idle_p50_s": 2.642,
+      "idle_p95_s": 2.9,
+      "loaded_p50_s": 4.261,
+      "loaded_p95_s": 4.56,
+      "ratio_p50_loaded_over_idle": 1.61,
+      "overlapped_latency_s": [
+        3.935,
+        4.261,
+        4.56
+      ],
+      "ratio_overlapped_max_over_idle_p50": 1.7,
+      "subtitles_job": {
+        "msg_id": "request-504e85fe-923d-4432-b2e4-f9d5198cd9af",
+        "project_id": "6b08481269bc983ca6a7ac04",
+        "published_vm": "2026-11-26T14:54:33.262000+00:00",
+        "worker_start_vm": "2026-11-26T14:54:33.267994+00:00",
+        "worker_ok_vm": "2026-11-26T14:57:20.389597+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-after-video_subtitles_tool-1",
+        "queue_wait_s": 0.006,
+        "service_s": 167.122,
+        "sent_host": "2026-11-26T14:54:33.439921+00:00",
+        "done_host": "2026-11-26T14:57:21.009755+00:00",
+        "e2e_s": 167.57,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b08481369bc983ca6a7ac1f",
+          "http_status": 201,
+          "t_send": 1795704854.226563,
+          "t_ready": 1795704857.199136,
+          "sent_host": "2026-11-26T14:54:14.226563+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.973,
+          "msg_id": "preview-d8a7077f-fb57-4707-9af1-8428bb609e16",
+          "queue_wait_s": 0.004,
+          "service_s": 2.979,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b08481369bc983ca6a7ac3a",
+          "http_status": 201,
+          "t_send": 1795704857.199136,
+          "t_ready": 1795704859.8415027,
+          "sent_host": "2026-11-26T14:54:17.199136+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.642,
+          "msg_id": "preview-b5db7a81-f980-4a0c-80af-1935546bdda8",
+          "queue_wait_s": 0.004,
+          "service_s": 2.69,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b08481369bc983ca6a7ac55",
+          "http_status": 201,
+          "t_send": 1795704859.8415027,
+          "t_ready": 1795704862.7412922,
+          "sent_host": "2026-11-26T14:54:19.841503+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.9,
+          "msg_id": "preview-43c1e1b9-e9b9-4fa4-8278-e1b845e2742c",
+          "queue_wait_s": 0.012,
+          "service_s": 1.26,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b08481369bc983ca6a7ac70",
+          "http_status": 201,
+          "t_send": 1795704862.7412922,
+          "t_ready": 1795704865.3596432,
+          "sent_host": "2026-11-26T14:54:22.741292+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.618,
+          "msg_id": "preview-924c1c55-5cc9-4c50-9436-c0b88ff99d5c",
+          "queue_wait_s": 0.005,
+          "service_s": 2.667,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b08481469bc983ca6a7ac8b",
+          "http_status": 201,
+          "t_send": 1795704878.4405272,
+          "t_ready": 1795704882.3758428,
+          "sent_host": "2026-11-26T14:54:38.440527+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.935,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-325d61b3-5bd5-4af5-8f20-de6335415085",
+          "queue_wait_s": 0.008,
+          "service_s": 4.039,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b08481469bc983ca6a7aca6",
+          "http_status": 201,
+          "t_send": 1795704882.3764248,
+          "t_ready": 1795704886.6378095,
+          "sent_host": "2026-11-26T14:54:42.376425+00:00",
+          "event": "preview-ready",
+          "latency_s": 4.261,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-d41f376b-52d4-480e-ba17-ab4919733e48",
+          "queue_wait_s": 0.006,
+          "service_s": 4.39,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b08481469bc983ca6a7acc1",
+          "http_status": 201,
+          "t_send": 1795704886.6378095,
+          "t_ready": 1795704891.1980877,
+          "sent_host": "2026-11-26T14:54:46.637810+00:00",
+          "event": "preview-ready",
+          "latency_s": 4.56,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-4f995ecf-8faf-41d3-ac82-bccf37ba7465",
+          "queue_wait_s": 0.013,
+          "service_s": 2.901,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-after-video_tool-1": {
+          "cpu_pct_max": 0.11,
+          "mem_mb_max": 38.95,
+          "samples": 91
+        },
+        "picturas-after-video_tool-2": {
+          "cpu_pct_max": 0.13,
+          "mem_mb_max": 43.92,
+          "samples": 91
+        },
+        "picturas-after-projects-1": {
+          "cpu_pct_max": 16.62,
+          "mem_mb_max": 277.4,
+          "samples": 91
+        },
+        "picturas-after-rabbitmq-1": {
+          "cpu_pct_max": 224.87,
+          "mem_mb_max": 198.7,
+          "samples": 91
+        },
+        "picturas-after-video_preview_tool-1": {
+          "cpu_pct_max": 203.41,
+          "mem_mb_max": 565.6,
+          "samples": 91
+        },
+        "picturas-after-video_subtitles_tool-1": {
+          "cpu_pct_max": 405.75,
+          "mem_mb_max": 1857.536,
+          "samples": 91
+        }
+      }
+    },
+    {
+      "scenario": "C1-B",
+      "rep": 3,
+      "idle_latency_s": [
+        2.527,
+        2.724,
+        2.682
+      ],
+      "loaded_latency_s": [
+        3.887,
+        4.177,
+        4.262
+      ],
+      "idle_p50_s": 2.682,
+      "idle_p95_s": 2.724,
+      "loaded_p50_s": 4.177,
+      "loaded_p95_s": 4.262,
+      "ratio_p50_loaded_over_idle": 1.56,
+      "overlapped_latency_s": [
+        3.887,
+        4.177,
+        4.262
+      ],
+      "ratio_overlapped_max_over_idle_p50": 1.6,
+      "subtitles_job": {
+        "msg_id": "request-55d957e4-a1d8-4322-9abb-93f823093d21",
+        "project_id": "6b0848d769bc983ca6a7ad75",
+        "published_vm": "2026-11-26T14:57:50.342000+00:00",
+        "worker_start_vm": "2026-11-26T14:57:50.347569+00:00",
+        "worker_ok_vm": "2026-11-26T15:00:39.420696+00:00",
+        "worker_starts": 1,
+        "worker_containers": "picturas-after-video_subtitles_tool-1",
+        "queue_wait_s": 0.006,
+        "service_s": 169.073,
+        "sent_host": "2026-11-26T14:57:50.554217+00:00",
+        "done_host": "2026-11-26T15:00:39.977999+00:00",
+        "e2e_s": 169.424,
+        "http_status": 201,
+        "completion_event": "process-update",
+        "result_rows": 1
+      },
+      "previews": [
+        {
+          "phase": "warmup_discarded",
+          "k": 1,
+          "project_id": "6b0848d869bc983ca6a7ad90",
+          "http_status": 201,
+          "t_send": 1795705051.758057,
+          "t_ready": 1795705054.511565,
+          "sent_host": "2026-11-26T14:57:31.758057+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.754,
+          "msg_id": "preview-3fde1790-d0f4-457d-8417-746f4aab75ae",
+          "queue_wait_s": 0.005,
+          "service_s": 2.771,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 1,
+          "project_id": "6b0848d869bc983ca6a7adab",
+          "http_status": 201,
+          "t_send": 1795705054.511565,
+          "t_ready": 1795705057.0382957,
+          "sent_host": "2026-11-26T14:57:34.511565+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.527,
+          "msg_id": "preview-01978635-2a39-468d-bf26-d23f8801f7e3",
+          "queue_wait_s": 0.004,
+          "service_s": 2.512,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 2,
+          "project_id": "6b0848d969bc983ca6a7adc6",
+          "http_status": 201,
+          "t_send": 1795705057.0382957,
+          "t_ready": 1795705059.7624414,
+          "sent_host": "2026-11-26T14:57:37.038296+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.724,
+          "msg_id": "preview-6ba9ea24-594b-484a-9b5b-9ab5007f44f7",
+          "queue_wait_s": 0.004,
+          "service_s": 2.065,
+          "worker_starts": 1
+        },
+        {
+          "phase": "idle",
+          "k": 3,
+          "project_id": "6b0848d969bc983ca6a7ade1",
+          "http_status": 201,
+          "t_send": 1795705059.7624414,
+          "t_ready": 1795705062.444134,
+          "sent_host": "2026-11-26T14:57:39.762441+00:00",
+          "event": "preview-ready",
+          "latency_s": 2.682,
+          "msg_id": "preview-5593241b-8279-4bb6-9ad5-8e3b0e768de9",
+          "queue_wait_s": 0.021,
+          "service_s": 2.729,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 1,
+          "project_id": "6b0848d969bc983ca6a7adfc",
+          "http_status": 201,
+          "t_send": 1795705075.5560806,
+          "t_ready": 1795705079.4434876,
+          "sent_host": "2026-11-26T14:57:55.556081+00:00",
+          "event": "preview-ready",
+          "latency_s": 3.887,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-2de1c090-ec79-4399-843d-8d38ae730585",
+          "queue_wait_s": 0.005,
+          "service_s": 3.911,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 2,
+          "project_id": "6b0848da69bc983ca6a7ae17",
+          "http_status": 201,
+          "t_send": 1795705079.4440913,
+          "t_ready": 1795705083.6214516,
+          "sent_host": "2026-11-26T14:57:59.444091+00:00",
+          "event": "preview-ready",
+          "latency_s": 4.177,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-17b2a0e8-feea-4ff0-abe7-bff4d4961c68",
+          "queue_wait_s": 0.006,
+          "service_s": 4.226,
+          "worker_starts": 1
+        },
+        {
+          "phase": "under_subtitles",
+          "k": 3,
+          "project_id": "6b0848da69bc983ca6a7ae32",
+          "http_status": 201,
+          "t_send": 1795705083.6214516,
+          "t_ready": 1795705087.8829794,
+          "sent_host": "2026-11-26T14:58:03.621452+00:00",
+          "event": "preview-ready",
+          "latency_s": 4.262,
+          "overlapped_subtitles": true,
+          "msg_id": "preview-b5673890-52cf-447e-8f2f-2169d0d552fa",
+          "queue_wait_s": 0.006,
+          "service_s": 4.366,
+          "worker_starts": 1
+        }
+      ],
+      "peaks": {
+        "picturas-after-video_tool-1": {
+          "cpu_pct_max": 0.18,
+          "mem_mb_max": 33.74,
+          "samples": 94
+        },
+        "picturas-after-video_tool-2": {
+          "cpu_pct_max": 0.1,
+          "mem_mb_max": 37.93,
+          "samples": 94
+        },
+        "picturas-after-projects-1": {
+          "cpu_pct_max": 12.51,
+          "mem_mb_max": 316.3,
+          "samples": 94
+        },
+        "picturas-after-rabbitmq-1": {
+          "cpu_pct_max": 302.83,
+          "mem_mb_max": 209.9,
+          "samples": 94
+        },
+        "picturas-after-video_preview_tool-1": {
+          "cpu_pct_max": 210.17,
+          "mem_mb_max": 551.9,
+          "samples": 94
+        },
+        "picturas-after-video_subtitles_tool-1": {
+          "cpu_pct_max": 399.48,
+          "mem_mb_max": 1838.08,
+          "samples": 94
+        }
+      }
+    }
+  ]
+}

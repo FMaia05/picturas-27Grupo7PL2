@@ -1,0 +1,102 @@
+{
+  "before": {
+    "picturas-after-video_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 605
+    },
+    "picturas-after-video_tool-2": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 552
+    },
+    "picturas-after-video_preview_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 768,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 516
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 3072,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 966
+    }
+  },
+  "edit": {
+    "http": 201,
+    "outcome": "error",
+    "code": "2001",
+    "status": 200,
+    "results": []
+  },
+  "preview": {
+    "event": "preview-error",
+    "data": "{'error_code': 2001, 'error_msg': 'Failed to decode the video'}"
+  },
+  "subtitles": {
+    "http": 201,
+    "outcome": "error",
+    "code": "2001",
+    "status": 200,
+    "results": []
+  },
+  "after": {
+    "picturas-after-video_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 605
+    },
+    "picturas-after-video_tool-2": {
+      "restarts": 0,
+      "oom_killed": "true",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 1,
+      "peak_mb": 896
+    },
+    "picturas-after-video_preview_tool-1": {
+      "restarts": 2,
+      "oom_killed": "true",
+      "limit_mb": 768,
+      "oom_kills_in_cgroup": 1,
+      "peak_mb": 768
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "restarts": 0,
+      "oom_killed": "true",
+      "limit_mb": 3072,
+      "oom_kills_in_cgroup": 2,
+      "peak_mb": 3072
+    }
+  },
+  "docker_stats_peaks": {
+    "picturas-after-video_tool-1": {
+      "cpu_pct_max": 0.41,
+      "mem_mb_max": 44.79,
+      "samples": 143
+    },
+    "picturas-after-video_tool-2": {
+      "cpu_pct_max": 308.88,
+      "mem_mb_max": 896.0,
+      "samples": 143
+    },
+    "picturas-after-video_preview_tool-1": {
+      "cpu_pct_max": 250.03,
+      "mem_mb_max": 768.0,
+      "samples": 143
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "cpu_pct_max": 1354.43,
+      "mem_mb_max": 3072.0,
+      "samples": 143
+    }
+  }
+}

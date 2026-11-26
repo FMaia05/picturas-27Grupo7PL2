@@ -36,8 +36,13 @@ PROJECT = os.environ.get("PICTURAS_PROJECT", "picturas-baseline")
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parent.parent
 SAMPLES = REPO / "samples" / "video"
-RESULTS = ROOT / "results"
-RESULTS.mkdir(exist_ok=True)
+RESULTS = Path(os.environ.get("PICTURAS_RESULTS", ROOT / "results"))
+RESULTS.mkdir(parents=True, exist_ok=True)
+
+# Services that run the video worker. The base has only video_tool; after the refactoring
+# there are several services and replicas. Every instrument below covers all of them.
+WORKER_SERVICES = ("video_tool", "video_preview_tool", "video_subtitles_tool")
+WORK_QUEUES = ("video_queue", "video_edit_queue", "video_preview_queue", "video_subtitles_queue")
 
 
 def utcnow():
@@ -61,6 +66,22 @@ def parse_iso(s):
 
 def log(msg):
     print(f"[{utcnow().strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def worker_services():
+    """Worker services that exist in this stack (running or not)."""
+    return [s for s in WORKER_SERVICES if service_containers(s)]
+
+
+def service_containers(service):
+    r = sh(["docker", "ps", "-a", "--format", "{{.Names}}",
+            "--filter", f"label=com.docker.compose.project={PROJECT}",
+            "--filter", f"label=com.docker.compose.service={service}"], check=False)
+    return sorted(r.stdout.split())
+
+
+def worker_containers():
+    return [c for s in WORKER_SERVICES for c in service_containers(s)]
 
 
 def container(service):
@@ -174,8 +195,15 @@ class Events:
         self.sio = socketio.Client(ssl_verify=False, reconnection=True)
         for name in self.NAMES:
             self.sio.on(name, self._handler(name))
-        self.sio.connect(BASE, auth={"token": client.jwt}, transports=["websocket"],
-                         socketio_path="socket.io", wait_timeout=20)
+        for attempt in range(5):  # the gateway may be reconnecting after a fault scenario
+            try:
+                self.sio.connect(BASE, auth={"token": client.jwt}, transports=["websocket"],
+                                 socketio_path="socket.io", wait_timeout=20)
+                break
+            except socketio.exceptions.ConnectionError:
+                if attempt == 4:
+                    raise
+                time.sleep(3)
 
     def _handler(self, name):
         def h(data=None):
@@ -252,12 +280,29 @@ def project_tokens(project_id):
 
 
 # --------------------------------------------------------------------------- RabbitMQ
-def queue(name="video_queue"):
-    r = requests.get(f"{RABBIT_API}/queues/%2F/{name}", auth=RABBIT_AUTH, timeout=10)
+FIELDS = ("messages", "messages_ready", "messages_unacknowledged", "consumers",
+          "durable", "arguments", "policy")
+
+
+def queue(name=None):
+    """Statistics of one queue or, without a name, of all the video work queues together."""
+    if name:
+        r = requests.get(f"{RABBIT_API}/queues/%2F/{name}", auth=RABBIT_AUTH, timeout=10)
+        r.raise_for_status()
+        q = r.json()
+        return {k: q.get(k) for k in FIELDS}
+    r = requests.get(f"{RABBIT_API}/queues/%2F", auth=RABBIT_AUTH, timeout=10)
     r.raise_for_status()
-    q = r.json()
-    return {k: q.get(k) for k in ("messages", "messages_ready", "messages_unacknowledged",
-                                  "consumers", "durable", "arguments", "policy")}
+    qs = [q for q in r.json() if q["name"] in WORK_QUEUES]
+    out = {k: sum(q.get(k) or 0 for q in qs) for k in FIELDS[:4]}
+    out["queues"] = {q["name"]: {k: q.get(k) for k in FIELDS} for q in qs}
+    return out
+
+
+def edit_queue():
+    """Queue that receives ordinary edits: video_queue in the base, video_edit_queue after."""
+    names = queue()["queues"]
+    return "video_edit_queue" if "video_edit_queue" in names else "video_queue"
 
 
 def wait_rabbit(timeout=180):
@@ -278,31 +323,48 @@ def compose(*args, check=True, timeout=600):
 
 
 def video_tool_log(since_iso):
-    """`[video] msg=...` lines of video_tool since a UTC instant, with docker timestamps."""
-    r = sh(["docker", "logs", "--timestamps", "--since", since_iso, container("video_tool")],
-           check=False)
+    """`[video] msg=...` lines of every worker since a UTC instant: (timestamp, line, container)."""
     lines = []
-    for raw in (r.stdout + r.stderr).splitlines():
-        parts = raw.split(" ", 1)
-        if len(parts) == 2 and "[video]" in parts[1]:
-            lines.append((parse_iso(parts[0]), parts[1]))
-    return lines
+    for name in worker_containers():
+        r = sh(["docker", "logs", "--timestamps", "--since", since_iso, name], check=False)
+        for raw in (r.stdout + r.stderr).splitlines():
+            parts = raw.split(" ", 1)
+            if len(parts) == 2 and "[video]" in parts[1]:
+                lines.append((parse_iso(parts[0]), parts[1], name))
+    return sorted(lines)
 
 
 def worker_events(since_iso):
-    """Map msg_id -> {'starts': [ts...], 'ok': ts|None} from video_tool logs."""
+    """Map msg_id -> {'starts': [ts...], 'ok': ts|None, 'containers': [name per start]}."""
     out = {}
-    for ts, line in video_tool_log(since_iso):
+    for ts, line, name in video_tool_log(since_iso):
         m = re.search(r"msg=(\S+)", line)
         if not m:
             continue
-        d = out.setdefault(m.group(1), {"starts": [], "ok": None, "ok_line": None})
+        d = out.setdefault(m.group(1), {"starts": [], "ok": None, "ok_line": None, "containers": []})
         if " ok " in line:
             d["ok"] = ts
             d["ok_line"] = line
         elif "preview=" in line:
             d["starts"].append(ts)
+            d["containers"].append(name)
     return out
+
+
+def crash(name):
+    """Kill the container's main process from outside with SIGKILL (as the OOM killer would).
+
+    Unlike `docker kill`, Docker does not treat it as a manual stop, so the restart policy
+    applies. A privileged helper in the host PID namespace sends the signal.
+    """
+    pid = sh(["docker", "inspect", "-f", "{{.State.Pid}}", name]).stdout.strip()
+    if not pid or pid == "0":
+        return None
+    image = sh(["docker", "inspect", "-f", "{{.Config.Image}}", name]).stdout.strip()
+    r = sh(["docker", "run", "--rm", "--privileged", "--pid=host", "--entrypoint", "python", image,
+            "-c", f"import os,signal,time; os.kill({pid}, signal.SIGKILL); print(time.time())"],
+           check=False)
+    return float(r.stdout.strip()) if r.returncode == 0 else None
 
 
 class StatsSampler(threading.Thread):
@@ -310,7 +372,12 @@ class StatsSampler(threading.Thread):
 
     def __init__(self, services, period=1.0):
         super().__init__(daemon=True)
-        self.names = [container(s) for s in services]
+        self.names = []
+        for s in services:
+            self.names += service_containers(s) or []
+        for n in worker_containers():
+            if n not in self.names:
+                self.names.append(n)
         self.period = period
         self.rows = []
         self._halt = threading.Event()

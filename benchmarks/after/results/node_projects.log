@@ -1,0 +1,51 @@
+✔ extraction is project-wide and terminal, with ordinary effects inserted before it (14.423295ms)
+✔ extraction validates active mode parameters and disallows targeted/potentially unbounded inputs (3.749259ms)
+✔ manifest validation rejects escaped, duplicate and oversized frame output before upload (43.969241ms)
+✔ all extracted images retain the source ID and run token; upload failure rolls back only this batch (15.487598ms)
+✔ a fast first worker cannot commit while later sources are still being scheduled (15.532944ms)
+✔ registration failure starts no workers and rolls back only newly registered jobs (14.578977ms)
+✔ a cancelled run cannot overwrite the committed results with a delayed commit (18.344759ms)
+[rabbitmq] consuming project_queue
+✔ publication shares one confirm channel and requests persistence after reconnect (32.695797ms)
+[rabbitmq] handler failed: irrecoverable reply
+[rabbitmq] consuming project_queue
+✔ consumer waits for the callback and rejects a failed delivery to the DLQ (6.478032ms)
+[rabbitmq] consuming project_queue
+[rabbitmq] connection lost
+[rabbitmq] consuming project_queue
+[rabbitmq] consuming project_queue
+✔ consumer recovers after channel close and connection error with backoff (5.495613ms)
+[rabbitmq] consuming project_queue
+[T-03][RABBIT] msg=request-job status=success outType=video curPos=0 key=
+[process_msg] error: Error: response to the acknowledged MongoDB write was lost
+    at Object.<anonymous> (/app/tests/rabbit-reliability.test.js:213:11)
+    at Object.apply (node:internal/test_runner/mock/mock:805:20)
+    at storeProcessOutput (/app/routes/projects.js:197:15)
+    at async handleProcessMessage (/app/routes/projects.js:362:9)
+    at async waitForActual (node:assert:615:5)
+    at async strict.rejects (node:assert:738:25)
+    at async TestContext.<anonymous> (/app/tests/rabbit-reliability.test.js:235:3)
+    at async Test.run (node:internal/test_runner/test:1409:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+[T-03][RABBIT] msg=request-job status=success outType=video curPos=0 key=
+[COMMIT] project=project committedToken=3
+(node:20) [MONGOOSE] Warning: Duplicate schema index on {"lastSeenAt":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ redelivery waits for the previous channel to finish handling the reply (3.780238ms)
+✔ an extracted frame kept after a failed rollback stays usable on redelivery (17.497014ms)
+✔ storage outage retries the real reply handler before persisting and removing Process (5762.241342ms)
+✔ two jobs of the same video never share their output, and keep the file name (2.226024ms)
+✔ a source being read by a worker is replaced whole, never truncated (965.365381ms)
+✔ videos above 1080p go to the worker with memory for them; 1080p stays (5.38496ms)
+✔ captions apply to all videos, while images skip them and trim stays targeted (12.417279ms)
+✔ subtitles take precedence for Apply and Preview, including a terminal extractor (3.226911ms)
+✔ ordinary previews and extraction contact sheets go to the preview queue (0.886437ms)
+✔ ordinary Apply and full extraction go to the editing queue (0.531036ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6469.169969

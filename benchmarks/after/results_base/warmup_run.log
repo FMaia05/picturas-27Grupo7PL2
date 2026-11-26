@@ -1,0 +1,4 @@
+[14:18:17] warm-up: subtitles Apply on sample_10s (downloads the Whisper model) + 1 preview
+[14:18:28]   POST /process -> 201
+[14:19:03] saved benchmarks\after\results_base\c1_warmup.json
+[14:19:03]   warm-up subtitles {'status': 201, 'event': 'process-update', 'seconds': 32.947} preview {'status': 201, 'event': 'preview-ready', 'seconds': 4.713}

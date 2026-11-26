@@ -1,0 +1,9 @@
+[16:48:51] 4K sample: 44.6 MB
+[16:50:11] edit: error 2001
+[16:52:12] preview: {'event': 'preview-error', 'data': "{'error_code': 2001, 'error_msg': 'Failed to decode the video'}"}
+[16:55:48] subtitles: error 2001
+[16:55:55]   picturas-after-video_tool-1: {'restarts': 0, 'oom_killed': 'false', 'limit_mb': 896, 'oom_kills_in_cgroup': 0, 'peak_mb': 605}
+[16:55:55]   picturas-after-video_tool-2: {'restarts': 0, 'oom_killed': 'true', 'limit_mb': 896, 'oom_kills_in_cgroup': 1, 'peak_mb': 896}
+[16:55:55]   picturas-after-video_preview_tool-1: {'restarts': 2, 'oom_killed': 'true', 'limit_mb': 768, 'oom_kills_in_cgroup': 1, 'peak_mb': 768}
+[16:55:55]   picturas-after-video_subtitles_tool-1: {'restarts': 0, 'oom_killed': 'true', 'limit_mb': 3072, 'oom_kills_in_cgroup': 2, 'peak_mb': 3072}
+[16:55:55] saved benchmarks\after\results\c4k.json

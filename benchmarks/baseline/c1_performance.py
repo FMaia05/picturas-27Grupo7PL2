@@ -31,7 +31,7 @@ import time
 
 from common import (SAMPLES, Client, Events, StatsSampler, iso, log, mongo_projects,
                     parse_iso, percentile, queue, results_db, save_csv, save_json,
-                    worker_events)
+                    worker_containers, worker_events)
 
 SHORT = SAMPLES / "sample_10s_720p.mp4"
 SPEECH = SAMPLES / "speech_mandela_177s_1080p.webm"
@@ -110,6 +110,7 @@ def job_metrics(msg, worker, t_send, t_done):
         "worker_start_vm": start.isoformat() if start else None,
         "worker_ok_vm": ok.isoformat() if ok else None,
         "worker_starts": len(w.get("starts", [])),
+        "worker_containers": " ".join(w.get("containers", [])),
         "queue_wait_s": round((start - created).total_seconds(), 3) if start and created else None,
         "service_s": round((ok - start).total_seconds(), 3) if ok and start else None,
         "sent_host": iso(t_send),
@@ -259,8 +260,8 @@ def c1a(args):
             "service_mean_s": _mean([j.get("service_s") for j in all_jobs if j["N"] == n]),
             "e2e_mean_s": _mean([j.get("e2e_s") for j in all_jobs if j["N"] == n]),
             "e2e_p95_s": percentile(_vals([j.get("e2e_s") for j in all_jobs if j["N"] == n]), 95),
-            "video_tool_cpu_pct_max": _max([s["peaks"].get(_c("video_tool"), {}).get("cpu_pct_max") for s in ss]),
-            "video_tool_mem_mb_max": _max([s["peaks"].get(_c("video_tool"), {}).get("mem_mb_max") for s in ss]),
+            "worker_cpu_pct_max_per_container": _max([v["cpu_pct_max"] for s in ss for k, v in s["peaks"].items() if k in worker_containers()]),
+            "worker_mem_mb_max_per_container": _max([v["mem_mb_max"] for s in ss for k, v in s["peaks"].items() if k in worker_containers()]),
             "completed": sum(s["completed"] for s in ss), "submitted": n * len(ss),
         })
     save_json("c1a_summary.json", {"runs": summaries, "aggregate": agg})
@@ -268,11 +269,6 @@ def c1a(args):
     save_csv("c1a_docker_stats.csv", all_stats)
     for a in agg:
         log(f"C1-A N={a['N']}: {a}")
-
-
-def _c(svc):
-    from common import container
-    return container(svc)
 
 
 # --------------------------------------------------------------------------- C1-B

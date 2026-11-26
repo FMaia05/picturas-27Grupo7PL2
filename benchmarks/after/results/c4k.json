@@ -1,0 +1,142 @@
+{
+  "before": {
+    "picturas-after-video_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 20
+    },
+    "picturas-after-video_tool-2": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 22
+    },
+    "picturas-after-video_preview_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 768,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 23
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 3072,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 21
+    }
+  },
+  "edit": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "bench_4k.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            3840,
+            2160
+          ]
+        ],
+        "frames": 180,
+        "content": "254fb7deb4afcaa0"
+      }
+    ]
+  },
+  "preview": {
+    "event": "preview-ready",
+    "data": null
+  },
+  "subtitles": {
+    "http": 201,
+    "outcome": "committed",
+    "updates": 1,
+    "status": 200,
+    "results": [
+      {
+        "name": "bench_4k.mp4",
+        "streams": [
+          [
+            "audio",
+            "aac",
+            null,
+            null
+          ],
+          [
+            "video",
+            "h264",
+            3840,
+            2160
+          ]
+        ],
+        "frames": 180,
+        "content": "ccda1816ad06019d"
+      }
+    ]
+  },
+  "after": {
+    "picturas-after-video_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 20
+    },
+    "picturas-after-video_tool-2": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 896,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 22
+    },
+    "picturas-after-video_preview_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 768,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 23
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "restarts": 0,
+      "oom_killed": "false",
+      "limit_mb": 3072,
+      "oom_kills_in_cgroup": 0,
+      "peak_mb": 3072
+    }
+  },
+  "docker_stats_peaks": {
+    "picturas-after-video_tool-1": {
+      "cpu_pct_max": 0.19,
+      "mem_mb_max": 17.75,
+      "samples": 92
+    },
+    "picturas-after-video_tool-2": {
+      "cpu_pct_max": 0.22,
+      "mem_mb_max": 18.88,
+      "samples": 92
+    },
+    "picturas-after-video_preview_tool-1": {
+      "cpu_pct_max": 0.17,
+      "mem_mb_max": 19.16,
+      "samples": 92
+    },
+    "picturas-after-video_subtitles_tool-1": {
+      "cpu_pct_max": 399.0,
+      "mem_mb_max": 3041.28,
+      "samples": 92
+    }
+  }
+}

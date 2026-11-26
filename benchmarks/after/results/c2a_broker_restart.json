@@ -1,0 +1,285 @@
+{
+  "scenario": "C2-A",
+  "submitted": 4,
+  "http_status": [
+    201,
+    201,
+    201,
+    201
+  ],
+  "queue_before_restart": {
+    "messages": 4,
+    "messages_ready": 4,
+    "messages_unacknowledged": 0,
+    "consumers": 0,
+    "queues": {
+      "video_preview_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_preview_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_queue": {
+        "messages": 4,
+        "messages_ready": 4,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_subtitles_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_subtitles_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      }
+    }
+  },
+  "queue_after_restart": {
+    "messages": 4,
+    "messages_ready": 4,
+    "messages_unacknowledged": 0,
+    "consumers": 0,
+    "queues": {
+      "video_preview_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_preview_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_queue": {
+        "messages": 4,
+        "messages_ready": 4,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      },
+      "video_subtitles_queue": {
+        "messages": 0,
+        "messages_ready": 0,
+        "messages_unacknowledged": 0,
+        "consumers": 0,
+        "durable": true,
+        "arguments": {
+          "x-dead-letter-exchange": "picturas.dlx",
+          "x-dead-letter-routing-key": "video_subtitles_dlq",
+          "x-queue-type": "classic"
+        },
+        "policy": null
+      }
+    }
+  },
+  "completed_within_180s": 4,
+  "lost": 0,
+  "loss_pct": 0.0,
+  "events": [
+    "process-update",
+    "process-update",
+    "process-update",
+    "process-update"
+  ],
+  "project_state_before": {
+    "6b071857fb61c84c5ee35b02": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b071858fb61c84c5ee35b43": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b071858fb61c84c5ee35b84": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    },
+    "6b071859fb61c84c5ee35bc5": {
+      "pending_process_docs": 1,
+      "result_rows": [],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 0
+      }
+    }
+  },
+  "project_state_after": {
+    "6b071857fb61c84c5ee35b02": {
+      "pending_process_docs": 0,
+      "result_rows": [
+        {
+          "img_id": "6b071857fb61c84c5ee35b07",
+          "type": "video",
+          "file_name": "sample_10s_720p.mp4",
+          "token": 1
+        }
+      ],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 1
+      }
+    },
+    "6b071858fb61c84c5ee35b43": {
+      "pending_process_docs": 0,
+      "result_rows": [
+        {
+          "img_id": "6b071858fb61c84c5ee35b48",
+          "type": "video",
+          "file_name": "sample_10s_720p.mp4",
+          "token": 1
+        }
+      ],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 1
+      }
+    },
+    "6b071858fb61c84c5ee35b84": {
+      "pending_process_docs": 0,
+      "result_rows": [
+        {
+          "img_id": "6b071859fb61c84c5ee35b89",
+          "type": "video",
+          "file_name": "sample_10s_720p.mp4",
+          "token": 1
+        }
+      ],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 1
+      }
+    },
+    "6b071859fb61c84c5ee35bc5": {
+      "pending_process_docs": 0,
+      "result_rows": [
+        {
+          "img_id": "6b071859fb61c84c5ee35bca",
+          "type": "video",
+          "file_name": "sample_10s_720p.mp4",
+          "token": 1
+        }
+      ],
+      "tokens": {
+        "activeToken": 1,
+        "committedToken": 1
+      }
+    }
+  },
+  "stuck_runs": 0,
+  "health_after_restart": {
+    "containers": {
+      "projects": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-25T17:11:42.55628987Z"
+      },
+      "ws_gateway": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-25T16:42:35.918419931Z"
+      },
+      "img_storage": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-25T16:42:04.596744163Z"
+      },
+      "rabbitmq": {
+        "status": "running",
+        "running": true,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 0,
+        "started_at": "2026-11-25T17:18:49.59215101Z"
+      },
+      "picturas-after-video_tool-1": {
+        "status": "exited",
+        "running": false,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 137,
+        "started_at": "2026-11-25T17:11:43.445802293Z"
+      },
+      "picturas-after-video_tool-2": {
+        "status": "exited",
+        "running": false,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 137,
+        "started_at": "2026-11-25T17:11:42.517001531Z"
+      },
+      "picturas-after-video_preview_tool-1": {
+        "status": "exited",
+        "running": false,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 137,
+        "started_at": "2026-11-25T17:11:42.492464283Z"
+      },
+      "picturas-after-video_subtitles_tool-1": {
+        "status": "exited",
+        "running": false,
+        "paused": false,
+        "restart_count": 0,
+        "exit_code": 137,
+        "started_at": "2026-11-25T17:11:42.539962409Z"
+      }
+    },
+    "consumers": {
+      "project_queue": 1,
+      "ws_queue": 1,
+      "video": 0
+    }
+  },
+  "manual_recovery_actions": [],
+  "restart_at": "2026-11-25T17:18:44.022860+00:00"
+}
